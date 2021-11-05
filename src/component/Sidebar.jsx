@@ -23,8 +23,7 @@ Project management
 <CDBSidebar textColor="#fff" backgroundColor="#333">
     <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
         <a href="/" className="text-decoration-none"
-        style={{color:'inherit'}}>
-            Sidebar
+        style={{color:'inherit'}}>''
         </a>
     </CDBSidebarHeader>
     
@@ -64,7 +63,7 @@ Project management
     <CDBSidebarFooter style={{textAlign:'center'}}>
 <div className="sidebar-btn-wrapper"
 style={{padding:"20px 5px"}}>
-    sidebar footer
+   NAYANZA ROAD WORKS p.L.C
 </div>
 
     </CDBSidebarFooter>
