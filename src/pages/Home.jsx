@@ -1,6 +1,5 @@
 import { CDBCard, CDBCardBody } from 'cdbreact'
 import React from 'react'
-import Sidebar from '../component/Sidebar'
 import styled from 'styled-components'
 
 
@@ -21,7 +20,7 @@ export default function Home() {
 
 
     return (
-        <GridWrapper style={{marginLeft:"10%"}}>
+        <GridWrapper >
         <CDBCard >
 <CDBCardBody>
     home
