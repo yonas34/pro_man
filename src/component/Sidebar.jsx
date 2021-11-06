@@ -17,8 +17,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { Avatar } from '@mui/material';
 import PropTypes from 'prop-types';
 import {MenuList,MenuSession} from './MenuList';
+import logo from "../resources/logo.JPG"
+import {Link} from 'react-router-dom';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -115,8 +118,9 @@ export default function Sidebar(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Avatar src={logo} variant="square"/>
           <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+              Project Management
           </Typography>
         </Toolbar>
       </AppBar>
@@ -129,7 +133,7 @@ export default function Sidebar(props) {
         <Divider />
         <List>{
           MenuList.map((ml)=>(
-              <ListItem button key={ml.name}>
+              <ListItem component={Link} to={ml.link} button key={ml.name}>
                 <ListItemIcon>
                      {ml.icon}
                  </ListItemIcon>
@@ -143,7 +147,7 @@ export default function Sidebar(props) {
          
         {
           MenuSession.map((ml)=>(
-              <ListItem button key={ml.name}>
+              <ListItem  component={Link} to={ml.link} button key={ml.name}>
                 <ListItemIcon>
                      {ml.icon}
                  </ListItemIcon>

@@ -5,7 +5,7 @@ import bg_image from '../resources/bg_image.jpg'
 import {object,string} from 'yup'
 import { useSelector,useDispatch } from 'react-redux'
 import { loginToggle } from '../reducers/actions'
-
+import axios from 'axios';
 export default function Login() {
 const isLoggedin= useSelector(state => state.isLoggedin);
 const dispatch = useDispatch();
@@ -19,10 +19,16 @@ const dispatch = useDispatch();
                 //                                     password:string().required("Insert password").min(6)})}
 
                 onSubmit={async(values)=>{
-                    dispatch(loginToggle());
-                        await new Promise((r)=>setTimeout(r,500));
+                    await axios.post('https://www.nrwlpms.com/api/api/login.php',{
+                        "user_name": values.username,
+                        "password": values.password
+                    }).then((response)=>{
+                        alert(JSON.stringify(response.data,null,2));
+                        dispatch(loginToggle());
+
+                    })
                         
-                        alert(JSON.stringify(values,null,2));
+                       
                         
                         }}>
 
