@@ -19,9 +19,7 @@ setData(response.data.data)
     }, [])
     return (
         <div>
-           {
-          
-           }
+          hello
         </div>
     )
 }
