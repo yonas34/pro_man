@@ -22,6 +22,8 @@ import PropTypes from 'prop-types';
 import {MenuList,MenuSession} from './MenuList';
 import logo from "../resources/logo.JPG"
 import {Link} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginToggle } from '../reducers/actions';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -90,6 +92,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function Sidebar(props) {
+ const dispatch=useDispatch();
+ 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -100,6 +104,15 @@ export default function Sidebar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+const logout=()=>{
+
+dispatch(loginToggle());
+
+}
+
+
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -145,15 +158,14 @@ export default function Sidebar(props) {
 
         <List>
          
-        {
-          MenuSession.map((ml)=>(
-              <ListItem  component={Link} to={ml.link} button key={ml.name}>
+      
+              <ListItem onClick={()=>logout()}>
                 <ListItemIcon>
-                     {ml.icon}
+                     {MenuSession[0].icon}
                  </ListItemIcon>
-                 <ListItemText primary={ml.name}/>
+                 <ListItemText primary={MenuSession[0].name}/>
                   </ListItem>
-          ))}
+         
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -171,6 +183,6 @@ Sidebar.propTypes = {
      * Injected by the documentation to work in an iframe.
      * You won't need it on your project.
      */
-    router:PropTypes.func,
+    router:PropTypes.object,
     window: PropTypes.func,
   };

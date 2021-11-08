@@ -4,7 +4,7 @@ import {Form,Button} from 'react-bootstrap'
 import bg_image from '../resources/bg_image.jpg'
 import {object,string} from 'yup'
 import { useSelector,useDispatch } from 'react-redux'
-import { loginToggle } from '../reducers/actions'
+import { loginToggle,setUser } from '../reducers/actions'
 import axios from 'axios';
 export default function Login() {
 const isLoggedin= useSelector(state => state.isLoggedin);
@@ -24,6 +24,7 @@ const dispatch = useDispatch();
                         "password": values.password
                     }).then((response)=>{
                         alert(JSON.stringify(response.data,null,2));
+                        dispatch(setUser(response.data))
                         dispatch(loginToggle());
 
                     })

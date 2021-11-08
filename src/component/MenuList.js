@@ -1,4 +1,4 @@
-import {Dashboard,Task,Person,Logout} from '@mui/icons-material'
+import {Dashboard,Task,Person,Logout,CarRepair,Add,ViewList} from '@mui/icons-material'
 
 export const MenuList=[
 {
@@ -18,6 +18,20 @@ link:'/user',
 name:"User Management"
 
 
+},
+{
+    icon:<Add/>,
+    link:'/add_resource_type',
+    name:"Add Resources Type"
+
+    
+},
+{
+
+icon:<ViewList/>,
+link:'/view_resource_type',
+name:"View Resource Type"
+
 }
 
 
@@ -28,7 +42,7 @@ export const MenuSession=[
 
 name:"Logout",
 icon:<Logout/>,
-
+to:"/login"
 
     }
 ]
