@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
+import {Drawer as MDrawer} from '@material-ui/core'
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -74,11 +75,12 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+const Drawer = styled(MDrawer , { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+
     boxSizing: 'border-box',
     ...(open && {
       ...openedMixin(theme),
@@ -117,7 +119,7 @@ dispatch(loginToggle());
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar style={{color:"white",backgroundColor:"#1976d2"}} position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -144,9 +146,11 @@ dispatch(loginToggle());
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>{
+        <List style={{display: "flex",
+    flexDirection: "column",
+    flexWrap: "wrap",maxHeight: "100%"}}>{
           MenuList.map((ml)=>(
-              <ListItem component={Link} to={ml.link} button key={ml.name}>
+              <ListItem component={Link} to={ml.link} button key={ml.name} style={{padding:"10px"}}>
                 <ListItemIcon>
                      {ml.icon}
                  </ListItemIcon>

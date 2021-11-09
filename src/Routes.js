@@ -26,7 +26,7 @@ export default function Routes() {
 
     <Users/>
 </Route>
-<Route path="/view_resource_type">'
+<Route path="/view_resource_type">
 
 <Resource_type_table/>
 </Route>
