@@ -22,7 +22,7 @@ console.log(response.data)
 await setData(response.data.data)
   });
   console.log(data);
-    }, [data,user.token]);
+    }, []);
 
 
 

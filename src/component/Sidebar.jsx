@@ -105,9 +105,10 @@ export default function Sidebar(props) {
   };
 
 const logout=()=>{
+  dispatch(loginToggle());
   localStorage.clear();
 dispatch(setUser(''))
-dispatch(loginToggle());
+
 
 }
 

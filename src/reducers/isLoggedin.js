@@ -1,4 +1,4 @@
-const isLoggedin=(state=true,actions)=>{
+const isLoggedin=(state=false,actions)=>{
 switch(actions.type)
 {
 case "TOGGLE":

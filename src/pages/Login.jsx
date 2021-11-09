@@ -23,14 +23,14 @@ const dispatch = useDispatch();
                         "user_name": values.username,
                         "password": values.password
                     }).then((response)=>{
-                        alert(JSON.stringify(response.data,null,2));
                         const data={username:response.data.data.user_name,token:response.data.jwt,userId:response.data.data.emp_id,usertype:response.data.data.user_type_id}
 
                         dispatch(setUser(data))
                         if(values.remember)
-                        {
+                        {  localStorage.setItem('auth',JSON.stringify({user_name:values.username,pass:values.password}));
+
                        
-                            localStorage.setItem('user',JSON.stringify(data));
+                          
                         }
                         dispatch(loginToggle());
 
