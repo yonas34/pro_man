@@ -1,12 +1,12 @@
 import { Add } from '@mui/icons-material'
-import {Button, TextField,Grid, ButtonBase, IconButton, Card, CardContent, Typography } from '@mui/material'
+import {Button, TextField,Grid, Card, CardContent, Typography } from '@mui/material'
 import { Formik } from 'formik'
 import React from 'react'
 import * as Yup from "yup"
 import axios from 'axios';
 import {useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-function Add_Resource_Type() {
+function AddResourceType() {
     const user=useSelector(state=>state.user);
     const history=useHistory();
     return (
@@ -135,4 +135,4 @@ history.push('/');
     )
 }
 
-export default Add_Resource_Type
+export default AddResourceType

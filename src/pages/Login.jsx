@@ -1,14 +1,10 @@
-import { Formik,ErrorMessage } from 'formik'
+import { Formik } from 'formik'
 import React from 'react'
 import {Form,Button} from 'react-bootstrap'
-import bg_image from '../resources/bg_image.jpg'
-import {object,string} from 'yup'
-import { useSelector,useDispatch } from 'react-redux'
+import {useDispatch } from 'react-redux'
 import { loginToggle,setUser } from '../reducers/actions'
 import axios from 'axios';
 export default function Login() {
-const isLoggedin= useSelector(state => state.isLoggedin);
-const user=useSelector(state=>state.user);
 const dispatch = useDispatch();
     return (
 <div style={{position:"absolute",width:'100%',height:'100%'}}>

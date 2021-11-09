@@ -11,15 +11,13 @@ function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     const response=JSON.parse(localStorage.getItem("user"));
-    console.log(JSON.stringify(localStorage.length))
     if(response)
     {
-      console.log(response);
       dispatch(setUser(response));
       dispatch(loginToggle());
     }
    
-  }, [])
+  }, [dispatch])
 
 
   const isLoggedin = useSelector(state =>state.isLoggedin);

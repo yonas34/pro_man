@@ -2,9 +2,8 @@ import React, { useEffect,useState } from 'react'
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import MaterialTable, { MTableToolbar } from 'material-table';
- import {Delete,Edit,Add} from '@material-ui/icons'
 import tableIcons from '../component/tableIcons'
- function Resource_type_table() {
+ function Resource() {
     const user = useSelector(state => state.user)
     const [selectedRow,setSelectedRow]=useState(0)
 const tableRef=React.createRef();
@@ -22,7 +21,7 @@ console.log(response.data)
 await setData(response.data.data)
   });
   console.log(data);
-    }, [])
+    }, [data,user.token])
 
 
  const deleteResource=async(res_type_id)=>{
@@ -65,7 +64,7 @@ await axios.post("https://www.nrwlpms.com/api/api/update_resourse_type.php",
     return (
           <MaterialTable
           icons={tableIcons}
-          title="Resourse Type Entry"
+          title="Resourses"
           tableRef={tableRef}
           columns={column}
           data={data}
@@ -140,4 +139,4 @@ onRowDelete:oldData=>
     )
 }
 
-export default Resource_type_table
+export default Resource

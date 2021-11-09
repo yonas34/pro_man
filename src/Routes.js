@@ -3,9 +3,10 @@ import {Switch,Route} from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Project from './pages/Project';
-import Users from './pages/Users';
-import Add_Resource_Type from './pages/Add_Resource_Type';
-import Resource_type_table from './pages/Resource_type_table';
+//import AddResourceType from './pages/AddResourceType';
+import ResourceTypeTable from './pages/ResourceTypeTable';
+import UserMan from './pages/UserMan';
+import Resource from './pages/Resource';
 export default function Routes() {
     return (
 <Switch>
@@ -18,17 +19,17 @@ export default function Routes() {
 <Route path="/projects">
     <Project/>
 </Route>
-<Route path="/add_resource_type">
-    <Add_Resource_Type/>
+<Route path="/resource">
+    <Resource/>
     
     </Route>
-<Route path="/users">
+<Route path="/user">
 
-    <Users/>
+    <UserMan/>
 </Route>
 <Route path="/view_resource_type">
 
-<Resource_type_table/>
+<ResourceTypeTable/>
 </Route>
 
 </Switch>

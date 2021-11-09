@@ -1,4 +1,4 @@
-import {Dashboard,Person,CarRepair,Add,ViewList} from '@material-ui/icons'
+import {Dashboard,Person,Add,ViewList} from '@material-ui/icons'
 import { ExitToApp as Logout } from '@material-ui/icons'
 import { Work as Task } from '@material-ui/icons'
 export const MenuList=[
@@ -23,15 +23,15 @@ name:"User Management"
 {
     icon:<Add/>,
     link:'/view_resource_type',
-    name:"Add Resources Type"
+    name:"Resources Type"
 
     
 },
 {
 
 icon:<ViewList/>,
-link:'/view_resource_type',
-name:"View Resource Type"
+link:'/resource',
+name:"Resource"
 
 }
 
