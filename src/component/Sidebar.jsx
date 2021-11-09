@@ -24,7 +24,7 @@ import {MenuList,MenuSession} from './MenuList';
 import logo from "../resources/logo.JPG"
 import {Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginToggle } from '../reducers/actions';
+import { loginToggle, setUser } from '../reducers/actions';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -108,7 +108,8 @@ export default function Sidebar(props) {
   };
 
 const logout=()=>{
-
+  localStorage.clear();
+dispatch(setUser(''))
 dispatch(loginToggle());
 
 }

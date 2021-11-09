@@ -8,13 +8,17 @@ import { loginToggle,setUser } from '../reducers/actions'
 import axios from 'axios';
 export default function Login() {
 const isLoggedin= useSelector(state => state.isLoggedin);
+const user=useSelector(state=>state.user);
 const dispatch = useDispatch();
     return (
 <div style={{position:"absolute",width:'100%',height:'100%'}}>
         <div className="login_container"></div>
         <Formik initialValues={{
                     username:'',
-                    password:''}}
+                    password:'',
+                    remember:false
+                
+                }}
                 // validationSchema={object().shape({ username:string().required("Please insert user name"),
                 //                                     password:string().required("Insert password").min(6)})}
 
@@ -24,7 +28,14 @@ const dispatch = useDispatch();
                         "password": values.password
                     }).then((response)=>{
                         alert(JSON.stringify(response.data,null,2));
-                        dispatch(setUser(response.data))
+                        const data={username:response.data.data.user_name,token:response.data.jwt,userId:response.data.data.emp_id,usertype:response.data.data.user_type_id}
+
+                        dispatch(setUser(data))
+                        if(values.remember)
+                        {
+                       
+                            localStorage.setItem('user',JSON.stringify(data));
+                        }
                         dispatch(loginToggle());
 
                     })
@@ -58,6 +69,14 @@ const dispatch = useDispatch();
                 name='password' type='password' placeholder="Enter Password" id='password'/>
             
             </Form.Group>
+            <Form.Label className={"login_label"} style={{marginRight:'100%',width:'90px'}}> Remember Me </Form.Label>
+            <Form.Check
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.remember}
+            name="remember"
+            
+            />
             <Button variant="primary" type='submit'>
                 Login
             </Button>
