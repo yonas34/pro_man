@@ -17,6 +17,19 @@ body {
   filter:blur(5px);
   
    }
+
+   .home_container{
+    background-image: url('/src/resources/11.jpg');
+    background-size: cover;
+    height: 100%;
+    width: 135%;
+    margin-left: 10px;
+ 
+    z-index: -1;
+  
+    
+     }
+
    .login_label{
 
     color:rgb(255, 255, 255);
