@@ -8,27 +8,36 @@ function Resource() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
-  const [resourceType, setResourceType] = useState([new Map()]);
-  const [selectResourceType,setSelectedResourceType]=useState([]);
+  const [resourceType, setResourceType] = useState([]);
+  var dataTmp=null;
+  var [projects,setProjects]=useState([]);
   let options = resourceType.map(function (data) {
     return {value:data.value,label:data.label};
   })
-
+  let options2= projects.map(function (data) {
+    return {value:data.value,label:data.label};
+  })
   const handleSelect=(values)=>{
-    console.log(values)
    var index=data.findIndex(obj=>obj.resource_id==values.datas.resource_id);
    var temp=data.find(obj=>obj.resource_id==values.datas.resource_id);
    var tempData=data;
    temp.type=values.event;
    tempData.splice(index,1,temp);
 setData([...tempData]);
-console.log(data.find(obj=>obj.resource_id==values.datas.resource_id))
 
   }
+
+  const handleSelect2=(values)=>{
+    var index=data.findIndex(obj=>obj.resource_id==values.datas.resource_id);
+    var temp=data.find(obj=>obj.resource_id==values.datas.resource_id);
+    var tempData=data;
+    temp.project=values.event;
+    tempData.splice(index,1,temp);
+ setData([...tempData]);
+ 
+   }
   const SelectOverride=(props)=>{
     const datas=props.data
-console.log(data.find(obj=>obj.resource_id==datas.resource_id).type)
-
     return( 
 <Select  onChange={(event)=>handleSelect({event,datas})} defaultValue={data.find(obj=>obj.resource_id==datas.resource_id).type} options={options} />
 
@@ -36,43 +45,76 @@ console.log(data.find(obj=>obj.resource_id==datas.resource_id).type)
 
 )
   }
+
+
+  const SelectOverrideProject=(props)=>{
+    const datas=props.data
+console.log(data);
+    return( 
+<Select  onChange={(event)=>handleSelect2({event,datas})} defaultValue={data.find(obj=>obj.resource_id==datas.resource_id).project}    options={options2} />
+
+
+
+)
+  }
+
+
+
+
+
+
+
+
+
   const column = [
     { title: "Plate Number", field: "plate_no_comp_no" },
-    { title: "Project", field: "project_id" },
+    { title: "Project", field: "project_id",render:(rowData)=>{return(<SelectOverrideProject data={rowData}/>)} },
     { title: "Resource Type", field: "type",render:(rowData)=>{return(<SelectOverride data={rowData}/>)}},
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
+
     axios
+      .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
+        jwt: user.token,
+      })
+      .then((response) => {
+        const dataArray=[...response.data.data];
+        var dataTemp=[];
+        
+         dataArray.map((data)=>{dataTemp.push({value:data.res_type_id,label:data.equipment})});
+         dataTmp=dataTemp;
+         setProjects([{value:4,label:"Roadaddis"},{value:5,label:"Jima"},{value:222,label:"Adama"},{value:555,label:"Dire Dewa"},{value:0,label:"Arba Minch"},{value:43,label:"Gonder"},{value:99,label:"Wello"}]);
+
+         setResourceType(dataTemp);
+         
+        
+        //setResourceType(response.data.data      
+      });
+
+       axios
       .post("https://www.nrwlpms.com/api/api/get_all_resourse.php", {
         jwt: user.token,
       })
-      .then(async (response) => {
-        await axios
-          .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
-            jwt: user.token,
+      .then( (response) => {
+          const dataArray=[...response.data.data];
+          var dataTemp=new Map();
+          
+          dataArray.map((data)=>{
+            let obj = dataTmp.find(obj => obj.value == data.res_type_id);
+            let obj2 = projects.find(obj => obj.value == data.project_id);
+            
+            const temp={...data,type:obj,project:obj2};
+            dataTemp=[...dataTemp,temp];
+         
           })
-          .then((response) => {
-            const dataArray=[...response.data.data];
-            var dataTemp=[];
-            
-            dataArray.map((data)=>{dataTemp.push({value:data.res_type_id,label:data.equipment})});
-            setResourceType(dataTemp);
-            //setResourceType(response.data.data)
-          })
-          .catch((err) => alert(err.message));
-            const dataArray=[...response.data.data];
-            var dataTemp=new Map();
-            
-            dataArray.map((data)=>{
-              let obj = resourceType.find(obj => obj.value == data.res_type_id);
-              const temp={...data,type:obj};
-            
-        
-               dataTemp=[...dataTemp,temp];
-            })
-        await setData(dataTemp);
-      });
+      setData(dataTemp);
+
+        })
+        .catch((err) => alert(err.message));
+
+
+
   }, []);
 
   const deleteResource = async (res_type_id) => {
