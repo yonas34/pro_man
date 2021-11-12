@@ -3,42 +3,38 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
-import { MenuItem, Select } from "@mui/material";
+import Select  from 'react-select'
 function Resource() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
-  const [resourceType, setResourceType] = useState([]);
+  const [resourceType, setResourceType] = useState([new Map()]);
   const [selectResourceType,setSelectedResourceType]=useState([]);
+  let options = resourceType.map(function (data) {
+    return {value:data.value,label:data.label};
+  })
 
   const handleSelect=(values)=>{
-   
-console.log(values)
+    console.log(values)
+   var index=data.findIndex(obj=>obj.resource_id==values.datas.resource_id);
+   var temp=data.find(obj=>obj.resource_id==values.datas.resource_id);
+   var tempData=data;
+   temp.type=values.event;
+   tempData.splice(index,1,temp);
+setData([...tempData]);
+console.log(data.find(obj=>obj.resource_id==values.datas.resource_id))
 
   }
   const SelectOverride=(props)=>{
-console.log(resourceType);
+    const datas=props.data
+console.log(data.find(obj=>obj.resource_id==datas.resource_id).type)
+
+    return( 
+<Select  onChange={(event)=>handleSelect({event,datas})} defaultValue={data.find(obj=>obj.resource_id==datas.resource_id).type} options={options} />
 
 
-    return( <Select
-      labelId="demo-simple-select-label"
-      id="demo-simple-select"
-      value={"asdf"}
-      label="Age"
-      onChange={(event)=>handleSelect(event.target.value)}
-    >
 
-
-{resourceType.map((data)=>{
-  console.log(data);
-  if(data)
-      return(<MenuItem value={data.key}>{data.value}</MenuItem>)
-
-
-})}
-
-      
-    </Select>)
+)
   }
   const column = [
     { title: "Plate Number", field: "plate_no_comp_no" },
@@ -52,38 +48,31 @@ console.log(resourceType);
         jwt: user.token,
       })
       .then(async (response) => {
-        console.log(response.data);
         await axios
           .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
             jwt: user.token,
           })
           .then((response) => {
-            console.log(response.data.data)
             const dataArray=[...response.data.data];
             var dataTemp=[];
             
-            dataArray.map((data)=>{dataTemp[data.res_type_id.toString]=data.equipment});
-            console.log(dataTemp);
-            setResourceType([...dataTemp]);
+            dataArray.map((data)=>{dataTemp.push({value:data.res_type_id,label:data.equipment})});
+            setResourceType(dataTemp);
             //setResourceType(response.data.data)
           })
           .catch((err) => alert(err.message));
-          console.log(response.data.data)
             const dataArray=[...response.data.data];
-            console.log(dataArray)
             var dataTemp=new Map();
             
             dataArray.map((data)=>{
-              console.log(data)
-              const temp={...data,type:resourceType[data.res_type_id]};
+              let obj = resourceType.find(obj => obj.value == data.res_type_id);
+              const temp={...data,type:obj};
             
         
                dataTemp=[...dataTemp,temp];
-               console.log(dataTemp);
             })
         await setData(dataTemp);
       });
-    console.log(data);
   }, []);
 
   const deleteResource = async (res_type_id) => {
