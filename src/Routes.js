@@ -7,6 +7,7 @@ import Project from './pages/Project';
 import ResourceTypeTable from './pages/ResourceTypeTable';
 import UserMan from './pages/UserMan';
 import Resource from './pages/Resource';
+import Manpower from './pages/Manpower';
 export default function Routes() {
     return (
 <Switch>
@@ -30,6 +31,10 @@ export default function Routes() {
 <Route path="/view_resource_type">
 
 <ResourceTypeTable/>
+</Route>
+<Route path="/manpower">
+
+<Manpower/>
 </Route>
 
 </Switch>
