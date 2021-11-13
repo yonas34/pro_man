@@ -3,11 +3,8 @@ import Routes from './Routes';
 import {useSelector} from "react-redux"
 import Login from "./pages/Login"
 import Sidebar from './component/Sidebar';
-import {useDispatch} from 'react-redux';
-import {loginToggle,setUser} from './reducers/actions'
-import React,{useEffect}  from 'react'
-import axios from 'axios'
-import {useHistory} from 'react-router-dom'
+import React from 'react'
+
 function App() {
   
 
