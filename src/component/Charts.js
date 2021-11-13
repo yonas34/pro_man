@@ -1,7 +1,7 @@
-import React,{useEffect,useState} from 'react'
+import React from 'react'
 import { Bar } from "react-chartjs-2";
 function Charts() {
-    const [chartData, setChartData] = useState({})
+  //  const [chartData, setChartData] = useState({})
 // useEffect(() => {
 //     const fetchPrices = async () => {
 //         const res = await fetch("https://api.coincap.io/v2/assets/?limit=5")

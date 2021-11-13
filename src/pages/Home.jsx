@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import{ Box,Grid, Card,CardHeader,CardContent}from '@mui/material';
-import Charts from '../component/Charts'
 import { Doughnut } from "react-chartjs-2";
 import ChartDual from '../component/ChartDual';
 

@@ -7,10 +7,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {createStore} from "redux";
 import allReducers from "./reducers/";
 import { Provider } from 'react-redux';
-import {useDispatch } from 'react-redux'
 import { loginToggle,setUser } from './reducers/actions'
-import {useSelector} from "react-redux"
 import axios from 'axios'
+
 const store=createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 

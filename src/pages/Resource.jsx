@@ -3,14 +3,12 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
-import Select from "react-select";
 function Resource() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
   const [resourceType, setResourceType] = useState([]);
-  
-  var dataTmp = null;
+
   var projects = [
     { value: 4, label: "Roadaddis" },
     { value: 5, label: "Jima" },
@@ -21,38 +19,30 @@ function Resource() {
     { value: 99, label: "Wello" },
   ];
 
-  var resourceObj=resourceType.reduce((acc,cur,i)=>{
-    
-    acc[cur.value]=cur.label;
+  var resourceObj = resourceType.reduce((acc, cur, i) => {
+    acc[cur.value] = cur.label;
     return acc;
-  },{});
-var obj=projects.reduce((acc,cur,i)=>{
+  }, {});
+  var obj = projects.reduce((acc, cur, i) => {
+    acc[cur.value] = cur.label;
+    return acc;
+  }, {});
+
  
-  acc[cur.value]=cur.label;
-  return acc;
-},{});
 
-
-  let options = resourceType.map(function (data) {
-    return { value: data.value, label: data.label };
-  });
-  let options2 = projects.map(function (data) {
-    return { value: data.value, label: data.label };
-  });
-  
   const column = [
     { title: "Plate Number", field: "plate_no_comp_no" },
     {
       title: "Project",
       field: "project_id",
-      
-      lookup:obj,
+
+      lookup: obj,
     },
     {
       title: "Resource Type",
       field: "res_type_id",
-      
-     lookup:resourceObj
+
+      lookup: resourceObj,
     },
   ];
   const [data, setData] = useState([]);
@@ -68,10 +58,8 @@ var obj=projects.reduce((acc,cur,i)=>{
         dataArray.map((data) => {
           dataTemp.push({ value: data.res_type_id, label: data.equipment });
         });
-        dataTmp = dataTemp;
 
         setResourceType(dataTemp);
-
       });
 
     axios
@@ -79,8 +67,7 @@ var obj=projects.reduce((acc,cur,i)=>{
         jwt: user.token,
       })
       .then((response) => {
-    
-        setData(response.data.data)
+        setData(response.data.data);
       })
       .catch((err) => alert(err.message));
   }, []);
@@ -100,11 +87,10 @@ var obj=projects.reduce((acc,cur,i)=>{
   };
 
   const addResource = async (newData) => {
-  console.log({...newData,
-    jwt: user.token,
-  });
+    console.log({ ...newData, jwt: user.token });
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_resourse.php", {...newData,
+      .post("https://www.nrwlpms.com/api/api/create_resourse.php", {
+        ...newData,
         jwt: user.token,
       })
       .then((response) => console.log(response))
@@ -114,8 +100,8 @@ var obj=projects.reduce((acc,cur,i)=>{
   const updateResource = async (newData) => {
     console.log(newData);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_resourse.php", {...newData,
-      
+      .post("https://www.nrwlpms.com/api/api/update_resourse.php", {
+        ...newData,
 
         jwt: user.token,
       })
@@ -153,10 +139,8 @@ var obj=projects.reduce((acc,cur,i)=>{
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-               addResource(newData);
-              setData([
-                ...data,newData
-              ]);
+              addResource(newData);
+              setData([...data, newData]);
               resolve();
             }, 1000);
           }),
