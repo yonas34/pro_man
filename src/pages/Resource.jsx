@@ -3,124 +3,92 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
-import Select  from 'react-select'
+import Select from "react-select";
 function Resource() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
   const [resourceType, setResourceType] = useState([]);
-  var dataTmp=null;
-  var [projects,setProjects]=useState([]);
-  let options = resourceType.map(function (data) {
-    return {value:data.value,label:data.label};
-  })
-  let options2= projects.map(function (data) {
-    return {value:data.value,label:data.label};
-  })
-  const handleSelect=(values)=>{
-   var index=data.findIndex(obj=>obj.resource_id==values.datas.resource_id);
-   var temp=data.find(obj=>obj.resource_id==values.datas.resource_id);
-   var tempData=data;
-   temp.type=values.event;
-   tempData.splice(index,1,temp);
-setData([...tempData]);
+  
+  var dataTmp = null;
+  var projects = [
+    { value: 4, label: "Roadaddis" },
+    { value: 5, label: "Jima" },
+    { value: 222, label: "Adama" },
+    { value: 555, label: "Dire Dewa" },
+    { value: 0, label: "Arba Minch" },
+    { value: 43, label: "Gonder" },
+    { value: 99, label: "Wello" },
+  ];
 
-  }
-
-  const handleSelect2=(values)=>{
-    var index=data.findIndex(obj=>obj.resource_id==values.datas.resource_id);
-    var temp=data.find(obj=>obj.resource_id==values.datas.resource_id);
-    var tempData=data;
-    temp.project=values.event;
-    tempData.splice(index,1,temp);
- setData([...tempData]);
+  var resourceObj=resourceType.reduce((acc,cur,i)=>{
+    
+    acc[cur.value]=cur.label;
+    return acc;
+  },{});
+var obj=projects.reduce((acc,cur,i)=>{
  
-   }
-  const SelectOverride=(props)=>{
-    const datas=props.data
-    return( 
-<Select  onChange={(event)=>handleSelect({event,datas})} defaultValue={data.find(obj=>obj.resource_id==datas.resource_id).type} options={options} />
+  acc[cur.value]=cur.label;
+  return acc;
+},{});
 
 
-
-)
-  }
-
-
-  const SelectOverrideProject=(props)=>{
-    const datas=props.data
-console.log(data);
-    return( 
-<Select  onChange={(event)=>handleSelect2({event,datas})} defaultValue={data.find(obj=>obj.resource_id==datas.resource_id).project}    options={options2} />
-
-
-
-)
-  }
-
-
-
-
-
-
-
-
-
+  let options = resourceType.map(function (data) {
+    return { value: data.value, label: data.label };
+  });
+  let options2 = projects.map(function (data) {
+    return { value: data.value, label: data.label };
+  });
+  
   const column = [
     { title: "Plate Number", field: "plate_no_comp_no" },
-    { title: "Project", field: "project_id",render:(rowData)=>{return(<SelectOverrideProject data={rowData}/>)} },
-    { title: "Resource Type", field: "type",render:(rowData)=>{return(<SelectOverride data={rowData}/>)}},
+    {
+      title: "Project",
+      field: "project_id",
+      
+      lookup:obj,
+    },
+    {
+      title: "Resource Type",
+      field: "res_type_id",
+      
+     lookup:resourceObj
+    },
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-
     axios
       .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
         jwt: user.token,
       })
       .then((response) => {
-        const dataArray=[...response.data.data];
-        var dataTemp=[];
-        
-         dataArray.map((data)=>{dataTemp.push({value:data.res_type_id,label:data.equipment})});
-         dataTmp=dataTemp;
-         setProjects([{value:4,label:"Roadaddis"},{value:5,label:"Jima"},{value:222,label:"Adama"},{value:555,label:"Dire Dewa"},{value:0,label:"Arba Minch"},{value:43,label:"Gonder"},{value:99,label:"Wello"}]);
+        const dataArray = [...response.data.data];
+        var dataTemp = [];
 
-         setResourceType(dataTemp);
-         
-        
-        //setResourceType(response.data.data      
+        dataArray.map((data) => {
+          dataTemp.push({ value: data.res_type_id, label: data.equipment });
+        });
+        dataTmp = dataTemp;
+
+        setResourceType(dataTemp);
+
       });
 
-       axios
+    axios
       .post("https://www.nrwlpms.com/api/api/get_all_resourse.php", {
         jwt: user.token,
       })
-      .then( (response) => {
-          const dataArray=[...response.data.data];
-          var dataTemp=new Map();
-          
-          dataArray.map((data)=>{
-            let obj = dataTmp.find(obj => obj.value == data.res_type_id);
-            let obj2 = projects.find(obj => obj.value == data.project_id);
-            
-            const temp={...data,type:obj,project:obj2};
-            dataTemp=[...dataTemp,temp];
-         
-          })
-      setData(dataTemp);
-
-        })
-        .catch((err) => alert(err.message));
-
-
-
+      .then((response) => {
+    
+        setData(response.data.data)
+      })
+      .catch((err) => alert(err.message));
   }, []);
 
-  const deleteResource = async (res_type_id) => {
+  const deleteResource = async (resource_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse_type.php", {
-        res_type_id: res_type_id,
+      .post("https://www.nrwlpms.com/api/api/delete_resourse.php", {
+        resource_id: resource_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -132,23 +100,23 @@ console.log(data);
   };
 
   const addResource = async (newData) => {
+  console.log({...newData,
+    jwt: user.token,
+  });
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
-        equipment: newData.equipment,
-        fule_cons_per_hr: newData.fule_cons_per_hr,
-        rate_hr: newData.rate_hr,
+      .post("https://www.nrwlpms.com/api/api/create_resourse.php", {...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message));
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
   };
 
   const updateResource = async (newData) => {
+    console.log(newData);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_resourse_type.php", {
-        res_type_id: newData.res_type_id,
-        rate_hr: newData.rate_hr,
-        fule_cons_per_hr: newData.fule_cons_per_hr,
-        equipment: newData.equipment,
+      .post("https://www.nrwlpms.com/api/api/update_resourse.php", {...newData,
+      
+
         jwt: user.token,
       })
       .then((response) => alert(response.data.message))
@@ -185,12 +153,10 @@ console.log(data);
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              addResource({
-                equipment: newData.equipment,
-                fule_cons_per_hr: newData.fule_cons_per_hr,
-                rate_hr: newData.rate_hr,
-              });
-              setData([...data, newData]);
+               addResource(newData);
+              setData([
+                ...data,newData
+              ]);
               resolve();
             }, 1000);
           }),
@@ -199,12 +165,7 @@ console.log(data);
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
-              updateResource({
-                res_type_id: newData.res_type_id,
-                rate_hr: newData.rate_hr,
-                equipment: newData.equipment,
-                fule_cons_per_hr: newData.fule_cons_per_hr,
-              });
+              updateResource(newData);
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
               resolve();
@@ -216,7 +177,7 @@ console.log(data);
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteResource(oldData.res_type_id);
+              deleteResource(oldData.resource_id);
               setData([...dataDelete]);
               resolve();
             }, 1000);
