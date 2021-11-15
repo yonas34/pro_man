@@ -7,19 +7,19 @@ icon:<Dashboard/>,
 link:'/',
 name:"Dashboard"
 },
-{
-    icon:<Task/>,
-    link:'/projects',
-    name:'Project'
-},
+// {
+//     icon:<Task/>,
+//     link:'/projects',
+//     name:'Project'
+// },
 
-{
-icon:<Person/>,
-link:'/user',
-name:"User Management"
+// {
+// icon:<Person/>,
+// link:'/user',
+// name:"User Management"
 
 
-},
+// },
 {
     icon:<Add/>,
     link:'/view_resource_type',
@@ -46,7 +46,7 @@ name:"Manpower"
 
     icon:<GroupWork/>,
     link:'/employee',
-    name:"Manpower"
+    name:"Employee"
     
     },
 

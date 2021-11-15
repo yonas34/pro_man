@@ -18,24 +18,7 @@ export default function Home() {
       <Grid container spacing={2}>
       <Grid container spacing={2}>
         <Grid item xs={10} md={9} >
-          <Item className="home_container">
-
-<CardHeader style={{position:"absolute"}}>Project Control and Management System</CardHeader>
-<CardContent>
-
-<ul  style={{color:"white" ,  textAlign: 'left',fontSize:"20px",fontWeight:"bold", fontFamily:"cursive", marginLeft:"20%" }}>
-    <li>Create Project</li>
-    <li>Manage Project</li>
-    <li>View Project Status</li>
-    <li>Control Project Resource Allocation</li>
-    <li>Control Employee</li>
-    <li>Assign Employee To Projects</li>
-</ul>
-
-</CardContent>
-
-
-          </Item>
+         
         </Grid>
         </Grid>
        
