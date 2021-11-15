@@ -12,12 +12,12 @@ function EmployeePage() {
   const tableRef = React.createRef();
 
   const column = [
-    { title: 'Profile Picture', field: 'imageUrl', render: rowData => <img src={"data:image/jpeg;base64,"+rowData.imageUrl} style={{width: 50, borderRadius: '50%'}}/> },
-    { title: "First Name", field: "first_name" },
-    { title: "Last Name", field: "last_name" },
-    { title: "Email", field: "email" },
-    { title: "Phone Number", field: "phone_number" },
-    {title:"Employee Id",field:"id"}
+    { title: 'Profile Picture', field: 'imageUrl', render: rowData => <img src={"data:image/jpeg;base64,"+rowData.imageUrl} style={{width: 50, borderRadius: '50%'}}/>,editable:'never' },
+    { title: "First Name", field: "first_name",editable:'onUpdate' },
+    { title: "Last Name", field: "last_name",editable:'onUpdate' },
+    { title: "Email", field: "email",editable:'onUpdate' },
+    { title: "Phone Number", field: "phone_number",editable:'onUpdate' },
+    {title:"Employee Id",field:"id",editable:'never'}
     
   ];const [data, setData] = useState();
   useEffect(() => {
@@ -116,6 +116,10 @@ const setDataFromDialogue=(datas)=>{
         ),
       }}
       editable={{
+
+ 
+
+
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
