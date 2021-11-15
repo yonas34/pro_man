@@ -12,6 +12,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import Toast from './Toast';
+import ProjectsTable from './ProjectsTable'
+import SpecialUserTable from './SpecialUserTable'
+import AdminTable from './AdminTable'
 import {
   Button,
   TextField,
@@ -35,9 +39,176 @@ const Item = styled(Card)(({ theme }) => ({
 }));
 
 export default function Dialogue(props) {
-  const [open, setOpen] = React.useState(false);
+
+ 
   console.log(props);
+  const [toastOpen,setToastOpen]=React.useState(false)
   const data = props.data;
+  const setData=props.setData;
+  
+  const Form = (props) =>{ const data=props.data; return (
+    <Formik
+      initialValues={{
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        phone_number: data.phone_number,
+        imageUrl: "",
+        id:data.id
+      }}
+      validationSchema={Yup.object().shape({
+        first_name: Yup.string()
+          .max(255)
+          .required("first name  must be provided!"),
+        last_name: Yup.string()
+          .max(255)
+          .required("last name must be provided!"),
+        email: Yup.string()
+          .email("invalid email! please insert valid email")
+          .required("fule consumption must be greaterthan or equal to zero!"),
+        phone_number: Yup.number().required("Phone number must be provided!"),
+      })}
+      onSubmit={async (values) => {
+       setToastOpen(true);
+       setData(values);
+        console.log(values);
+        
+      }}
+    >
+      {({
+        errors,
+        handleChange,
+        handleBlur,
+        handleReset,
+        handleSubmit,
+        values,
+        touched,
+      }) => (
+        <form onSubmit={handleSubmit}>
+          <Card
+            style={{
+              width: "100%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              height:"100%"
+            }}
+          >
+            <CardContent
+              style={{
+                backgroundColor: "#1976d2",
+                color: "white",
+                fontWeight: "bold",
+                fontFamily: "arial",
+              }}
+            >
+              <Typography variant={"h5"}>User Information</Typography>
+            </CardContent>
+            <CardContent>
+              <Grid container direction={"column"} spacing={4}>
+                <Grid item>
+                  <TextField
+                    error={Boolean(touched.imageUrl && errors.imageUrl)}
+                    variant={"outlined"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type={"file"}
+                    name="imageUrl"
+                    fullWidth
+                    size={"small"}
+                    value={values.imageUrl}
+                    helperText={touched.imageUrl && errors.imageUrl}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    error={Boolean(touched.first_name && errors.first_name)}
+                    variant={"outlined"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    type={"text"}
+                    label={"First Name"}
+                    name="first_name"
+                    fullWidth
+                    size={"small"}
+                    value={values.first_name}
+                    helperText={touched.first_name && errors.first_name}
+                  />
+                </Grid>
+             
+
+              <Grid item>
+                <TextField
+                  value={values.last_name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={Boolean(touched.last_name && errors.last_name)}
+                  helperText={touched.last_name && errors.last_name}
+                  type={"text"}
+                  label={"Last Name"}
+                  name="last_name"
+                  fullWidth
+                  size={"small"}
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  value={values.phone_number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={Boolean(touched.phone_number && errors.phone_number)}
+                  helperText={touched.phone_number && errors.phone_number}
+                  type={"tel"}
+                  label={"Phone number"}
+                  name="phone_number"
+                  fullWidth
+                  size={"small"}
+                />
+                </Grid>
+
+                <Grid item>
+                  <TextField
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={Boolean(touched.email && errors.email)}
+                    helperText={touched.email && errors.email}
+                    type={"email"}
+                    label={"Email Address"}
+                    name="email"
+                    fullWidth
+                    size={"small"}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <TextField
+                  disabled
+                    value={values.id}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={Boolean(touched.id && errors.id)}
+                    helperText={touched.id && errors.id}
+                    type={"id"}
+                    label={"User Identification"}
+                    name="id"
+                    fullWidth
+                    size={"small"}
+                  />
+                </Grid>
+
+                <Grid item>
+                  <Button variant={"primary"} type={"submit"} style={{ marginLeft: "30%" }}>
+                    <Save /> Save
+                  </Button>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </form>
+      )}
+    </Formik>
+  )};
 
   return (
     <div>
@@ -60,175 +231,36 @@ export default function Dialogue(props) {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {data.first_name} {data.last_name} Profile Details
             </Typography>
-            <Button autoFocus color="inherit" onClick={props.onSave}>
-              save
-            </Button>
+           
           </Toolbar>
         </AppBar>
-        <Formik
-          initialValues={{
-            first_name: "",
-            last_name: "",
-            email: "",
-            phone_number: "",
-            imageUrl: "",
-          }}
-          validationSchema={Yup.object().shape({
-            first_name: Yup.string()
-              .max(255)
-              .required("first name  must be provided!"),
-            last_name: Yup.string()
-              .max(255)
-              .required("last name must be provided!"),
-            email: Yup.string()
-              .email("invalid email! please insert valid email")
-              .required(
-                "fule consumption must be greaterthan or equal to zero!"
-              ),
-            phone_number: Yup.number().required(
-              "Phone number must be provided!"
-            ),
-          })}
-          onSubmit={async (values) => {
-            console.log(values);
-          }}
-        >
-          {({
-            errors,
-            handleChange,
-            handleBlur,
-            handleReset,
-            handleSubmit,
-            values,
-            touched,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <Card
-                style={{
-                  width: "50%",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
-                <CardContent
-                  style={{
-                    backgroundColor: "#1976d2",
-                    color: "white",
-                    fontWeight: "bold",
-                    fontFamily: "arial",
-                  }}
-                >
-                  <Typography variant={"h5"}>Add Resource Type</Typography>
-                </CardContent>
-                <CardContent>
-                  <Grid container direction={"column"} spacing={5}>
-                    <Grid item>
-                      <TextField
-                        error={Boolean(touched.imageUrl && errors.imageUrl)}
-                        variant={"outlined"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type={"file"}
-                        label={"Profile Picture"}
-                        name="imageUrl"
-                        fullWidth
-                        size={"small"}
-                        value={values.imageUrl}
-                        helperText={touched.imageUrl && errors.imageUrl}
-                      />
-                      <TextField
-                        error={Boolean(touched.first_name && errors.first_name)}
-                        variant={"outlined"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        type={"text"}
-                        label={"First Name"}
-                        name="first_name"
-                        fullWidth
-                        size={"small"}
-                        value={values.first_name}
-                        helperText={touched.first_name && errors.first_name}
-                      />
-                    </Grid>
-                  </Grid>
 
-                  <Grid item>
-                    <TextField
-                      value={values.last_name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={Boolean(touched.last_name && errors.last_name)}
-                      helperText={touched.last_name && errors.last_name}
-                      type={"text"}
-                      label={"Last Name"}
-                      name="last_name"
-                      fullWidth
-                      size={"small"}
-                    />
-                  </Grid>
-
-                  <Grid item>
-                    <TextField
-                      value={values.phone_number}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={Boolean(
-                        touched.phone_number && errors.phone_number
-                      )}
-                      helperText={touched.phone_number && errors.phone_number}
-                      type={"tel"}
-                      label={"Phone number"}
-                      name="phone_number"
-                      fullWidth
-                      size={"small"}
-                    />
-
-                    <Grid item>
-                      <TextField
-                        value={values.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={Boolean(touched.email && errors.email)}
-                        helperText={touched.email && errors.email}
-                        type={"email"}
-                        label={"Rate of Money $/Hour"}
-                        name="email"
-                        fullWidth
-                        size={"small"}
-                      />
-                    </Grid>
-
-                    <Grid item>
-                      <Button type={"submit"} style={{ marginLeft: "30%" }}>
-                        <Save /> Save
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-            </form>
-          )}
-        </Formik>
-
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <Item>
-                <img
-                  src={data.imageUrl}
-                  style={{ width: "100%", borderRadius: "2%" }}
-                />
-              </Item>
-            </Grid>
-
-            <Grid item xs={7}></Grid>
-
-            <Grid item xs={8}>
-              <Item>xs=8</Item>
-            </Grid>
+        <Grid container  spacing={2} style={{textAlignment:"center",justifyContent:"center"}}  >
+          <Grid item xs={6} md={4}>
+            <Item>
+              <img
+                src={data.imageUrl}
+                style={{ width: "100%", borderRadius: "2%" }}
+              />
+            </Item>
           </Grid>
-        </Box>
+          <Grid item xs={6} md={8}>
+            <Form data={data}/>
+          </Grid>
+          <Grid item xs={6} md={10}>
+            <ProjectsTable id={data.id}/>
+          </Grid>
+          <Grid item xs={6} md={10} >
+            <SpecialUserTable id={data.id}/>
+          </Grid>
+          <Grid item xs={6} md={10}>
+            <AdminTable id={data.id}/>
+          </Grid>
+        </Grid>
       </Dialog>
+      <Toast message={"Data Saved!"} handleClose={(event,reason)=>{if (reason === 'clickaway') {
+      return;
+}setToastOpen(false)}} open={toastOpen}/>
     </div>
   );
 }

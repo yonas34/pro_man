@@ -2,49 +2,32 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
-import tableIcons from "../component/tableIcons";
-import { Details } from "@material-ui/icons";
-import Dialogue from "../component/Dialogue";
-
-function EmployeePage() {
+import tableIcons from "./tableIcons";
+function ProjectsTable() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
 
   const column = [
-    { title: 'Profile Picture', field: 'imageUrl', render: rowData => <img src={rowData.imageUrl} style={{width: 50, borderRadius: '50%'}}/> },
-    { title: "First Name", field: "first_name" },
-    { title: "Last Name", field: "last_name" },
-    { title: "Email", field: "email" },
-    { title: "Phone Number", field: "phone_number" },
-    {title:"Employee Id",field:"id"}
-    
+    { title: "Title", field: "title_trade" },
+    { title: "Salary", field: "salary" },
   ];
- 
-  const [data, setData] = useState([{first_name:'Alem',last_name:'Gezaheng',email:"alem@gmai.com",phone_number:"0912568944",imageUrl:'/1.jpg',id:"12345"},{first_name:'Girma',last_name:'Mola',email:"grimamola@gmai.com",phone_number:"0922568944",imageUrl:'/2.jpg',id:"556677"}]);
-const [open,setOpen]=useState(false);
-const [selected,setSelected]=useState({});  
-const handleDetailClose=()=>{
-  setOpen(false);
-}
-const handleDetailSave=()=>{
-  setOpen(false);
-}
-const openDetails=(data)=>{
-  console.log(data);
-setSelected(data);
-setOpen(true);
+  const [data, setData] = useState([]);
 
-}
-const setDataFromDialogue=(datas)=>{
-  setOpen(false);
-  setData(...data,datas);
-  console.log(data);
+  useEffect(() => {
+    axios
+      .post("https://www.nrwlpms.com/api/api/get_all_ProjectsTable.php", {
+        jwt: user.token,
+      })
+      .then(async (response) => {
+        console.log(response.data);
+        await setData(response.data.data);
+      });
+  }, []);
 
-}
-  const deleteEmployeePage = async (mnpr_id) => {
+  const deleteProjectsTable = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_EmployeePage.php", {
+      .post("https://www.nrwlpms.com/api/api/delete_ProjectsTable.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -56,18 +39,18 @@ const setDataFromDialogue=(datas)=>{
       });
   };
 
-  const addEmployeePage = async (newData) => {
+  const addProjectsTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_EmployeePage.php", {
+      .post("https://www.nrwlpms.com/api/api/create_ProjectsTable.php", {
         ...newData,
         jwt: user.token,
       })
       .then((response) => alert(response.data.message));
   };
 
-  const updateEmployeePage = async (newData) => {
+  const updateProjectsTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_EmployeePage.php", {
+      .post("https://www.nrwlpms.com/api/api/update_ProjectsTable.php", {
         ...newData,
         jwt: user.token,
       })
@@ -76,10 +59,9 @@ const setDataFromDialogue=(datas)=>{
   };
 
   return (
-  <div>
     <MaterialTable
       icons={tableIcons}
-      title="EmployeePage"
+      title="ProjectsTable"
       tableRef={tableRef}
       columns={column}
       data={data}
@@ -106,7 +88,7 @@ const setDataFromDialogue=(datas)=>{
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              addEmployeePage(newData);
+              addProjectsTable(newData);
               setData([...data, newData]);
               resolve();
             }, 1000);
@@ -116,7 +98,7 @@ const setDataFromDialogue=(datas)=>{
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
-              updateEmployeePage(newData);
+              updateProjectsTable(newData);
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
               resolve();
@@ -128,7 +110,7 @@ const setDataFromDialogue=(datas)=>{
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteEmployeePage(oldData.mnpr_id);
+              deleteProjectsTable(oldData.mnpr_id);
               setData([...dataDelete]);
               resolve();
             }, 1000);
@@ -137,26 +119,8 @@ const setDataFromDialogue=(datas)=>{
       onRowClick={(evt, selectedRow) =>
         setSelectedRow(selectedRow.tableData.id)
       }
-
-      actions={[
-        {
-          icon: ()=><Details/>,
-          tooltip: 'Details',
-          onClick: (event, rowData) => {
-            console.log(rowData);
-         openDetails(rowData);
-          }
-        }
-      ]}
-
-
-
-
-
     />
-    <Dialogue open={open} setData={(data)=>setDataFromDialogue(data)} data={selected} onClose={handleDetailClose} onSave={handleDetailSave}/>
-    </div>
   );
 }
 
-export default EmployeePage;
+export default ProjectsTable;
