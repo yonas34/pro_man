@@ -1,4 +1,4 @@
-import * as React from "react";
+import React,{useState} from "react";
 
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
@@ -45,7 +45,13 @@ export default function Dialogue(props) {
   const [toastOpen,setToastOpen]=React.useState(false)
   const data = props.data;
   const setData=props.setData;
-  
+  const [file,setFile]=useState(null);
+  const _handleReaderLoaded=(readerEvt)=>{
+    let binaryString=readerEvt.target;
+    
+
+    setFile({base64TextString:btoa(binaryString.result)})
+  }
   const Form = (props) =>{ const data=props.data; return (
     <Formik
       initialValues={{
@@ -53,9 +59,10 @@ export default function Dialogue(props) {
         last_name: data.last_name,
         email: data.email,
         phone_number: data.phone_number,
-        imageUrl: "",
+       
         id:data.id
       }}
+    
       validationSchema={Yup.object().shape({
         first_name: Yup.string()
           .max(255)
@@ -70,8 +77,7 @@ export default function Dialogue(props) {
       })}
       onSubmit={async (values) => {
        setToastOpen(true);
-       setData(values);
-        console.log(values);
+        setData({...values,imageUrl:file.base64TextString});
         
       }}
     >
@@ -106,18 +112,7 @@ export default function Dialogue(props) {
             <CardContent>
               <Grid container direction={"column"} spacing={4}>
                 <Grid item>
-                  <TextField
-                    error={Boolean(touched.imageUrl && errors.imageUrl)}
-                    variant={"outlined"}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    type={"file"}
-                    name="imageUrl"
-                    fullWidth
-                    size={"small"}
-                    value={values.imageUrl}
-                    helperText={touched.imageUrl && errors.imageUrl}
-                  />
+               
                 </Grid>
                 <Grid item>
                   <TextField
@@ -239,13 +234,34 @@ export default function Dialogue(props) {
           <Grid item xs={6} md={4}>
             <Item>
               <img
-                src={data.imageUrl}
+                src={"data:image/jpeg;base64,"+data.imageUrl}
                 style={{ width: "100%", borderRadius: "2%" }}
               />
             </Item>
           </Grid>
+     
+
+
+
+
           <Grid item xs={6} md={8}>
             <Form data={data}/>
+          </Grid>
+          <Grid item xs={6} md={8}>
+          <form >
+
+          <input id="file" accept={".jpeg, .png, .jpg"} name="file" type="file" onChange={(event) => {
+                 event.preventDefault();
+                 const file=event.target.files[0];
+                  if(file){
+                    const reader=new FileReader();
+                    reader.onload=(event)=>_handleReaderLoaded(event);
+                    reader.readAsBinaryString(file);
+                  }
+                  
+
+}} />
+          </form>
           </Grid>
           <Grid item xs={6} md={10}>
             <ProjectsTable id={data.id}/>
