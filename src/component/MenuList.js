@@ -1,4 +1,4 @@
-import {Dashboard,Person,Add,ViewList,PeopleSharp} from '@material-ui/icons'
+import {GroupWork,Dashboard,Person,Add,ViewList,PeopleSharp} from '@material-ui/icons'
 import { ExitToApp as Logout } from '@material-ui/icons'
 import { Work as Task } from '@material-ui/icons'
 export const MenuList=[
@@ -40,8 +40,15 @@ icon:<PeopleSharp/>,
 link:'/manpower',
 name:"Manpower"
 
-}
+},
 
+{
+
+    icon:<GroupWork/>,
+    link:'/employee',
+    name:"Manpower"
+    
+    },
 
 ]
 export const MenuSession=[
