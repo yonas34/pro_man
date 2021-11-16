@@ -55,17 +55,17 @@ export default function Dialogue(props) {
     
 
     setFile(btoa(binaryString.result))
+    
   }
 
 
 useEffect(() => {
   
   setFile(props.data.emp_pic);
-  console.log("jjjk");
 
 }, [])
 
-  const Form = (props) =>{ const data=props.data; return (
+  const Form = (props) =>{ const data=props.data;   return (
     <Formik
       initialValues={{
         first_name: data.first_name,
@@ -89,10 +89,9 @@ useEffect(() => {
         phone_no: Yup.number().required("Phone number must be provided!"),
       })}
       onSubmit={(values) => {
-     console.log(values);
 
   
-        setData({...values,tableData:data.tableData},file==undefined || file==""?data.emp_pic==undefined || data.emp_pic==""?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+data.emp_pic:"data:image/jpeg;base64,"+file);
+        setData({...values,tableData:data.tableData},file);
         
       }}
     >
@@ -104,7 +103,10 @@ useEffect(() => {
         handleSubmit,
         values,
         touched,
-      }) => (
+      }) =>{ 
+        
+       
+        return(
         <form onSubmit={handleSubmit}>
           <Card
             style={{
@@ -244,11 +246,24 @@ useEffect(() => {
             </CardContent>
           </Card>
         </form>
-      )}
+      ) }}
     </Formik>
   )};
 
-
+console.log(props.open);
+if((file==undefined || file=="") && props.open)
+{
+  if(props.data.emp_pic=="" || props.data.emp_pic==undefined)
+setFile(dPP)
+ else
+ setFile(props.data.emp_pic);
+}
+console.log(file);
+console.log((!props.open))
+if(!props.open && file!=undefined)
+{
+ setFile(undefined)
+}
   return (
     <div>
       <Dialog
@@ -278,7 +293,7 @@ useEffect(() => {
           <Grid item xs={6} md={4}>
             <Item>
               <img
-                src={file==undefined || file==""?data.emp_pic==undefined || data.emp_pic==""?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+data.emp_pic:"data:image/jpeg;base64,"+file}
+                src={file==undefined || file==""?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+file}
                 style={{ width: "100%", borderRadius: "2%" }}
               />
             </Item>
@@ -289,7 +304,7 @@ useEffect(() => {
 
 
           <Grid item xs={6} md={8}>
-            <Form data={data}/>
+            <Form data={props.data}/>
           </Grid>
           <Grid item xs={6} md={8}>
           <form >
