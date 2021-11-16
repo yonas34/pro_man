@@ -92,7 +92,7 @@ useEffect(() => {
      console.log(values);
 
   
-        setData({...values,tableData:data.tableData},file);
+        setData({...values,tableData:data.tableData},file==undefined || file==""?data.emp_pic==undefined || data.emp_pic==""?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+data.emp_pic:"data:image/jpeg;base64,"+file);
         
       }}
     >
