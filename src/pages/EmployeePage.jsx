@@ -6,7 +6,7 @@ import tableIcons from "../component/tableIcons";
 import { Details } from "@material-ui/icons";
 import Dialogue from "../component/Dialogue";
 import Toast from '../component/Toast';
-
+import {dPP} from '../component/pp'
 
 function EmployeePage() {
   const user = useSelector((state) => state.user);
@@ -64,14 +64,14 @@ var obj = manPowerData.reduce((acc, cur, i) => {
 
 
 const column = [
-  { title: 'Profile Picture', field: 'emp_pic',editable:'never', render: rowData => <img src={"data:image/jpeg;base64,"+rowData.emp_pic} style={{width: 50, borderRadius: '50%'}}/> },
+  { title: 'Profile Picture', field: 'emp_pic',editable:'never', render: rowData => <img src={(rowData.emp_pic==""||rowData.emp_pic==undefined)?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+rowData.emp_pic} style={{width: 50, borderRadius: '50%'}}/> },
   { title: "First Name", field: "first_name" },
   { title: "Last Name", field: "last_name" },
   { title: "Email", field: "email" },
-  {title:"ManPower",field:"manpr_id",lookup:obj}
+  {title:"ManPower",field:"mnpr_id",lookup:obj}
   ,
 
-  { title: "Phone Number", field: "phone_no" },
+  { title: "Phone Number", field: "phone_no",type:"numeric"},
   {title:"Employee Id",field:"emp_id",editable:'never'}
   
 ];
@@ -104,28 +104,28 @@ await axios.post("https://www.nrwlpms.com/api/api/update_emp_pic.php", {
   "emp_pic" : img,
   "jwt" : user.token
 }).then((response)=>{
-  
-    
-  }).catch((err)=>alert(err.message));
-
   setOpen(false);
 
   const temp={...datas,emp_pic:img}
 const dataUpdate = [...data];
-            const index = data.findIndex(obj=>obj.id==datas.id);
-            dataUpdate[index] = temp;
-            setData([...dataUpdate]);
+const index = datas.tableData.id;
+dataUpdate[index] = temp;
+setData([...dataUpdate]);
   alert(response.data.message);
+    
+  }).catch((err)=>alert(err.message));
+
+  
   setToastOpen(true);
 })
   .catch((err) => alert(err.message));
   
 
 }
-  const deleteEmployeePage = async (mnpr_id) => {
+  const deleteEmployeePage = async (emp_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_EmployeePage.php", {
-        mnpr_id: mnpr_id,
+      .post("https://www.nrwlpms.com/api/api/delete_employee.php", {
+        emp_id: emp_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -137,12 +137,15 @@ const dataUpdate = [...data];
   };
 
   const addEmployeePage = async (newData) => {
+    console.log(newData.mnpr_id);
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_EmployeePage.php", {
+      .post("https://www.nrwlpms.com/api/api/create_employee.php", {
         ...newData,
+      
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message));
+      .then((response) => {alert(response.data.message);
+         setData([...data,newData]);}).catch((err)=>alert(err.message));
   };
 
   const updateEmployeePage = async (newData) => {
@@ -191,8 +194,9 @@ const dataUpdate = [...data];
           new Promise((resolve, reject) => {
             
             setTimeout(() => {
+             
               addEmployeePage(newData);
-              setData([...data, newData]);
+             
               resolve();
             }, 1000);
           }),
@@ -210,10 +214,11 @@ const dataUpdate = [...data];
         onRowDelete: (oldData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
+              
+              deleteEmployeePage(oldData.emp_id);
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteEmployeePage(oldData.mnpr_id);
               setData([...dataDelete]);
               resolve();
             }, 1000);

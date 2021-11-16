@@ -29,6 +29,7 @@ import DetailEdit from "./DetailEdit";
 import * as Yup from "yup";
 import { Save } from "@material-ui/icons";
 import { MenuItem } from "@material-ui/core";
+import {dPP} from './pp';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -75,13 +76,13 @@ export default function Dialogue(props) {
         email: Yup.string()
           .email("invalid email! please insert valid email")
           .required("fule consumption must be greaterthan or equal to zero!"),
-        phone_number: Yup.number().required("Phone number must be provided!"),
+        phone_no: Yup.number().required("Phone number must be provided!"),
       })}
-      onSubmit={async (values) => {
-     
+      onSubmit={(values) => {
+     console.log(values);
 
   
-        setData({...values},file.base64TextString);
+        setData({...values,tableData:data.tableData},file.base64TextString);
         
       }}
     >
@@ -159,7 +160,7 @@ export default function Dialogue(props) {
                   helperText={touched.phone_no && errors.phone_no}
                   type={"tel"}
                   label={"Phone number"}
-                  name="phone_number"
+                  name="phone_no"
                   fullWidth
                   size={"small"}
                 />
@@ -188,9 +189,9 @@ export default function Dialogue(props) {
                     onBlur={handleBlur}
                     error={Boolean(touched.emp_id && errors.emp_id)}
                     helperText={touched.emp_id && errors.emp_id}
-                    type={"id"}
-                    label={"Employee Identification"}
-                    name="id"
+                    type={"number"}
+                    label={"User Identification"}
+                    name="emp_id"
                     fullWidth
                     size={"small"}
                   />
@@ -237,6 +238,7 @@ export default function Dialogue(props) {
     </Formik>
   )};
 
+  console.log(file.base64TextString);
   return (
     <div>
       <Dialog
@@ -266,7 +268,7 @@ export default function Dialogue(props) {
           <Grid item xs={6} md={4}>
             <Item>
               <img
-                src={"data:image/jpeg;base64,"+file.base64TextString}
+                src={file.base64TextString==undefined?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+file.base64TextString}
                 style={{ width: "100%", borderRadius: "2%" }}
               />
             </Item>
