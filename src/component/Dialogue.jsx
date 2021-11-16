@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 
 import Dialog from "@mui/material/Dialog";
 import ListItemText from "@mui/material/ListItemText";
@@ -47,14 +47,24 @@ export default function Dialogue(props) {
   const manData=props.manData;
   const data = props.data;
   const setData=props.setData;
-  const [file,setFile]=useState({base64TextString:data.emp_pic});
+  
+  const [file,setFile]=useState(props.data.emp_pic);
   const _handleReaderLoaded=(readerEvt)=>{
     readerEvt.preventDefault();
     let binaryString=readerEvt.target;
     
 
-    setFile({base64TextString:btoa(binaryString.result)})
+    setFile(btoa(binaryString.result))
   }
+
+
+useEffect(() => {
+  
+  setFile(props.data.emp_pic);
+  console.log("jjjk");
+
+}, [])
+
   const Form = (props) =>{ const data=props.data; return (
     <Formik
       initialValues={{
@@ -82,7 +92,7 @@ export default function Dialogue(props) {
      console.log(values);
 
   
-        setData({...values,tableData:data.tableData},file.base64TextString);
+        setData({...values,tableData:data.tableData},file);
         
       }}
     >
@@ -238,7 +248,7 @@ export default function Dialogue(props) {
     </Formik>
   )};
 
-  console.log(file.base64TextString);
+
   return (
     <div>
       <Dialog
@@ -268,7 +278,7 @@ export default function Dialogue(props) {
           <Grid item xs={6} md={4}>
             <Item>
               <img
-                src={file.base64TextString==undefined?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+file.base64TextString}
+                src={file==undefined || file==""?data.emp_pic==undefined || data.emp_pic==""?"data:image/jpeg;base64,"+dPP:"data:image/jpeg;base64,"+data.emp_pic:"data:image/jpeg;base64,"+file}
                 style={{ width: "100%", borderRadius: "2%" }}
               />
             </Item>

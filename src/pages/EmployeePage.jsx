@@ -79,6 +79,7 @@ const column = [
 const [open,setOpen]=useState(false);
 const [selected,setSelected]=useState({});  
 const handleDetailClose=()=>{
+  setSelected({});
   setOpen(false);
 }
 const handleDetailSave=()=>{
@@ -86,7 +87,7 @@ const handleDetailSave=()=>{
 }
 const openDetails=(data)=>{
   console.log(data);
-setSelected(data);
+setSelected({...data});
 setOpen(true);
 
 }
