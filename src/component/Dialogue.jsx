@@ -28,6 +28,7 @@ import { Formik } from "formik";
 import DetailEdit from "./DetailEdit";
 import * as Yup from "yup";
 import { Save } from "@material-ui/icons";
+import { MenuItem } from "@material-ui/core";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -42,11 +43,12 @@ export default function Dialogue(props) {
 
  
   console.log(props);
-  const [toastOpen,setToastOpen]=React.useState(false)
+  const manData=props.manData;
   const data = props.data;
   const setData=props.setData;
-  const [file,setFile]=useState(null);
+  const [file,setFile]=useState({base64TextString:data.emp_pic});
   const _handleReaderLoaded=(readerEvt)=>{
+    readerEvt.preventDefault();
     let binaryString=readerEvt.target;
     
 
@@ -58,9 +60,9 @@ export default function Dialogue(props) {
         first_name: data.first_name,
         last_name: data.last_name,
         email: data.email,
-        phone_number: data.phone_number,
-       
-        id:data.id
+        phone_no: data.phone_no,
+       mnpr_id:data.mnpr_id,
+        emp_id:data.emp_id
       }}
     
       validationSchema={Yup.object().shape({
@@ -76,8 +78,10 @@ export default function Dialogue(props) {
         phone_number: Yup.number().required("Phone number must be provided!"),
       })}
       onSubmit={async (values) => {
-       setToastOpen(true);
-        setData({...values,imageUrl:file.base64TextString});
+     
+
+  
+        setData({...values},file.base64TextString);
         
       }}
     >
@@ -148,11 +152,11 @@ export default function Dialogue(props) {
 
               <Grid item>
                 <TextField
-                  value={values.phone_number}
+                  value={values.phone_no}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={Boolean(touched.phone_number && errors.phone_number)}
-                  helperText={touched.phone_number && errors.phone_number}
+                  error={Boolean(touched.phone_no && errors.phone_no)}
+                  helperText={touched.phone_no && errors.phone_no}
                   type={"tel"}
                   label={"Phone number"}
                   name="phone_number"
@@ -179,18 +183,46 @@ export default function Dialogue(props) {
                 <Grid item>
                   <TextField
                   disabled
-                    value={values.id}
+                    value={values.emp_id}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={Boolean(touched.id && errors.id)}
-                    helperText={touched.id && errors.id}
+                    error={Boolean(touched.emp_id && errors.emp_id)}
+                    helperText={touched.emp_id && errors.emp_id}
                     type={"id"}
-                    label={"User Identification"}
+                    label={"Employee Identification"}
                     name="id"
                     fullWidth
                     size={"small"}
                   />
                 </Grid>
+
+
+                <Grid item>
+                  <TextField
+                    select
+                    value={values.mnpr_id}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={Boolean(touched.mnpr_id && errors.mnpr_id)}
+                    helperText={touched.mnpr_id && errors.mnpr_id}
+                    type={"id"}
+                    label={"ManPower Type"}
+                    name="mnpr_id"
+                    fullWidth
+                    size={"small"}
+                  >
+
+{manData.map((man)=><MenuItem key={man.mnpr_id} value={man.mnpr_id}>{ man.title_trade}</MenuItem>)}
+
+
+
+</TextField>
+
+
+                </Grid>
+
+
+
 
                 <Grid item>
                   <Button variant={"primary"} type={"submit"} style={{ marginLeft: "30%" }}>
@@ -234,7 +266,7 @@ export default function Dialogue(props) {
           <Grid item xs={6} md={4}>
             <Item>
               <img
-                src={"data:image/jpeg;base64,"+data.imageUrl}
+                src={"data:image/jpeg;base64,"+file.base64TextString}
                 style={{ width: "100%", borderRadius: "2%" }}
               />
             </Item>
@@ -274,9 +306,7 @@ export default function Dialogue(props) {
           </Grid>
         </Grid>
       </Dialog>
-      <Toast message={"Data Saved!"} handleClose={(event,reason)=>{if (reason === 'clickaway') {
-      return;
-}setToastOpen(false)}} open={toastOpen}/>
+      
     </div>
   );
 }
