@@ -1,7 +1,7 @@
-import React from "react";
+import React,{useState} from "react";
 
 import Dialog from "@mui/material/Dialog";
-
+import Expense from './Expense'
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -19,12 +19,11 @@ import {
 import { Formik } from "formik";
 import DetailEdit from "./DetailEdit";
 import * as Yup from "yup";
-import { Save } from "@material-ui/icons";
+import { Menu, Save } from "@material-ui/icons";
 import { MenuItem } from "@material-ui/core";
-import * as chData from './chartData'
-import { Doughnut } from "react-chartjs-2";
-import ChartDual from '../component/ChartDual';
-
+import Dashboard from './Dashboard';
+import UnitCostTable from './UnitCostTable'
+import DetailedDialogue from "./DetailedDialogue";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -40,9 +39,9 @@ export default function DialogueForProject(props) {
   const manData = props.manData;
   const data = props.data;
   const setData = props.setData;
-
-  
-
+  const [dashboard,setDashboard]=useState(false);
+  const [unitcost,setUnitCost]=useState(false);
+  const [expense,setExpense]=useState(false);
 
   const Form = (props) => {
     const data = props.data;
@@ -119,7 +118,7 @@ export default function DialogueForProject(props) {
                     fontFamily: "arial",
                   }}
                 >
-                  <Typography variant={"h5"}>User Information</Typography>
+                  <Typography variant={"h5"}>Project Details</Typography>
                 </CardContent>
                 <CardContent>
                   <Grid container direction={"column"} spacing={4}>
@@ -468,6 +467,25 @@ export default function DialogueForProject(props) {
       </Formik>
     );
   };
+
+  const SMenu=()=>{
+
+
+return(
+  <Card style={{marginTop:"10px",backgroundColor:"#1976d2",color:"white"}}>
+<ul>
+
+  <MenuItem divider key="dashboard" onClick={()=>setDashboard(true)}>Dashboard</MenuItem>
+  <MenuItem divider key="unit_cost" onClick={()=>setUnitCost(true)}>Unit Cost</MenuItem> 
+  <MenuItem divider key="expense" onClick={()=>setExpense(true)}>Expense</MenuItem> 
+</ul>
+</Card>
+
+
+)
+
+
+  }
   return (
     <div>
       <Dialog
@@ -486,60 +504,35 @@ export default function DialogueForProject(props) {
             >
               <CloseIcon />
             </IconButton>
+
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {data.pro_name} Details
             </Typography>
           </Toolbar>
         </AppBar>
-
         <Grid
           container
           spacing={2}
           style={{ textAlignment: "center", justifyContent: "center" }}
         >
-          <Grid item xs={6} md={8}>
-            <Form data={props.data} />
-          </Grid>
-         
-          <Grid item xs={6} md={5}>
-          <Doughnut data={chData.donught_todate}
-        options={{
-          plugins: {
-            title: {
-              display: true,
-              text: "Todate"
-            },
-            legend: {
-              display: true,
-              position: "bottom"
-           }
-          }
-        }}
-      />
-          </Grid>
-          <Grid item xs={6} md={5}>
-          <Doughnut
-              data={chData.donught_previous_month}
-              options={{
-                plugins: {
-                  title: {
-                    display: true,
-                    text: "Previous Month",
-                  },
-                  legend: {
-                    display: true,
-                    position: "bottom",
-                  },
-                },
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} md={7}>
-          <ChartDual/>
+
+
+<Grid item xs={2} md={2} >
+            <SMenu/>
           </Grid>
           
-        </Grid>
+          <Grid item xs={6} md={9}>
+           <Item> <Form data={props.data} />
+           </Item>
+          </Grid>
+          
+          </Grid>
+
+       
       </Dialog>
+      <DetailedDialogue open={dashboard} myComp={()=><Dashboard/>} type={"Dashboard"} onClose={()=>setDashboard(false)}/>
+      <DetailedDialogue open={unitcost} myComp={()=><UnitCostTable/>} type={"Unit Cost"} onClose={()=>setUnitCost(false)}/>
+      <DetailedDialogue open={expense} myComp={()=><Expense/>} type={"Expense"} onClose={()=>setExpense(false)}/>
     </div>
   );
 }

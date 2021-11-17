@@ -111,10 +111,11 @@ setData([...dataUpdate]);
   
 
 }
-  const deleteProject = async (emp_id) => {
+  const deleteProject = async (project_id) => {
+    console.log(project_id);
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_employee.php", {
-        emp_id: emp_id,
+      .post("https://www.nrwlpms.com/api/api/delete_project.php", {
+        project_id:project_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -139,7 +140,7 @@ setData([...dataUpdate]);
 
   const updateProject = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee.php", {
+      .post("https://www.nrwlpms.com/api/api/update_project.php", {
         ...newData,
         jwt: user.token,
       })
@@ -204,7 +205,7 @@ setData([...dataUpdate]);
           new Promise((resolve, reject) => {
             setTimeout(() => {
               
-              deleteProject(oldData.emp_id);
+              deleteProject(oldData.project_id);
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
