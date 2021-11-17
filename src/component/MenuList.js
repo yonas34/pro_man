@@ -7,11 +7,11 @@ icon:<Dashboard/>,
 link:'/',
 name:"Dashboard"
 },
-// {
-//     icon:<Task/>,
-//     link:'/projects',
-//     name:'Project'
-// },
+{
+    icon:<Task/>,
+    link:'/projects',
+    name:'Project'
+},
 
 // {
 // icon:<Person/>,
