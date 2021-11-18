@@ -210,25 +210,37 @@ function Expense(props) {
        
       };
 
+      const temp=props.table1Data.map(data=>Object.values(data).splice(1,3));
+
+const dataTemp=[temp[0][0]+temp[1][0]+temp[2][0]+temp[3][0],temp[0][1]+temp[1][1]+temp[2][1]+temp[3][1],temp[0][2]+temp[1][2]+temp[2][2]+temp[3][2]];
+const sum={description:"sum",todate:dataTemp[0],thisMonth:dataTemp[1],previousMonth:dataTemp[2]};
+const incomeVsExpense=[{"description":"PreviousMonth",income:props.income[2],expense:dataTemp[2],profit:(props.income[2]-dataTemp[2])},{"description":"This Month",income:props.income[1],expense:dataTemp[1],profit:(props.income[1]-dataTemp[1])},{"description":"Todate",income:props.income[0],expense:dataTemp[0],profit:(props.income[0]-dataTemp[0])}];
+
+
+
+
 const Table2Data=()=>{
-
-  const temp=props.table1Data.map(data=>Object.values(data).splice(1,3));
-
-const data=[temp[0][0]+temp[1][0]+temp[2][0]+temp[3][0],temp[0][1]+temp[1][1]+temp[2][1]+temp[3][1],temp[0][2]+temp[1][2]+temp[2][2]+temp[3][2]];
-const sum={description:"sum",todate:data[0],thisMonth:data[1],previousMonth:data[2]};
 
 
   return <Tables title={"Expenses"} column={[{title:"Description",field:"description"},{title:"Previous Month",field:"previousMonth"},{title:"This Month",field:"thisMonth"},{title:"Todate",field:"todate"}]} data={[...props.table1Data,sum]}/>
 
 }
+
+
+const Table3Data=()=>{
+
+
+
+  
+  return <Tables title={""} column={[{title:"Description",field:"description"},{title:"Direct Expense",field:"directExpense"},{title:"Indirect Expense",field:"indirectExpense"},{title:"IDLE Amt & Profit",field:"idle"},{title:"Direct Expense %",field:"directExpenseP"},{title:"Indirect Expense %",field:"indirectExpenseP"},{title:"IDLE %",field:"idleP"}]} data={[{description:"PREVIOUS",directExpense:275479560,indirectExpense:48431618,idle:4495325,directExpenseP:83.9,indirectExpenseP:14.7,idleP:1.4},{description:"THIS MONTH",directExpense:169009600,indirectExpense:26558500,idle:3565500,directExpenseP:84.9,indirectExpenseP:13.3,idleP:1.8},{description:"TODATE",directExpense:444489160,indirectExpense:74990118,idle:8060825,directExpenseP:84.3,indirectExpenseP:14.2,idleP:1.5}]}/>
+}
+
+
 const Table1Data=()=>{
-const temp=props.table1Data.map(data=>Object.values(data).splice(1,3));
-
-const data=[temp[0][0]+temp[1][0]+temp[2][0]+temp[3][0],temp[0][1]+temp[1][1]+temp[2][1]+temp[3][1],temp[0][2]+temp[1][2]+temp[2][2]+temp[3][2]];
-const sum={description:"sum",todate:data[0],thisMonth:data[1],previousMonth:data[2]};
+  
+  return <Tables title={"Income vs Expenses"} column={[{title:"Description",field:"description"},{title:"Income",field:"income"},{title:"Expense",field:"expense"},{title:"OH & Profit",field:"profit"}]} data={incomeVsExpense}/>
 
 
-  return <Tables title={"Income vs Expenses"} column={[{title:"Description",field:"description"},{title:"Income",field:"income"},{title:"Expense",field:"expense"},{title:"OH & Profit",field:"profit"}]} data={[...props.table1Data,sum]}/>
 
 }
     return (
@@ -237,9 +249,12 @@ const sum={description:"sum",todate:data[0],thisMonth:data[1],previousMonth:data
             <Grid item xs={6} md={6} >
 <Table2Data/>
     </Grid>
-    
+
     <Grid item xs={6} md={6} >
 <Table1Data/>
+    </Grid>
+    <Grid item xs={6} md={6} style={{marginLeft:"25%",marginRight:"25%"}} >
+<Table3Data/>
     </Grid>
   
 <Grid item xs={6} md={6} style={{marginLeft:"25%",marginRight:"25%"}}>
