@@ -1,73 +1,142 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import MaterialTable, { MTableToolbar } from "material-table";
+import tableIcons from "./tableIcons";
+import { FormatUnderlinedSharp } from '@material-ui/icons';
+import { Grid } from '@material-ui/core';
 
-function Expense() {
-
-    // const actions = [
-    //     {
-    //       name: 'Randomize',
-    //       handler(chart) {
-    //         chart.data.datasets.forEach(dataset => {
-    //           dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
-    //         });
-    //         chart.update();
-    //       }
-    //     },
-    //     {
-    //       name: 'Add Dataset',
-    //       handler(chart) {
-    //         const data = chart.data;
-    //         const dsColor = Utils.namedColor(chart.data.datasets.length);
-    //         const newDataset = {
-    //           label: 'Dataset ' + (data.datasets.length + 1),
-    //           backgroundColor: Utils.transparentize(dsColor, 0.5),
-    //           borderColor: dsColor,
-    //           borderWidth: 1,
-    //           data: Utils.numbers({count: data.labels.length, min: -100, max: 100}),
-    //         };
-    //         chart.data.datasets.push(newDataset);
-    //         chart.update();
-    //       }
-    //     },
-    //     {
-    //       name: 'Add Data',
-    //       handler(chart) {
-    //         const data = chart.data;
-    //         if (data.datasets.length > 0) {
-    //           data.labels = Utils.months({count: data.labels.length + 1});
-      
-    //           for (let index = 0; index < data.datasets.length; ++index) {
-    //             data.datasets[index].data.push(Utils.rand(-100, 100));
-    //           }
-      
-    //           chart.update();
-    //         }
-    //       }
-    //     },
-    //     {
-    //       name: 'Remove Dataset',
-    //       handler(chart) {
-    //         chart.data.datasets.pop();
-    //         chart.update();
-    //       }
-    //     },
-    //     {
-    //       name: 'Remove Data',
-    //       handler(chart) {
-    //         chart.data.labels.splice(-1, 1); // remove the label first
-      
-    //         chart.data.datasets.forEach(dataset => {
-    //           dataset.data.pop();
-    //         });
-      
-    //         chart.update();
-    //       }
-    //     }
-    //   ];
-      // </block:actions>
-      
-      // <block:setup:1>
+function Expense(props) {
+    const user = useSelector((state) => state.user);
+    const [selectedRow, setSelectedRow] = useState(0);
+    const tableRef = React.createRef();
+    const [datas, setData] = useState();
+    const [expenseSum,setExpenseSum]=useState();
+    
+    
      
+      const Tables=(props)=> {
+
+        const column = props.column;
+        const urls=props.urls;
+        const data=props.data;
+
+        const deleteResource = async (res_type_id) => {
+            await axios
+              .post(urls, {
+                res_type_id: res_type_id,
+                jwt: user.token,
+              })
+              .then((response) => {
+                alert(response.data.message);
+              })
+              .catch((err) => {
+                alert(err.message);
+              });
+          };
+        const addResource = async (newData) => {
+      
+
+          await axios
+            .post(urls, {
+              ...newData,
+              jwt: user.token,
+            })
+            .then((response) => alert(response.data.message));
+        };
+      
+        const updateResource = async (newData) => {
+          await axios
+            .post(FormatUnderlinedSharp, {
+         ...newData,
+              jwt: user.token,
+            })
+            .then((response) => alert(response.data.message))
+            .catch((err) => alert(err.message));
+        };
+      
+        return (
+          <MaterialTable
+            icons={tableIcons}
+            title={props.title}
+            tableRef={tableRef}
+            columns={column}
+            data={data}
+            options={{
+              actionsColumnIndex: -1,
+              rowStyle: (rowData) => ({
+                backgroundColor:
+                  selectedRow === rowData.tableData.id ? "#EEE" : "#FFF",
+              }),
+              headerStyle: {
+                fontWeight: "bold",
+                headerStyle: { position: "sticky", top: 0 },
+                maxBodyHeight: 500,
+              },
+            }}
+            components={{
+              Toolbar: (props) => (
+                <div style={{ color: "white", backgroundColor: "#1976d2" }}>
+                  <MTableToolbar {...props} />
+                </div>
+              ),
+            }}
+            editable={{
+              onRowAdd: (newData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    addResource({
+                      equipment: newData.equipment,
+                      fule_cons_per_hr: newData.fule_cons_per_hr,
+                      rate_hr: newData.rate_hr,
+                    });
+                    setData([...data, newData]);
+                    resolve();
+                  }, 1000);
+                }),
+              onRowUpdate: (newData, oldData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    const dataUpdate = [...data];
+                    const index = oldData.tableData.id;
+                    updateResource({
+                      res_type_id: newData.res_type_id,
+                      rate_hr: newData.rate_hr,
+                      equipment: newData.equipment,
+                      fule_cons_per_hr: newData.fule_cons_per_hr,
+                    });
+                    dataUpdate[index] = newData;
+                    setData([...dataUpdate]);
+                    resolve();
+                  }, 1000);
+                }),
+              onRowDelete: (oldData) =>
+                new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    const dataDelete = [...data];
+                    const index = oldData.tableData.id;
+                    dataDelete.splice(index, 1);
+                    deleteResource(oldData.res_type_id);
+                    setData([...dataDelete]);
+                    resolve();
+                  }, 1000);
+                }),
+            }}
+            onRowClick={(evt, selectedRow) =>
+              setSelectedRow(selectedRow.tableData.id)
+            }
+          />
+        );
+      }
+      
+      
+
+
+
+
+
+
       const axes = React.useMemo(
         () => [
           { primary: true, type: 'ordinal', position: 'left' },
@@ -81,51 +150,47 @@ function Expense() {
         datasets: [
           {
             label: 'Equipment',
-            data: [25.9,13.1,33.7],
+            data: Object.values(props.graphData.find(obj=>obj.types=='Equipment')).splice(1,3),
             borderColor:"#050ef5",
             backgroundColor:"rgba(3, 66, 255,0.5)",
             stack:0
           },
           {
             label: 'Manpower',
-            data: [9.7,7.9,10.8],
+            data: Object.values(props.graphData.find(obj=>obj.types=='Manpower')).splice(1,3),
             borderColor: "rgb(178, 53, 3)",
             backgroundColor:"rgba(179, 74, 4,0.5)" ,
             stack:0
           },
           {
             label: 'Material',
-            data: [50.0,73.3,35.8],
+            data: Object.values(props.graphData.find(obj=>obj.types=='Material')).splice(1,3),
             borderColor: "#302e2c",
             backgroundColor: "rgba(98, 94, 92,0.5)",
             stack:0
           },
           {
             label: 'Fuel',
-            data: [14.4,5.7,19.7],
+            data: Object.values(props.graphData.find(obj=>obj.types=='Fuel')).splice(1,3),
             borderColor: "#9f9406",
             backgroundColor:"rgba(217, 208, 7,0.5)",
             stack:0
           },
           {
             label: 'Other',
-            data: [0.0,0.0,0.0],
+            data: Object.values(props.graphData.find(obj=>obj.types=='Other')).splice(1,3),
             borderColor:"#047f7d",
             backgroundColor:"rgba(7, 215, 212,0.5)",
             stack:0
           }
         ]
       };
-      // </block:setup>
-      
-      // <block:config:0>
+     
       const config = {
         type: 'bar',
         data: data,
         options: {
           indexAxis: 'y',
-          // Elements options apply to all of the options unless overridden in a dataset
-          // In this case, we are setting the border of each horizontal bar to be 2px wide
           elements: {
             bar: {
               borderWidth: 2,
@@ -145,13 +210,67 @@ function Expense() {
        
       };
 
+const Table2Data=()=>{
+
+  const temp=props.table1Data.map(data=>Object.values(data).splice(1,3));
+
+const data=[temp[0][0]+temp[1][0]+temp[2][0]+temp[3][0],temp[0][1]+temp[1][1]+temp[2][1]+temp[3][1],temp[0][2]+temp[1][2]+temp[2][2]+temp[3][2]];
+const sum={description:"sum",todate:data[0],thisMonth:data[1],previousMonth:data[2]};
 
 
+  return <Tables title={"Expenses"} column={[{title:"Description",field:"description"},{title:"Previous Month",field:"previousMonth"},{title:"This Month",field:"thisMonth"},{title:"Todate",field:"todate"}]} data={[...props.table1Data,sum]}/>
+
+}
+const Table1Data=()=>{
+const temp=props.table1Data.map(data=>Object.values(data).splice(1,3));
+
+const data=[temp[0][0]+temp[1][0]+temp[2][0]+temp[3][0],temp[0][1]+temp[1][1]+temp[2][1]+temp[3][1],temp[0][2]+temp[1][2]+temp[2][2]+temp[3][2]];
+const sum={description:"sum",todate:data[0],thisMonth:data[1],previousMonth:data[2]};
+
+
+  return <Tables title={"Income vs Expenses"} column={[{title:"Description",field:"description"},{title:"Income",field:"income"},{title:"Expense",field:"expense"},{title:"OH & Profit",field:"profit"}]} data={[...props.table1Data,sum]}/>
+
+}
     return (
         <div>
+            <Grid container  spacing={2} style={{ textAlignment: "center", justifyContent: "center" }}>
+            <Grid item xs={6} md={6} >
+<Table2Data/>
+    </Grid>
+    
+    <Grid item xs={6} md={6} >
+<Table1Data/>
+    </Grid>
+  
+<Grid item xs={6} md={6} style={{marginLeft:"25%",marginRight:"25%"}}>
            <Bar  {...config}/>
+     
+               <Tables title={"Expenses %"} column={[{title:"Type",field:"types"},{title:"Previous Month",field:"previousMonth"},{title:"This Month",field:"thisMonth"},{title:"Todate",field:"todate"}]} data={props.graphData}/>
+           </Grid>
+           </Grid>
         </div>
     )
 }
 
 export default Expense
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

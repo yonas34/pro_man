@@ -532,7 +532,7 @@ return(
       </Dialog>
       <DetailedDialogue open={dashboard} myComp={()=><Dashboard/>} type={"Dashboard"} onClose={()=>setDashboard(false)}/>
       <DetailedDialogue open={unitcost} myComp={()=><UnitCostTable/>} type={"Unit Cost"} onClose={()=>setUnitCost(false)}/>
-      <DetailedDialogue open={expense} myComp={()=><Expense/>} type={"Expense"} onClose={()=>setExpense(false)}/>
+      <DetailedDialogue open={expense} myComp={()=><Expense   table1Data={[{description:"Equipment",todate:136214550,thisMonth:26105000,previousMonth:110109550},{description:"Manpower",todate:51144500,thisMonth:15764000,previousMonth:35380500},{description:"Material",todate:262690600,thisMonth:145879600,previousMonth:116811000},{description:"Fuel",todate:75545978.0,thisMonth:11385000,previousMonth:64160978},{description:"Other",todate:0.0,thisMonth:0.0,previousMonth:0.0}]}    graphData={[{types:"Equipment",todate:25.9,thisMonth:13.1,previousMonth:33.7},{types:"Manpower",todate:9.7,thisMonth:7.9,previousMonth:10.8},{types:"Material",todate:50.0,thisMonth:73.3,previousMonth:35.8},{types:"Fuel",todate:14.4,thisMonth:5.7,previousMonth:19.7},{types:"Other",todate:0.0,thisMonth:0.0,previousMonth:0.0}]}/>} type={"Expense"} onClose={()=>setExpense(false)}/>
     </div>
   );
 }

@@ -59,7 +59,7 @@ export default function DetailedDialogue(props) {
           </Toolbar>
         </AppBar>
 
-       <Mycomp/>
+       <Mycomp  />
       </Dialog>
       
     </div>
