@@ -22,11 +22,10 @@ function SpecialUserTable(props) {
 
   },{})
   const column = [
-    { title: "Employee ID", field: "emp_id" },
+    { title: "Employee ID", field: "emp_id",editable:'never' },
     { title: "Special User Type", field: "special_user_id",lookup:spcecial_userObj},
     {title:"Project Name",field:"project_id",lookup:projectObj},
-    {title:"Project Location",field:"pro_location"},
-    {title:"Project Client",field:"pro_client"}
+ 
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -76,8 +75,10 @@ function SpecialUserTable(props) {
 
   const addSpecialUserTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_SpecialUserTable.php", {
-        ...newData,
+      .post("https://www.nrwlpms.com/api/api/create_employee_project.php", {
+        special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid,
+        user_type_id : 3,
+      
         jwt: user.token,
       })
       .then((response) => alert(response.data.message));
@@ -85,7 +86,7 @@ function SpecialUserTable(props) {
 
   const updateSpecialUserTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_SpecialUserTable.php", {
+      .post("https://www.nrwlpms.com/api/api/update_employee_project.php", {
         ...newData,
         jwt: user.token,
       })
@@ -134,7 +135,9 @@ function SpecialUserTable(props) {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               updateSpecialUserTable(newData);
-              dataUpdate[index] = newData;
+              const newTemp={special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid};
+         console.log(newTemp)
+              dataUpdate[index] = newTemp;
               setData([...dataUpdate]);
               resolve();
             }, 1000);
