@@ -3,27 +3,62 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "./tableIcons";
-function SpecialUserTable() {
+function SpecialUserTable(props) {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
+  const uid=props.uid;
+  const [project,setProject]=useState([]);
+  const [specialUser,setSpecialUser]=useState([]);
 
+  var projectObj = project.reduce((acc, cur, i) => {
+    acc[cur.project_id] = cur.pro_name;
+    return acc;
+  }, {});
+
+  var spcecial_userObj=specialUser.reduce((acc,cur,i)=>{
+    acc[cur.special_user_id] = cur.name;
+    return acc;
+
+  },{})
   const column = [
-    { title: "Title", field: "title_trade" },
-    { title: "Salary", field: "salary" },
+    { title: "Employee ID", field: "emp_id" },
+    { title: "Special User Type", field: "special_user_id",lookup:spcecial_userObj},
+    {title:"Project Name",field:"project_id",lookup:projectObj},
+    {title:"Project Location",field:"pro_location"},
+    {title:"Project Client",field:"pro_client"}
   ];
   const [data, setData] = useState([]);
-
   useEffect(() => {
+    console.log(uid);
+  setSpecialUser([{special_user_id:1,name:"QUANTITY SURVEYOR"},{special_user_id:3,name:"SITE STORE"},{special_user_id:6,name:"SECRETARY"}])
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_SpecialUserTable.php", {
-        jwt: user.token,
+      .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_emp_id.php", {
+      emp_id:uid, 
+      jwt: user.token,
+
       })
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      });
+      }).catch((err)=>alert(err.message));
+   axios
+      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
+      jwt: user.token,
+    
+      }).then((response)=>{
+    
+    setProject(response.data.data);
+    
+      }).catch((err)=>alert(err.message))
+
+
+
   }, []);
+
+
+
+
 
   const deleteSpecialUserTable = async (mnpr_id) => {
     await axios

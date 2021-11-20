@@ -322,14 +322,12 @@ if(!props.open && file!=undefined)
 }} />
           </form>
           </Grid>
-          <Grid item xs={6} md={10}>
-            <ProjectsTable id={data.id}/>
-          </Grid>
+         
           <Grid item xs={6} md={10} >
-            <SpecialUserTable id={data.id}/>
+            <SpecialUserTable uid={data.emp_id}/>
           </Grid>
           <Grid item xs={6} md={10}>
-            <AdminTable id={data.id}/>
+            <AdminTable id={data.emp_id}/>
           </Grid>
         </Grid>
       </Dialog>
