@@ -34,7 +34,7 @@ const dispatch = useDispatch();
                         }
                         dispatch(loginToggle());
 
-                    })
+                    }).catch((err)=>alert("Incorrect user name or password, please try again!"))
                         
                        
                         
