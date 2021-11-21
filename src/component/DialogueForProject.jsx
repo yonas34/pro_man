@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-
+import EmployeeProjectTable from "./EmployeeProjectTable";
 import Dialog from "@mui/material/Dialog";
 import Expense from './Expense'
 import AppBar from "@mui/material/AppBar";
@@ -523,6 +523,10 @@ return(
           
           <Grid item xs={6} md={9}>
            <Item> <Form data={props.data} />
+           </Item>
+          </Grid>
+          <Grid item xs={6} md={9}>
+           <Item> <EmployeeProjectTable pid={props.data.project_id}/>
            </Item>
           </Grid>
           
