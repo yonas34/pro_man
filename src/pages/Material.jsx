@@ -2,66 +2,33 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
-import tableIcons from "./tableIcons";
-function SpecialUserTable(props) {
+import tableIcons from "../component/tableIcons";
+function Material() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
-  const uid=props.uid;
-  const [project,setProject]=useState([]);
-  const [specialUser,setSpecialUser]=useState([]);
 
-  var projectObj = project.reduce((acc, cur, i) => {
-    acc[cur.project_id] = cur.pro_name;
-    return acc;
-  }, {});
-
-  var spcecial_userObj=specialUser.reduce((acc,cur,i)=>{
-    acc[cur.special_user_id] = cur.name;
-    return acc;
-
-  },{})
   const column = [
-    { title: "Employee ID", field: "emp_id",editable:'never' },
-    { title: "Special User Type", field: "special_user_id",lookup:spcecial_userObj},
-    {title:"Project Name",field:"project_id",lookup:projectObj},
- 
+    { title: "Material Type", field: "type_of_material" },
+    { title: "Amount of Material", field: "uom" },
+    {title:"Price of Material",field:"price"}
   ];
   const [data, setData] = useState([]);
-  useEffect(() => {
-    console.log(uid);
-  setSpecialUser([{special_user_id:1,name:"QUANTITY SURVEYOR"},{special_user_id:3,name:"SITE STORE"},{special_user_id:6,name:"SECRETARY"}])
-    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_emp_id.php", {
-      emp_id:uid, 
-      jwt: user.token,
 
+  useEffect(() => {
+    axios
+      .post("https://www.nrwlpms.com/api/api/get_all_material.php", {
+        jwt: user.token,
       })
       .then(async (response) => {
-        console.log(response.data);
+  
         await setData(response.data.data);
-      }).catch((err)=>alert(err.message));
-   axios
-      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
-      jwt: user.token,
-    
-      }).then((response)=>{
-    
-    setProject(response.data.data);
-    
-      }).catch((err)=>alert(err.message))
-
-
-
+      });
   }, []);
 
-
-
-
-
-  const deleteSpecialUserTable = async (mnpr_id) => {
+  const deleteMaterial = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_SpecialUserTable.php", {
+      .post("https://www.nrwlpms.com/api/api/delete_material.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -73,23 +40,23 @@ function SpecialUserTable(props) {
       });
   };
   
-  const addSpecialUserTable = async (newData) => {
+  const addMaterial = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_employee_project.php", {
-      special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid,
-      user_type_id : 3,
-      
+    .post("https://www.nrwlpms.com/api/api/create_material.php", {
+      ...newData,
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message) 
+    .then((response) => {alert(response.data.message)
+      const temp={...newData,mat_id:response.data.mat_id}
+      setData([...data, newData]);
+      console.log(response.data);
       
-      const newTemp={special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid};
-        setData([...data, newTemp]);}).catch((err)=>alert(err.message));
+      });
   };
 
-  const updateSpecialUserTable = async (newData) => {
+  const updateMaterial = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee_project.php", {
+      .post("https://www.nrwlpms.com/api/api/update_material.php", {
         ...newData,
         jwt: user.token,
       })
@@ -100,7 +67,7 @@ function SpecialUserTable(props) {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="SpecialUserTable"
+      title="Material"
       tableRef={tableRef}
       columns={column}
       data={data}
@@ -127,9 +94,7 @@ function SpecialUserTable(props) {
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              
-              addSpecialUserTable(newData);
-          
+              addMaterial(newData);
               resolve();
             }, 1000);
           }),
@@ -138,8 +103,7 @@ function SpecialUserTable(props) {
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
-              updateSpecialUserTable(newData);
-        
+              updateMaterial(newData);
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
               resolve();
@@ -151,7 +115,7 @@ function SpecialUserTable(props) {
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteSpecialUserTable(oldData.mnpr_id);
+              deleteMaterial(oldData.mnpr_id);
               setData([...dataDelete]);
               resolve();
             }, 1000);
@@ -164,4 +128,4 @@ function SpecialUserTable(props) {
   );
 }
 
-export default SpecialUserTable;
+export default Material;

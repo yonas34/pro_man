@@ -40,7 +40,11 @@ const addResource=async (newData)=>{
     fule_cons_per_hr : newData.fule_cons_per_hr,
     rate_hr : newData.rate_hr,
     jwt :user.token
-}).then((response)=>alert(response.data.message))
+}).then((response)=>{
+  
+  console.log(response.data);
+  
+})
 
 
 

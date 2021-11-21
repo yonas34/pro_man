@@ -49,7 +49,11 @@ function ResourceTypeTable() {
         rate_hr: newData.rate_hr,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message));
+      .then((response) => {alert(response.data.message);
+ 
+      const temp={...newData,res_type_id:response.data.res_type_id}
+      setData([...data, temp]);
+      });
   };
 
   const updateResource = async (newData) => {
@@ -100,7 +104,6 @@ function ResourceTypeTable() {
                 fule_cons_per_hr: newData.fule_cons_per_hr,
                 rate_hr: newData.rate_hr,
               });
-              setData([...data, newData]);
               resolve();
             }, 1000);
           }),

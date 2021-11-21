@@ -38,14 +38,19 @@ function Manpower() {
         alert(err.message);
       });
   };
-
+  
   const addManpower = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_manpower.php", {
-        ...newData,
-        jwt: user.token,
-      })
-      .then((response) => alert(response.data.message));
+    .post("https://www.nrwlpms.com/api/api/create_manpower.php", {
+      ...newData,
+      jwt: user.token,
+    })
+    .then((response) => {alert(response.data.message)
+      const temp={...newData,mnpr_id:response.data.mnpr_id}
+      setData([...data, newData]);
+      
+      
+      });
   };
 
   const updateManpower = async (newData) => {
@@ -89,7 +94,6 @@ function Manpower() {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               addManpower(newData);
-              setData([...data, newData]);
               resolve();
             }, 1000);
           }),

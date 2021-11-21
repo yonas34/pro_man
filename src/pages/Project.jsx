@@ -110,7 +110,8 @@ function Project() {
       })
       .then((response) => {
         alert(response.data.message);
-        setData([...data, newData]);
+        const temp={...newData,project_id:response.data.project_id}
+        setData([...data, temp]);
       })
       .catch((err) => alert(err.message));
   };

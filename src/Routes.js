@@ -9,6 +9,7 @@ import UserMan from './pages/UserMan';
 import Resource from './pages/Resource';
 import Manpower from './pages/Manpower';
 import EmployeePage from './pages/EmployeePage';
+import Material from './pages/Material';
 export default function Routes() {
     return (
 <Switch>
@@ -41,6 +42,9 @@ export default function Routes() {
 <EmployeePage/>
 </Route>
 
+<Route path="/material">
+<Material/>
+</Route>
 </Switch>
 
     )

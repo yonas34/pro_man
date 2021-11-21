@@ -7,6 +7,7 @@ import { Details } from "@material-ui/icons";
 import Dialogue from "../component/Dialogue";
 import Toast from '../component/Toast';
 import {dPP} from '../component/pp'
+import { TenMp } from "@mui/icons-material";
 
 function EmployeePage() {
   const user = useSelector((state) => state.user);
@@ -146,7 +147,9 @@ setData([...dataUpdate]);
         jwt: user.token,
       })
       .then((response) => {alert(response.data.message);
-         setData([...data,newData]);}).catch((err)=>alert(err.message));
+        console.log(response.data);
+        const temp={...newData,emp_id:response.data.emp_id}
+         setData([...data,TenMp]);}).catch((err)=>alert(err.message));
   };
 
   const updateEmployeePage = async (newData) => {
