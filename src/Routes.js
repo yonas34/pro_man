@@ -10,6 +10,7 @@ import Resource from './pages/Resource';
 import Manpower from './pages/Manpower';
 import EmployeePage from './pages/EmployeePage';
 import Material from './pages/Material';
+import Activity from './pages/Activity'
 export default function Routes() {
     return (
 <Switch>
@@ -44,6 +45,9 @@ export default function Routes() {
 
 <Route path="/material">
 <Material/>
+</Route>
+<Route path="/activities">
+<Activity/>
 </Route>
 </Switch>
 

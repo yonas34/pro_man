@@ -27,9 +27,11 @@ import {
 import { Formik } from "formik";
 import DetailEdit from "./DetailEdit";
 import * as Yup from "yup";
-import { Save } from "@material-ui/icons";
+import { Restore, Save } from "@material-ui/icons";
 import { MenuItem } from "@material-ui/core";
 import {dPP} from './pp';
+import { useSelector } from "react-redux";
+import axios from 'axios';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -42,7 +44,7 @@ const Item = styled(Card)(({ theme }) => ({
 
 export default function Dialogue(props) {
 
- 
+  const user = useSelector((state) => state.user);
   console.log(props);
   const manData=props.manData;
   const data = props.data;
@@ -58,12 +60,23 @@ export default function Dialogue(props) {
     
   }
 
-
 useEffect(() => {
   
   setFile(props.data.emp_pic);
 
 }, [])
+const resetPassword=async(emp_id)=>{
+
+  axios.post("https://www.nrwlpms.com/api/api/reset_user_password.php",{
+    
+      emp_id:emp_id,
+      jwt:user.token
+     
+  }).then((response)=>{
+   alert(response.data.message)
+  }).catch((err)=>alert(err.message));
+}
+
 
   const Form = (props) =>{ const data=props.data;   return (
     <Formik
@@ -322,7 +335,11 @@ if(!props.open && file!=undefined)
 }} />
           </form>
           </Grid>
-         
+          <Grid item xs={6} md={10} >
+            <IconButton  onClick={()=>resetPassword(data.emp_id)}>
+           <Restore/> Reset Password
+           </IconButton>
+          </Grid>
           <Grid item xs={6} md={10} >
             <SpecialUserTable uid={data.emp_id}/>
           </Grid>

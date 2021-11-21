@@ -3,41 +3,34 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "./tableIcons";
-function EmployeeProjectTable(props) {
+function MaterialProjectTable(props) {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
   const projectId=props.pid;
   const [project,setProject]=useState([]);
   const [specialUser,setSpecialUser]=useState([]);
- const [employee,setEmployee]=useState([]);
+ const [material,setMaterial]=useState([]);
   var projectObj = project.reduce((acc, cur, i) => {
     acc[cur.project_id] = cur.pro_name;
     return acc;
   }, {});
-
-  var spcecial_userObj=specialUser.reduce((acc,cur,i)=>{
-    acc[cur.special_user_id] = cur.name;
+  var matObj = material.reduce((acc, cur, i) => {
+    acc[cur.mat_id] = cur.type_of_material;
     return acc;
+  }, {});
 
-  },{})
-  var empObj=employee.reduce((acc,cur,i)=>{
-    acc[cur.emp_id] = cur.first_name +" "+cur.last_name;
-    return acc;
-
-  },{})
+ 
   const column = [
-    { title: "Employee ID", field: "emp_id",lookup:empObj },
-    { title: "Special User Type", field: "special_user_id",lookup:spcecial_userObj},
+    { title: "Material", field: "mat_id",lookup:matObj },
     {title:"Project Name",field:"project_id",lookup:projectObj,editable:"never"},
  
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
     console.log(projectId);
-  setSpecialUser([{special_user_id:7,name:'UNALLOCATED'},{special_user_id:1,name:"QUANTITY SURVEYOR"},{special_user_id:3,name:"SITE STORE"},{special_user_id:6,name:"SECRETARY"}])
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php", {
+      .post("https://www.nrwlpms.com/api/api/get_material_project_by_project_id.php", {
       project_id:projectId, 
       jwt: user.token,
 
@@ -56,12 +49,12 @@ function EmployeeProjectTable(props) {
     
       }).catch((err)=>alert(err.message))
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", { 
+      .post("https://www.nrwlpms.com/api/api/get_all_material.php", { 
       jwt: user.token,
     
       }).then((response)=>{
     console.log(response.data)
-    setEmployee(response.data.data);
+    setMaterial(response.data.data);
     
       }).catch((err)=>alert(err.message))
 
@@ -72,12 +65,12 @@ function EmployeeProjectTable(props) {
 
 
 
-  const deleteEmployeeProjectTable = async (emp_id) => {
+  const deleteMaterialProjectTable = async (emp_id) => {
    console.log(emp_id);
    
     await axios
       .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
-        id:emp_id,
+        ...emp_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -88,23 +81,22 @@ function EmployeeProjectTable(props) {
       });
   };
   
-  const addEmployeeProjectTable = async (newData) => {
+  const addMaterialProjectTable = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_employee_project.php", {
-      special_user_id:newData.special_user_id,project_id:projectId,emp_id:newData.emp_id,
-      user_type_id : 3,
+    .post("https://www.nrwlpms.com/api/api/create_material_project.php", {
+      mat_id:newData.mat_id,project_id:projectId,
       
       jwt: user.token,
     })
     .then((response) => {alert(response.data.message) 
       
-      const newTemp={special_user_id:newData.special_user_id,project_id:projectId,emp_id:newData.emp_id};
+      const newTemp={...newData,id:response.data.id,project_id:projectId};
         setData([...data, newTemp]);}).catch((err)=>alert(err.message));
   };
 
-  const updateEmployeeProjectTable = async (newData) => {
+  const updateMaterialProjectTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee_project.php", {
+      .post("https://www.nrwlpms.com/api/api/update_material_project.php", {
         ...newData,
         jwt: user.token,
       })
@@ -115,7 +107,7 @@ function EmployeeProjectTable(props) {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="EmployeeProjectTable"
+      title="MaterialProjectTable"
       tableRef={tableRef}
       columns={column}
       data={data}
@@ -143,7 +135,7 @@ function EmployeeProjectTable(props) {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               
-              addEmployeeProjectTable(newData);
+              addMaterialProjectTable(newData);
           
               resolve();
             }, 1000);
@@ -154,7 +146,7 @@ function EmployeeProjectTable(props) {
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
-              updateEmployeeProjectTable(newData);
+              updateMaterialProjectTable(newData);
         
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
@@ -167,7 +159,7 @@ function EmployeeProjectTable(props) {
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteEmployeeProjectTable(oldData.id);
+              deleteMaterialProjectTable(oldData);
               setData([...dataDelete]);
               resolve();
             }, 1000);
@@ -180,4 +172,4 @@ function EmployeeProjectTable(props) {
   );
 }
 
-export default EmployeeProjectTable;
+export default MaterialProjectTable;

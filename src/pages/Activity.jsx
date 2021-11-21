@@ -3,83 +3,32 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
-function Resource() {
+function Activity() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
-  const [resourceType, setResourceType] = useState([]);
-
-  const [projects,setProjects] = useState([])
-
-  var resourceObj = resourceType.reduce((acc, cur, i) => {
-    acc[cur.value] = cur.label;
-    return acc;
-  }, {});
-  var obj = projects.reduce((acc, cur, i) => {
-    acc[cur.project_id] = cur.pro_name;
-    return acc;
-  }, {});
-
- 
 
   const column = [
-    { title: "Plate Number", field: "plate_no_comp_no" },
-    {
-      title: "Project",
-      field: "project_id",
-
-      lookup: obj,
-    },
-    {
-      title: "Resource Type",
-      field: "res_type_id",
-
-      lookup: resourceObj,
-    },
+    { title: "Activity Name", field: "activity_name" },
+    { title: "UOM", field: "uom" },
   ];
   const [data, setData] = useState([]);
+
   useEffect(() => {
-
-
     axios
-    .post("https://www.nrwlpms.com/api/api/get_all_projects.php", {
-      jwt: user.token,
-    })
-    .then(async (response) => {
-      console.log(response.data);
-      await setProjects(response.data.data);
-    });
-
-
-    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
+      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
         jwt: user.token,
       })
-      .then((response) => {
-        const dataArray = [...response.data.data];
-        var dataTemp = [];
-
-        dataArray.map((data) => {
-          dataTemp.push({ value: data.res_type_id, label: data.equipment });
-        });
-
-        setResourceType(dataTemp);
+      .then(async (response) => {
+        console.log(response.data);
+        await setData(response.data.data);
       });
-
-    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_resourse.php", {
-        jwt: user.token,
-      })
-      .then((response) => {
-        setData(response.data.data);
-      })
-      .catch((err) => alert(err.message));
   }, []);
 
-  const deleteResource = async (resource_id) => {
+  const deleteActivity = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse.php", {
-        resource_id: resource_id,
+      .post("https://www.nrwlpms.com/api/api/delete_activity.php", {
+       ...mnpr_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -89,24 +38,27 @@ function Resource() {
         alert(err.message);
       });
   };
-
-  const addResource = async (newData) => {
-    console.log({ ...newData, jwt: user.token });
+  
+  const addActivity = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_resourse.php", {
-        ...newData,
-        jwt: user.token,
-      })
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+    .post("https://www.nrwlpms.com/api/api/create_activity.php", {
+      ...newData,
+      jwt: user.token,
+    })
+    .then((response) => {alert(response.data.message)
+     console.log(response.data)
+      const temp={...newData,activity_id:response.activity_id}
+      setData([...data, newData]);
+      
+      
+      });
   };
 
-  const updateResource = async (newData) => {
+  const updateActivity = async (newData) => {
     console.log(newData);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_resourse.php", {
+      .post("https://www.nrwlpms.com/api/api/update_activity.php", {
         ...newData,
-
         jwt: user.token,
       })
       .then((response) => alert(response.data.message))
@@ -116,7 +68,7 @@ function Resource() {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="Resourses"
+      title="Activity"
       tableRef={tableRef}
       columns={column}
       data={data}
@@ -143,8 +95,7 @@ function Resource() {
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              addResource(newData);
-              setData([...data, newData]);
+              addActivity(newData);
               resolve();
             }, 1000);
           }),
@@ -153,7 +104,7 @@ function Resource() {
             setTimeout(() => {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
-              updateResource(newData);
+              updateActivity(newData);
               dataUpdate[index] = newData;
               setData([...dataUpdate]);
               resolve();
@@ -165,7 +116,7 @@ function Resource() {
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteResource(oldData.resource_id);
+              deleteActivity(oldData);
               setData([...dataDelete]);
               resolve();
             }, 1000);
@@ -178,4 +129,4 @@ function Resource() {
   );
 }
 
-export default Resource;
+export default Activity;

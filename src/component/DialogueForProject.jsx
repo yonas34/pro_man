@@ -7,6 +7,8 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
+import MaterialProjectTable from './MaterialProjectTable';
+import ActivityProjectTable from "./ActivityProjectTable"
 import { styled } from "@mui/material/styles";
 import {
   Button,
@@ -521,15 +523,25 @@ return(
             <SMenu/>
           </Grid>
           
-          <Grid item xs={6} md={9}>
-           <Item> <Form data={props.data} />
-           </Item>
+          <Grid item xs={6} md={9} style={{marginRight:'10px'}}>
+           <Form data={props.data} />
+         
           </Grid>
           <Grid item xs={6} md={9}>
-           <Item> <EmployeeProjectTable pid={props.data.project_id}/>
-           </Item>
+            <EmployeeProjectTable pid={props.data.project_id}/>
+           
           </Grid>
           
+
+          <Grid item xs={6} md={9}>
+            <MaterialProjectTable pid={props.data.project_id}/>
+           
+          </Grid>
+          <Grid item xs={6} md={9}>
+            <ActivityProjectTable pid={props.data.project_id}/>
+           
+          </Grid>
+
           </Grid>
 
        
