@@ -11,8 +11,14 @@ import Manpower from './pages/Manpower';
 import EmployeePage from './pages/EmployeePage';
 import Material from './pages/Material';
 import Activity from './pages/Activity'
+import {useSelector} from 'react-redux'; 
+
 export default function Routes() {
-    return (
+const user =useSelector(state=>state.user);
+
+switch(user.usertype)
+{case "1":
+return (
 <Switch>
 <Route exact path="/">
     <Project/>
@@ -52,5 +58,56 @@ export default function Routes() {
 </Switch>
 
     )
+
+
+case "3":
+    return (
+
+
+<Switch>
+<Route exact path="/">
+    <Project/>
+</Route>
+<Route path="/login">
+    <Login/>
+</Route>
+<Route path="/projects">
+    <Project/>
+</Route>
+<Route path="/resource">
+    <Resource/>
+    
+    </Route>
+<Route path="/user">
+
+    <UserMan/>
+</Route>
+<Route path="/view_resource_type">
+
+<ResourceTypeTable/>
+</Route>
+<Route path="/manpower">
+
+<Manpower/>
+</Route>
+<Route path="/employee">
+<EmployeePage/>
+</Route>
+
+<Route path="/material">
+<Material/>
+</Route>
+<Route path="/activities">
+<Activity/>
+</Route>
+</Switch>
+
+    )
+
+    }
+
+
+
+
 }
 

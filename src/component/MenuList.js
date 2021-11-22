@@ -1,7 +1,14 @@
 import {GroupWork,Dashboard,Person,Add,ViewList,PeopleSharp, Gavel, Pages} from '@material-ui/icons'
 import { ExitToApp as Logout } from '@material-ui/icons'
 import { Work as Task } from '@material-ui/icons'
-export const MenuList=[
+import {useSelector} from 'react-redux'
+
+export const MenuList=()=>{
+    
+    const user =useSelector(state=>state.user);
+ switch(user.usertype)
+  {case "1":  
+    return([
 {
 icon:<Dashboard/>,
 link:'/',
@@ -63,7 +70,25 @@ name:"Manpower"
         
         },
 
-]
+])
+case "3":
+    return([
+
+        {
+            icon:<Pages/>,
+            link:'/activities',
+            name:'Activity'
+        }
+
+    ])
+
+
+
+}}
+
+
+
+
 export const MenuSession=[
 
     {

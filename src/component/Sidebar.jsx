@@ -112,7 +112,7 @@ dispatch(setUser(''))
 
 }
 
-
+const menuList=MenuList();
 
 
   return (
@@ -148,7 +148,7 @@ dispatch(setUser(''))
         <List style={{display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",maxHeight: "100%"}}>{
-          MenuList.map((ml)=>(
+          menuList.map((ml)=>(
               <ListItem component={Link} to={ml.link} button key={ml.name} style={{padding:"10px"}}>
                 <ListItemIcon>
                      {ml.icon}
