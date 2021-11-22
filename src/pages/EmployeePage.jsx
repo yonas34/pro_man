@@ -141,7 +141,7 @@ function EmployeePage() {
         alert(response.data.message);
         console.log(response.data);
         const temp = { ...newData, emp_id: response.data.emp_id };
-        setData([...data, TenMp]);
+        setData([...data, temp]);
       })
       .catch((err) => alert(err.message));
   };
