@@ -66,7 +66,22 @@ function SubTable(props) {
       
     ];
     return (
-        <MaterialTable title={props.title} data={props.data} columns={column}/>
+        <MaterialTable
+        editable={{
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              console.log(newData);
+              setTimeout(() => {
+             
+                resolve();
+              }, 1000);
+            }),
+         
+        }}
+        onRowClick={(evt, selectedRow) =>{}        }
+   
+        
+        icons={tableIcons} title={props.title} data={props.data} columns={column}/>
     )
 }
 
