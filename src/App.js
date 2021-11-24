@@ -8,13 +8,15 @@ import React from 'react'
 function App() {
   
 
-
   const isLoggedin = useSelector(state =>state.isLoggedin);
   console.log(isLoggedin);
   return (
+    <React.StrictMode>
+
     <div>
      {isLoggedin? <Sidebar router={<Routes/>}/> :<Login/>}
     </div>
+    </React.StrictMode>
   );
 }
 

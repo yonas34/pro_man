@@ -23,8 +23,8 @@ const dispatch = useDispatch();
                         "user_name": values.username,
                         "password": values.password
                     }).then((response)=>{
-                        const data={username:response.data.data.user_name,token:response.data.jwt,userId:response.data.data.emp_id,usertype:response.data.data.user_type_id}
-
+                        const data={username:response.data.data.user_name,token:response.data.jwt,userId:response.data.data.emp_id,usertype:response.data.data.user_type_id,resp:response.data.data.total_data}
+                       console.log(response.data.data.total_data)
                         dispatch(setUser(data))
                         if(values.remember)
                         {  localStorage.setItem('auth',JSON.stringify({user_name:values.username,pass:values.password}));
@@ -34,7 +34,9 @@ const dispatch = useDispatch();
                         }
                         dispatch(loginToggle());
 
-                    }).catch((err)=>alert("Incorrect user name or password, please try again!"))
+                    }).catch((err)=>{alert("Incorrect user name or password, please try again!")
+                
+                console.log(err.message)})
                         
                        
                         

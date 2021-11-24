@@ -24,7 +24,7 @@ if(localStorage.length>0 && !isLoggedin.isLoggedin)
         "user_name": response.user_name,
         "password": response.pass
     }).then((response_api)=>{
-        const data={username:response_api.data.data.user_name,token:response_api.data.jwt,userId:response_api.data.data.emp_id,usertype:response_api.data.data.user_type_id}
+        const data={username:response_api.data.data.user_name,token:response_api.data.jwt,userId:response_api.data.data.emp_id,usertype:response_api.data.data.user_type_id,resp:response_api.data.data.total_data}
 
         store.dispatch(setUser(data));
          store.dispatch(loginToggle());

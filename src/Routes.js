@@ -12,7 +12,7 @@ import EmployeePage from './pages/EmployeePage';
 import Material from './pages/Material';
 import Activity from './pages/Activity'
 import {useSelector} from 'react-redux'; 
-
+import QuantitySurvoyer from './pages/user/QuantitySurvoyer';
 export default function Routes() {
 const user =useSelector(state=>state.user);
 
@@ -66,40 +66,9 @@ case "3":
 
 <Switch>
 <Route exact path="/">
-    <Project/>
-</Route>
-<Route path="/login">
-    <Login/>
-</Route>
-<Route path="/projects">
-    <Project/>
-</Route>
-<Route path="/resource">
-    <Resource/>
-    
-    </Route>
-<Route path="/user">
-
-    <UserMan/>
-</Route>
-<Route path="/view_resource_type">
-
-<ResourceTypeTable/>
-</Route>
-<Route path="/manpower">
-
-<Manpower/>
-</Route>
-<Route path="/employee">
-<EmployeePage/>
+    <QuantitySurvoyer/>
 </Route>
 
-<Route path="/material">
-<Material/>
-</Route>
-<Route path="/activities">
-<Activity/>
-</Route>
 </Switch>
 
     )

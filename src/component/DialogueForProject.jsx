@@ -537,6 +537,7 @@ return(
             <MaterialProjectTable pid={props.data.project_id}/>
            
           </Grid>
+          
           <Grid item xs={6} md={9}>
             <ActivityProjectTable pid={props.data.project_id}/>
            

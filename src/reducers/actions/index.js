@@ -4,7 +4,7 @@ export const setUser=(data)=>{
     return {
 
         type:"SET_USER",
-        data:{username:data.username,usertype:data.usertype,userId:data.userId,token:data.token}
+        data:{username:data.username,usertype:data.usertype,userId:data.userId,token:data.token,resp:data.resp}
     }
 }
 export const clearUser=()=>{

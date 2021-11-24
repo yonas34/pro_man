@@ -6,8 +6,10 @@ import {useSelector} from 'react-redux'
 export const MenuList=()=>{
     
     const user =useSelector(state=>state.user);
+
  switch(user.usertype)
-  {case "1":  
+ {
+     case "1":  
     return([
 {
 icon:<Dashboard/>,
@@ -84,7 +86,8 @@ case "3":
 
 
 
-}}
+}
+}
 
 
 
