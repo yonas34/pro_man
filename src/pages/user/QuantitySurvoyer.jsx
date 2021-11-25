@@ -384,6 +384,10 @@ const updateMaterialProjectTable = async (newData) => {
       tableRef={tableRef}
       columns={column}
       data={data}
+      components={{
+Toolbar:(props)=>(<div style={{display:"flex",justifyContent:"center"}}><MTableToolbar {...props}/></div>)
+
+      }}
       options={{
         actionsColumnIndex: -1,
         rowStyle: (rowData) => ({
@@ -394,11 +398,12 @@ const updateMaterialProjectTable = async (newData) => {
           fontWeight: "bold",
           headerStyle: { position: "sticky", top: 0 },
           maxBodyHeight: 500,
+          width:'100%',
         },
       }}
       components={{
         Toolbar: (props) => (
-          <div style={{ color: "white", backgroundColor: "#1976d2" }}>
+          <div style={{ display:"flex",justifyContent:"center",color: "white", backgroundColor: "#1976d2" }}>
             <MTableToolbar {...props} />
           </div>
         ),
