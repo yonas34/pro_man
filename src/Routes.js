@@ -13,6 +13,7 @@ import Material from './pages/Material';
 import Activity from './pages/Activity'
 import {useSelector} from 'react-redux'; 
 import QuantitySurvoyer from './pages/user/QuantitySurvoyer';
+import Store from './pages/user/Store';
 export default function Routes() {
 const user =useSelector(state=>state.user);
 
@@ -68,7 +69,9 @@ case "3":
 <Route exact path="/">
     <QuantitySurvoyer/>
 </Route>
-
+<Route exact path="/store">
+    <Store/>
+</Route>
 </Switch>
 
     )

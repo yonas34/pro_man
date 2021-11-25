@@ -8,6 +8,8 @@ import SubTable from "../../component/user/SubTable";
 import { data as datas } from "./data";
 import ResourceMenu from "../../component/user/ResourceMenu";
 import moment from 'moment';
+import {Grid} from '@material-ui/core';
+import { useStateIfMounted } from "use-state-if-mounted";
 function Manpower() {
   const user = useSelector((state) => state.user);
   const [project, setProject] = useState([]);
@@ -60,12 +62,14 @@ function Manpower() {
  
  const [exec,setExec]=useState('')
 
-const [selectedProject,setSelectedProject]=useState();
-const [selectedActivity,setSelectedActivity]=useState();
+const [selectedProject,setSelectedProject]=useStateIfMounted(user.resp[0].project_id);
 
-
+const actRef=React.createRef();
+const proRef=React.createRef();
+const [selectedActivity,setSelectedActivity]=useStateIfMounted(0);
 
   useEffect(() => {
+    var initial_activity;
 
     axios.post("https://www.nrwlpms.com/api/api/get_all_activity.php",{
       jwt:user.token
@@ -104,41 +108,54 @@ const [selectedActivity,setSelectedActivity]=useState();
     }).then((response)=>{
 console.log(response.data.data);
 setProjectActivity(response.data.data);
-
-    })
-    
-
-
-console.log(projectActivity);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+setSelectedActivity(response.data.data[0].activity_id);
+axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_by_activity_id_and_by_project_id.php",{
+  project_id:user.resp[0].project_id,
+  activity_id:response.data.data[0].activity_id,
+  date:moment(new Date()).format('YYYY-MM-DD'),
+  jwt:user.token
+  
+  
+  }).then((response)=>{setData(response.data.data)}).catch((err)=>alert(err));
+  
+  
+  })
   },[]);
-
-  const selectProject = (value) => {
+ 
+  const selectProject = async(value) => {
     console.log(value)
     ResourceMenu(value, user).then((data) => {
       
       setResource(data);
     });
     console.log(resource);
-    setSelectedProject(value)
+    
+    await axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_by_activity_id_and_by_project_id.php",{
+project_id:value,
+activity_id:selectedActivity,
+date:moment(new Date()).format('YYYY-MM-DD'),
+jwt:user.token
+
+
+}).then((response)=>{console.log(response.data.data)}).catch((err)=>alert(err));
 
   };
-const selectActivityProject=(values)=>{
+const selectActivityProject=async (values)=>{
 setSelectedActivity(values)
   console.log(values);
+
+await axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_by_activity_id_and_by_project_id.php",{
+project_id:selectedProject,
+activity_id:values,
+date:moment(new Date()).format('YYYY-MM-DD'),
+jwt:user.token
+
+
+}).then((response)=>{console.log(response.data.data)}).catch((err)=>alert(err));
+
+
+
+
 }
 
 
@@ -166,46 +183,55 @@ const column = [
   {
     title: "Engine Beggining Hours",
     field: "engine_hrs_beg",
-    initialEditValue: "initial edit value",
+    initialEditValue:moment(new Date()).format('hh-mm-ss') ,
   },
-  { title: "Engine Ending Hours", field: "engine_hrs-end", type: "numeric" },
+  { title: "Engine Ending Hours", field: "engine_hrs-end", initialEditValue:"", type: "numeric" },
   {
     title: "Operational Hours From",
     field: "operational_hrs_from",
+    initialEditValue:""
   },
 
   {
     title: "Operational Hours To",
     field: "operational_hrs_to",
+    initialEditValue:""
   },
   {
     title: "Idle Hours From",
     field: "idle_hrs_from",
+    initialEditValue:""
   },
   {
     title: "Idle Hours To",
     field: "idle_hrs_to",
+    initialEditValue:""
   },
   {
     title: "Idle Total Hours",
     field: "idle_total_hrs",
+    initialEditValue:""
   },
   {
     title: "Idle Reason",
     field: "idle_reason",
+    initialEditValue:""
   },
 
   {
     title: "Idle Total Hours",
     field: "operational_hrs_from",
+    initialEditValue:""
   },
   {
     title: "Down Hours From",
     field: "down_hrs_from",
+    initialEditValue:"",
   },
   {
     title: "Down Hours To",
     field: "down_hrs_to",
+    initialEditValue:"",
   },
   {
     title: "Down Total Hours",
@@ -254,20 +280,45 @@ const deleteMaterialProjectTable = async (emp_id) => {
 };
 
 const addMaterialProjectTable = async (newData) => {
-console.log(newData.resource_id);
-var tempR=resource;
-delete tempR[newData.resource_id];
-  setData([...data, newData])
-  // await axios
-  // .post("https://www.nrwlpms.com/api/api/create_material_project.php", {
-  //   mat_id:newData.mat_id,
+  console.log(newData)
+const ds={
+  
+  "data" :
+      {
+        "activity_project_id" : 9,
+          "executed_quantity" : exec,
+          "date" :moment(new Date()).format('YYYY-MM-DD'),
+          "resource_id" : newData.resource_id,
+          "engine_hrs_beg" : newData.engine_hrs_beg,
+          "engine_hrs_end" : newData.engine_hrs_end,
+          "operational_hrs_from" : newData.operational_hrs_from,
+          "operational_hrs_to" : newData.operational_hrs_to,
+          "operational_total_hrs" : newData.operational_total_hrs,
+          "idle_hrs_from" : newData.idle_hrs_from,
+          "idle_hrs_to" : newData.idle_hrs_to,
+          "idle_total_hrs" : newData.idle_total_hrs,
+          "idle_reason" : newData.idle_reason,
+          "down_hrs_from" : newData.down_hrs_from,
+          "down_hrs_to" : newData.down_hrs_to,
+          "down_total_hrs" : newData.down_total_hrs,
+          "down_reason" : newData.down_reason,
+          "fuel" : newData.fuel
+      },
+
+
+jwt: user.token,
+}
+ console.log(ds);
+
+  await axios
+  .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php", ds)
+  .then((response) => {alert(response.data.message) 
+    console.log(response.data);
+  //  const newTemp={...newData,id:response.data.id};
+  setData([...data,ds.data]);
+     ;}).catch((err)=>alert(err.message));
     
-  //   jwt: user.token,
-  // })
-  // .then((response) => {alert(response.data.message) 
-    
-  //   const newTemp={...newData,id:response.data.id};
-  //    ;}).catch((err)=>alert(err.message));
+
 };
 
 const updateMaterialProjectTable = async (newData) => {
@@ -281,8 +332,11 @@ const updateMaterialProjectTable = async (newData) => {
 };
   return (
     <div>
-    
-        <TextField select label="Assigned Projects" onChange={(value)=>selectProject(value.target.value)}>
+                      <Grid container direction={"row"} spacing={7}>
+
+<Grid item>
+<Typography variant={"h6"}>Assigned Projects:</Typography>
+        <TextField  select   value={selectedProject} onChange={(value)=>selectProject(value.target.value)}>
           {project.map((pro) => (
             <MenuItem
               divider
@@ -293,20 +347,22 @@ const updateMaterialProjectTable = async (newData) => {
             </MenuItem>
           ))}
         </TextField>
-     
+     </Grid>
+     <Grid item>
+     <Typography variant={"h6"}>Executed Quantity:</Typography>
       <TextField
       type={'number'}
       onChange={(value)=>setExec(value.target.value)}
   
-             label={"Executed Quantity"}
              name="exec"
            
              size={"small"}
              value={exec}
       />
-     <br/>
-     <br/>
-      <TextField select label="Activities" onChange={(value)=>selectActivityProject(value.target.value)}>
+      </Grid>
+      <Grid item>
+        <Typography variant={"h6"}>Activities:</Typography>
+      <TextField value={selectedActivity} select  onChange={(value)=>selectActivityProject(value.target.value)}>
           {projectActivity.map((pro) => {console.log(pro)
             return(
             <MenuItem
@@ -318,14 +374,13 @@ const updateMaterialProjectTable = async (newData) => {
             </MenuItem>
           )})}
     </TextField>
-      
+      </Grid>
       
 
-    <br/>
-     <br/>
+    </Grid>
       <MaterialTable
       icons={tableIcons}
-      title="MaterialProjectTable"
+      title="Quantity Surveryor"
       tableRef={tableRef}
       columns={column}
       data={data}
@@ -390,6 +445,7 @@ const updateMaterialProjectTable = async (newData) => {
       options={{
         exportButton: true,
         exportCsv: (columns, data) => {
+          console.log(data);
           const fData=
           {"activity_project_id" : 9,
               executed_quantity : exec,

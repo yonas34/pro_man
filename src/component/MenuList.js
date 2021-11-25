@@ -1,4 +1,4 @@
-import {GroupWork,Dashboard,Person,Add,ViewList,PeopleSharp, Gavel, Pages} from '@material-ui/icons'
+import {GroupWork,Dashboard,Store,Person,Add,ViewList,PeopleSharp, Gavel, Pages, Storage} from '@material-ui/icons'
 import { ExitToApp as Logout } from '@material-ui/icons'
 import { Work as Task } from '@material-ui/icons'
 import {useSelector} from 'react-redux'
@@ -78,8 +78,13 @@ case "3":
 
         {
             icon:<Pages/>,
-            link:'/activities',
-            name:'Activity'
+            link:'/',
+            name:'Quantity Surveryor Page'
+        },
+        {
+            icon:<Storage/>,
+            link:'/store',
+            name:'Store'
         }
 
     ])
