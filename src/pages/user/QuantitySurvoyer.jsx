@@ -212,41 +212,48 @@ const column = [
     initialEditValue:moment(new Date()).format('hh-mm-ss') ,
     type:'time'
   },
-  { title: "Engine Ending Hours", field: "engine_hrs-end", initialEditValue:"", type: "numeric" },
+  { title: "Engine Ending Hours", field: "engine_hrs_end", initialEditValue:"", type: "time" },
   {
     title: "Operational Hours From",
     field: "operational_hrs_from",
-    initialEditValue:""
+    initialEditValue:"",
+    type:'time'
   },
 
   {
     title: "Operational Hours To",
     field: "operational_hrs_to",
-    initialEditValue:""
+    initialEditValue:"",
+    type:'time'
   },{
     title: "Total Operational Hours",
     field: "operational_total_hrs",
-    initialEditValue:""
+    initialEditValue:"",
+    type:'number'
   },
   {
     title: "Idle Hours From",
     field: "idle_hrs_from",
-    initialEditValue:""
+    initialEditValue:"",
+    type:'time'
   },
   {
     title: "Idle Hours To",
     field: "idle_hrs_to",
-    initialEditValue:""
+    initialEditValue:"",
+    type:'time'
   },
   {
     title: "Idle Total Hours",
     field: "idle_total_hrs",
-    initialEditValue:""
+    initialEditValue:"",
+    type:"number"
   },
   {
     title: "Idle Reason",
     field: "idle_reason",
-    initialEditValue:""
+    initialEditValue:"",
+
   },
 
   {
@@ -258,15 +265,18 @@ const column = [
     title: "Down Hours From",
     field: "down_hrs_from",
     initialEditValue:"",
+    type:'time'
   },
   {
     title: "Down Hours To",
     field: "down_hrs_to",
     initialEditValue:"",
+    type:'time'
   },
   {
     title: "Down Total Hours",
     field: "down_total_hrs",
+    type:"number"
   },
 
   {
@@ -310,11 +320,13 @@ const deleteMaterialProjectTable = async (emp_id) => {
       alert(err.message);
     });
 };
-
+function dateDifference(startDate, endDate){
+  return Math.abs(moment(startDate).diff(moment(endDate), 'hours'));
+}
 
 
 const addMaterialProjectTable = async (newData) => {
-  console.log(newData)
+  console.log(dateDifference(moment(newData.operational_hrs_to, "H:mm:ss"),moment(newData.operational_hrs_from, "H:mm:ss")))
   const aps=AP_id();
 const ds={
   
@@ -324,18 +336,18 @@ const ds={
           "executed_quantity" : exec,
           "date" :moment(new Date()).format('YYYY-MM-DD'),
           "resource_id" : newData.resource_id,
-          "engine_hrs_beg" : newData.engine_hrs_beg,
-          "engine_hrs_end" : newData.engine_hrs_end,
-          "operational_hrs_from" : newData.operational_hrs_from,
-          "operational_hrs_to" : newData.operational_hrs_to,
-          "operational_total_hrs" : newData.operational_total_hrs,
-          "idle_hrs_from" : newData.idle_hrs_from,
-          "idle_hrs_to" : newData.idle_hrs_to,
-          "idle_total_hrs" : newData.idle_total_hrs,
+          "engine_hrs_beg" : moment(newData.engine_hrs_beg, "H:mm:ss").format("H:mm:ss"),
+          "engine_hrs_end" :  moment(newData.engine_hrs_end, "H:mm:ss").format("H:mm:ss"),
+          "operational_hrs_from" : moment(newData.operational_hrs_from, "H:mm:ss").format("H:mm:ss"),
+          "operational_hrs_to" : moment(newData.operational_hrs_to, "H:mm:ss").format("H:mm:ss"),
+          "operational_total_hrs" : dateDifference(moment(newData.operational_hrs_to, "H:mm:ss"),moment(newData.operational_hrs_from, "H:mm:ss")),
+          "idle_hrs_from" :moment(newData.idle_hrs_from, "H:mm:ss").format("H:mm:ss") ,
+          "idle_hrs_to" :moment(newData.idle_hrs_to, "H:mm:ss").format("H:mm:ss")  ,
+          "idle_total_hrs" :dateDifference(moment(newData.idle_hrs_to, "H:mm:ss"),moment(newData.idle_hrs_from, "H:mm:ss")),
           "idle_reason" : newData.idle_reason,
-          "down_hrs_from" : newData.down_hrs_from,
-          "down_hrs_to" : newData.down_hrs_to,
-          "down_total_hrs" : newData.down_total_hrs,
+          "down_hrs_from" : moment(newData.down_hrs_from, "H:mm:ss").format("H:mm:ss") ,
+          "down_hrs_to" :moment(newData.down_hrs_to, "H:mm:ss").format("H:mm:ss")  ,
+          "down_total_hrs" : dateDifference(moment(newData.down_hrs_to, "H:mm:ss"),moment(newData.down_hrs_from, "H:mm:ss")),
           "down_reason" : newData.down_reason,
           "fuel" : newData.fuel
       },
@@ -348,22 +360,50 @@ jwt: user.token,
   await axios
   .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php", ds)
   .then((response) => {alert(response.data.message) 
-    console.log(response.data);
     const newTemp={...ds.data,resourse_report_id:response.data.resourse_report_id,
-    activity_report_id:response.data.activity_report_id,};
+      activity_report_id:response.data.activity_report_id};
+      console.log(newTemp);
+    
   setData([...data,newTemp]);
      ;}).catch((err)=>alert(err.message));
     
 
 };
 
-const updateMaterialProjectTable = async (newData) => {
+const updateMaterialProjectTable = async (newData,oldData) => {
+  const aps=AP_id();
+  
+  const ds={ id:newData.id,
+    "activity_project_id" : aps[selectedActivity],
+      "executed_quantity" : exec,
+      "date" :moment(new Date()).format('YYYY-MM-DD'),
+      "resource_id" : newData.resource_id,
+      "engine_hrs_beg" : moment(newData.engine_hrs_beg, "H:mm:ss").format("H:mm:ss"),
+      "engine_hrs_end" :  moment(newData.engine_hrs_end, "H:mm:ss").format("H:mm:ss"),
+      "operational_hrs_from" : moment(newData.operational_hrs_from, "H:mm:ss").format("H:mm:ss"),
+      "operational_hrs_to" : moment(newData.operational_hrs_to, "H:mm:ss").format("H:mm:ss"),
+      "operational_total_hrs" : dateDifference(moment(newData.operational_hrs_to, "H:mm:ss"),moment(newData.operational_hrs_from, "H:mm:ss")),
+      "idle_hrs_from" :moment(newData.idle_hrs_from, "H:mm:ss").format("H:mm:ss") ,
+      "idle_hrs_to" :moment(newData.idle_hrs_to, "H:mm:ss").format("H:mm:ss")  ,
+      "idle_total_hrs" :dateDifference(moment(newData.idle_hrs_to, "H:mm:ss"),moment(newData.idle_hrs_from, "H:mm:ss")),
+      "idle_reason" : newData.idle_reason,
+      "down_hrs_from" : moment(newData.down_hrs_from, "H:mm:ss").format("H:mm:ss") ,
+      "down_hrs_to" :moment(newData.down_hrs_to, "H:mm:ss").format("H:mm:ss")  ,
+      "down_total_hrs" : dateDifference(moment(newData.down_hrs_to, "H:mm:ss"),moment(newData.down_hrs_from, "H:mm:ss")),
+      "down_reason" : newData.down_reason,
+      "fuel" : newData.fuel,
+ }
+ console.log(ds);
   await axios
     .post("https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php", {
-      ...newData,
+      ...ds,
       jwt: user.token,
     })
-    .then((response) => alert(response.data.message))
+    .then((response) => {alert(response.data.message);const dataUpdate = [...data];
+      const index = oldData.tableData.id;
+
+      dataUpdate[index] = ds;
+      setData([...dataUpdate]);})
     .catch((err) => alert(err.message));
 };
   return (
@@ -458,14 +498,10 @@ Toolbar:(props)=>(<div style={{display:"flex",justifyContent:"center"}}><MTableT
           }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve) => {
-            console.log(newData);
+            console.log(newData,oldData);
             setTimeout(() => {
-              const dataUpdate = [...data];
-              const index = oldData.tableData.id;
-              updateMaterialProjectTable(newData);
-        
-              dataUpdate[index] = newData;
-              setData([...dataUpdate]);
+              updateMaterialProjectTable(newData,oldData);
+              
               resolve();
             }, 1000);
           }),
