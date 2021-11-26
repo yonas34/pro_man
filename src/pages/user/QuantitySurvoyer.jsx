@@ -3,13 +3,14 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../../component/tableIcons";
-import { Card, MenuItem, TextField, Typography } from "@material-ui/core";
+import { Card, IconButton, MenuItem, TextField, Typography } from "@material-ui/core";
 import SubTable from "../../component/user/SubTable";
 import { data as datas } from "./data";
 import ResourceMenu from "../../component/user/ResourceMenu";
 import moment from 'moment';
 import {Grid} from '@material-ui/core';
 import { useStateIfMounted } from "use-state-if-mounted";
+import { Save } from "@material-ui/icons";
 function Manpower() {
   const user = useSelector((state) => state.user);
   const [project, setProject] = useState([]);
@@ -222,6 +223,10 @@ const column = [
     title: "Operational Hours To",
     field: "operational_hrs_to",
     initialEditValue:""
+  },{
+    title: "Total Operational Hours",
+    field: "operational_total_hrs",
+    initialEditValue:""
   },
   {
     title: "Idle Hours From",
@@ -390,6 +395,8 @@ const updateMaterialProjectTable = async (newData) => {
              size={"small"}
              value={exec}
       />
+
+      <IconButton><Save/></IconButton>
       </Grid>
       <Grid item>
         <Typography variant={"h6"}>Activities:</Typography>
