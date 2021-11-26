@@ -68,6 +68,7 @@ function SubTable(props) {
     return (
         <MaterialTable
         editable={{
+
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               console.log(newData);

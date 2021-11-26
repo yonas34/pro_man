@@ -528,7 +528,7 @@ return(
          
           </Grid>
           <Grid item xs={6} md={9}>
-            <EmployeeProjectTable pid={props.data.project_id}/>
+            <EmployeeProjectTable mnpr={props.manData} pid={props.data.project_id}/>
            
           </Grid>
           

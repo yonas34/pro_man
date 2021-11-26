@@ -22,7 +22,7 @@ function AdminTable() {
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      });
+      }).catch((err)=>alert(err.message));
   }, []);
 
   const deleteAdminTable = async (mnpr_id) => {
@@ -45,7 +45,7 @@ function AdminTable() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message));
+      .then((response) => alert(response.data.message)).catch((err)=>alert(err.message));
   };
 
   const updateAdminTable = async (newData) => {

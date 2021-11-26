@@ -8,14 +8,20 @@ function EmployeeProjectTable(props) {
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
   const projectId=props.pid;
+  const mnpr=props.mnpr;
   const [project,setProject]=useState([]);
   const [specialUser,setSpecialUser]=useState([]);
  const [employee,setEmployee]=useState([]);
+
+ 
   var projectObj = project.reduce((acc, cur, i) => {
     acc[cur.project_id] = cur.pro_name;
     return acc;
   }, {});
-
+var mnprObj=mnpr.reduce((acc,cur,i)=>{
+  acc[cur.mnpr_id] = cur.title_trade;
+  return acc;
+});
   var spcecial_userObj=specialUser.reduce((acc,cur,i)=>{
     acc[cur.special_user_id] = cur.name;
     return acc;
@@ -26,10 +32,16 @@ function EmployeeProjectTable(props) {
     return acc;
 
   },{})
+  var mempObj=employee.reduce((acc,cur,i)=>{
+    acc[cur.emp_id] = mnprObj[cur.mnpr_id];
+    return acc;
+
+  },{})
   const column = [
     { title: "Employee ID", field: "emp_id",lookup:empObj },
     { title: "Special User Type", field: "special_user_id",lookup:spcecial_userObj},
     {title:"Project Name",field:"project_id",lookup:projectObj,editable:"never"},
+    { title: "Manpower Name", field: "emp_id",lookup:mempObj }
  
   ];
   const [data, setData] = useState([]);
@@ -64,6 +76,9 @@ function EmployeeProjectTable(props) {
     setEmployee(response.data.data);
     
       }).catch((err)=>alert(err.message))
+
+     
+
 
 
   }, []);

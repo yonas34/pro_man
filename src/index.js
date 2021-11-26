@@ -31,7 +31,7 @@ if(localStorage.length>0 && !isLoggedin.isLoggedin)
 
      
        
-})}
+}).catch((err)=>{console.error(err.message)})}
 
 
 
