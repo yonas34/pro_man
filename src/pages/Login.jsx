@@ -4,8 +4,10 @@ import {Form,Button} from 'react-bootstrap'
 import {useDispatch } from 'react-redux'
 import { loginToggle,setUser } from '../reducers/actions'
 import axios from 'axios';
+import { useHistory } from 'react-router'
 export default function Login() {
 const dispatch = useDispatch();
+const history=useHistory();
     return (
 <div style={{position:"absolute",width:'100%',height:'100%'}}>
         <div className="login_container"></div>
@@ -33,6 +35,7 @@ const dispatch = useDispatch();
                           
                         }
                         dispatch(loginToggle());
+                        history.replace('/');
 
                     }).catch((err)=>{alert("Incorrect user name or password, please try again!")
                 

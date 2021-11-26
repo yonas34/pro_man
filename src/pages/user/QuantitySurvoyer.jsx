@@ -59,7 +59,7 @@ function Manpower() {
   const [resourceObj,setResourceObj]=useState([]);
   const [material,setMaterial]=useState([]); 
   var resourceTypeReformatted=null;
- 
+ const [ap,setAp]=useState();
  const [exec,setExec]=useState('')
 
 const [selectedProject,setSelectedProject]=useStateIfMounted(user.resp[0].project_id);
@@ -67,6 +67,39 @@ const [selectedProject,setSelectedProject]=useStateIfMounted(user.resp[0].projec
 const actRef=React.createRef();
 const proRef=React.createRef();
 const [selectedActivity,setSelectedActivity]=useStateIfMounted(0);
+const AP_id=()=>{
+  return projectActivity.reduce((acc,cur,i)=>{
+acc[cur.activity_id]=cur.id;
+return acc;
+
+  },{})
+}
+
+
+user.resp.reduce(async (acc, cur) => {
+  if (!project.find((pro) => pro.project_id == cur.project_id)) {
+    await axios
+      .post("https://www.nrwlpms.com/api/api/get_single_project.php", {
+        project_id: cur.project_id,
+        jwt: user.token,
+      })
+      .then((response) => {
+        setProject([...project, response.data.data]);
+
+        ResourceMenu(user.resp[0].project_id, user).then((data)=>setResource(data))
+        
+      })
+      .catch((err) => alert(err.message));
+
+  }
+
+  
+
+  return acc;
+}, {});
+
+
+
 
   useEffect(() => {
     var initial_activity;
@@ -77,31 +110,10 @@ const [selectedActivity,setSelectedActivity]=useStateIfMounted(0);
       setActivity(response.data.data.reduce((acc,cur)=>{
         acc[cur.activity_id]=cur.activity_name;
         return acc;
-      }))
+      },{}))
 
     }).catch((err)=>alert(err.message))
 
-    user.resp.reduce(async (acc, cur) => {
-      if (!project.find((pro) => pro.project_id == cur.project_id)) {
-        await axios
-          .post("https://www.nrwlpms.com/api/api/get_single_project.php", {
-            project_id: cur.project_id,
-            jwt: user.token,
-          })
-          .then((response) => {
-            console.log(response.data.data);
-            setProject([...project, response.data.data]);
-            ResourceMenu(user.resp[0].project_id, user).then((data)=>setResource(data))
-          })
-          .catch((err) => alert(err.message));
-
-      }
-
-      
-
-      return acc;
-    }, {});
-    
     axios.post("https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",{
       project_id:user.resp[0].project_id,
       jwt:user.token
@@ -120,30 +132,43 @@ axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_b
   
   
   })
+
   },[]);
  
   const selectProject = async(value) => {
     console.log(value)
+    setSelectedProject(value);
     ResourceMenu(value, user).then((data) => {
       
       setResource(data);
     });
     console.log(resource);
-    
-    await axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_by_activity_id_and_by_project_id.php",{
-project_id:value,
-activity_id:selectedActivity,
-date:moment(new Date()).format('YYYY-MM-DD'),
-jwt:user.token
+    axios.post("https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",{
+      project_id:value,
+      jwt:user.token
+    }).then((response)=>{
+
+setProjectActivity(response.data.data);
+console.log(activity);
+setSelectedActivity(response.data.data[0].activity_id);
+
+console.log(ap);
+axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_by_activity_id_and_by_project_id.php",{
+  project_id:value,
+  activity_id:response.data.data[0].activity_id,
+  date:moment(new Date()).format('YYYY-MM-DD'),
+  jwt:user.token
+  
+  
+  }).then((response)=>{setData(response.data.data)}).catch((err)=>alert(err));
+}).catch((err)=>alert(err.message));}
 
 
-}).then((response)=>{console.log(response.data.data)}).catch((err)=>alert(err));
-
-  };
 const selectActivityProject=async (values)=>{
 setSelectedActivity(values)
   console.log(values);
 
+console.log(ap);
 await axios.post("https://www.nrwlpms.com/api/api/get_quantity_surveyor_data_by_date_by_activity_id_and_by_project_id.php",{
 project_id:selectedProject,
 activity_id:values,
@@ -151,7 +176,7 @@ date:moment(new Date()).format('YYYY-MM-DD'),
 jwt:user.token
 
 
-}).then((response)=>{console.log(response.data.data)}).catch((err)=>alert(err));
+}).then((response)=>{setData(response.data.data)}).catch((err)=>alert(err));
 
 
 
@@ -184,6 +209,7 @@ const column = [
     title: "Engine Beggining Hours",
     field: "engine_hrs_beg",
     initialEditValue:moment(new Date()).format('hh-mm-ss') ,
+    type:'time'
   },
   { title: "Engine Ending Hours", field: "engine_hrs-end", initialEditValue:"", type: "numeric" },
   {
@@ -263,11 +289,12 @@ const column = [
 
 
 
+
 const deleteMaterialProjectTable = async (emp_id) => {
  console.log(emp_id);
  
   await axios
-    .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
+    .post("https://www.nrwlpms.com/api/api/delete_resourse_report.php", {
       ...emp_id,
       jwt: user.token,
     })
@@ -279,13 +306,16 @@ const deleteMaterialProjectTable = async (emp_id) => {
     });
 };
 
+
+
 const addMaterialProjectTable = async (newData) => {
   console.log(newData)
+  const aps=AP_id();
 const ds={
   
   "data" :
       {
-        "activity_project_id" : 9,
+        "activity_project_id" : aps[selectedActivity],
           "executed_quantity" : exec,
           "date" :moment(new Date()).format('YYYY-MM-DD'),
           "resource_id" : newData.resource_id,
@@ -314,8 +344,9 @@ jwt: user.token,
   .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php", ds)
   .then((response) => {alert(response.data.message) 
     console.log(response.data);
-  //  const newTemp={...newData,id:response.data.id};
-  setData([...data,ds.data]);
+    const newTemp={...ds.data,resourse_report_id:response.data.resourse_report_id,
+    activity_report_id:response.data.activity_report_id,};
+  setData([...data,newTemp]);
      ;}).catch((err)=>alert(err.message));
     
 
@@ -323,7 +354,7 @@ jwt: user.token,
 
 const updateMaterialProjectTable = async (newData) => {
   await axios
-    .post("https://www.nrwlpms.com/api/api/update_material_project.php", {
+    .post("https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php", {
       ...newData,
       jwt: user.token,
     })
@@ -363,7 +394,7 @@ const updateMaterialProjectTable = async (newData) => {
       <Grid item>
         <Typography variant={"h6"}>Activities:</Typography>
       <TextField value={selectedActivity} select  onChange={(value)=>selectActivityProject(value.target.value)}>
-          {projectActivity.map((pro) => {console.log(pro)
+          {projectActivity.map((pro) => {
             return(
             <MenuItem
               divider

@@ -21,7 +21,7 @@ function EmployeeProjectTable(props) {
 var mnprObj=mnpr.reduce((acc,cur,i)=>{
   acc[cur.mnpr_id] = cur.title_trade;
   return acc;
-});
+},{});
   var spcecial_userObj=specialUser.reduce((acc,cur,i)=>{
     acc[cur.special_user_id] = cur.name;
     return acc;
@@ -40,8 +40,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
   const column = [
     { title: "Employee ID", field: "emp_id",lookup:empObj },
     { title: "Special User Type", field: "special_user_id",lookup:spcecial_userObj},
-    {title:"Project Name",field:"project_id",lookup:projectObj,editable:"never"},
-    { title: "Manpower Name", field: "emp_id",lookup:mempObj }
+    { title: "Manpower Name", field: "emp_id",lookup:mempObj,editable:"never" }
  
   ];
   const [data, setData] = useState([]);
@@ -102,7 +101,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
         alert(err.message);
       });
   };
-  
+  console.log(mnprObj);
   const addEmployeeProjectTable = async (newData) => {
     await axios
     .post("https://www.nrwlpms.com/api/api/create_employee_project.php", {
