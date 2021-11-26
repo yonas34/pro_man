@@ -216,37 +216,37 @@ const column = [
   {
     title: "Operational Hours From",
     field: "operational_hrs_from",
-    initialEditValue:"",
+    initialEditValue:moment(new Date()).format('hh-mm-ss'),
     type:'time'
   },
 
   {
     title: "Operational Hours To",
     field: "operational_hrs_to",
-    initialEditValue:"",
+    initialEditValue:moment(new Date()).format('hh-mm-ss'),
     type:'time'
   },{
     title: "Total Operational Hours",
     field: "operational_total_hrs",
-    initialEditValue:"",
+    initialEditValue:0,
     type:'number'
   },
   {
     title: "Idle Hours From",
     field: "idle_hrs_from",
-    initialEditValue:"",
+    initialEditValue:moment(new Date()).format('hh-mm-ss'),
     type:'time'
   },
   {
     title: "Idle Hours To",
     field: "idle_hrs_to",
-    initialEditValue:"",
+    initialEditValue:moment(new Date()).format('hh-mm-ss'),
     type:'time'
   },
   {
     title: "Idle Total Hours",
     field: "idle_total_hrs",
-    initialEditValue:"",
+    initialEditValue:0,
     type:"number"
   },
   {
@@ -259,33 +259,38 @@ const column = [
   {
     title: "Idle Total Hours",
     field: "operational_hrs_from",
-    initialEditValue:""
+    initialEditValue:0,
+    type:"number"
   },
   {
     title: "Down Hours From",
     field: "down_hrs_from",
-    initialEditValue:"",
+    initialEditValue:moment(new Date()).format('hh-mm-ss'),
     type:'time'
   },
   {
     title: "Down Hours To",
     field: "down_hrs_to",
-    initialEditValue:"",
+    initialEditValue:moment(new Date()).format('hh-mm-ss'),
     type:'time'
   },
   {
     title: "Down Total Hours",
     field: "down_total_hrs",
-    type:"number"
+    type:"number",
+    initialEditValue:0,
   },
 
   {
     title: "Down Reason",
     field: "down_reason",
+    initialEditValue:0
   },
   {
     title: "Fuel",
     field: "fuel",
+type:"number",
+    initialEditValue:0
   },
 
 ];
@@ -359,21 +364,48 @@ jwt: user.token,
 
   await axios
   .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php", ds)
-  .then((response) => {alert(response.data.message) 
+  .then((response) => {
+    console.log(response.data.message)
+    
+    if(response.data.message.localeCompare("Insertion at resource report after existant is not successful")<0){ 
     const newTemp={...ds.data,resourse_report_id:response.data.resourse_report_id,
       activity_report_id:response.data.activity_report_id};
       console.log(newTemp);
     
   setData([...data,newTemp]);
-     ;}).catch((err)=>alert(err.message));
+ }
+ else{
+   alert("All resources for this project has already been deployed!")
+ }    
+ ;}).catch((err)=>alert(err.message));
     
 
 };
 
 const updateMaterialProjectTable = async (newData,oldData) => {
   const aps=AP_id();
-  
-  const ds={ id:newData.id,
+  console.log(newData)
+  const ds={ id:newData.resourse_report_id,
+    "activity_project_id" : aps[selectedActivity],
+      "executed_quantity" : exec,
+      "date" :moment(new Date()).format('YYYY-MM-DD'),
+      "resource_id" : newData.resource_id,
+      "engine_hrs_beg" : moment(newData.engine_hrs_beg, "H:mm:ss").format("H:mm:ss"),
+      "engine_hrs_end" :  moment(newData.engine_hrs_end, "H:mm:ss").format("H:mm:ss"),
+      "operational_hrs_from" : moment(newData.operational_hrs_from, "H:mm:ss").format("H:mm:ss"),
+      "operational_hrs_to" : moment(newData.operational_hrs_to, "H:mm:ss").format("H:mm:ss"),
+      "operational_total_hrs" : dateDifference(moment(newData.operational_hrs_to, "H:mm:ss"),moment(newData.operational_hrs_from, "H:mm:ss")),
+      "idle_hrs_from" :moment(newData.idle_hrs_from, "H:mm:ss").format("H:mm:ss") ,
+      "idle_hrs_to" :moment(newData.idle_hrs_to, "H:mm:ss").format("H:mm:ss")  ,
+      "idle_total_hrs" :dateDifference(moment(newData.idle_hrs_to, "H:mm:ss"),moment(newData.idle_hrs_from, "H:mm:ss")),
+      "idle_reason" : newData.idle_reason,
+      "down_hrs_from" : moment(newData.down_hrs_from, "H:mm:ss").format("H:mm:ss") ,
+      "down_hrs_to" :moment(newData.down_hrs_to, "H:mm:ss").format("H:mm:ss")  ,
+      "down_total_hrs" : dateDifference(moment(newData.down_hrs_to, "H:mm:ss"),moment(newData.down_hrs_from, "H:mm:ss")),
+      "down_reason" : newData.down_reason,
+      "fuel" : newData.fuel,
+ }
+  const dss={ resourse_report_id:newData.resourse_report_id,
     "activity_project_id" : aps[selectedActivity],
       "executed_quantity" : exec,
       "date" :moment(new Date()).format('YYYY-MM-DD'),
@@ -402,7 +434,7 @@ const updateMaterialProjectTable = async (newData,oldData) => {
     .then((response) => {alert(response.data.message);const dataUpdate = [...data];
       const index = oldData.tableData.id;
 
-      dataUpdate[index] = ds;
+      dataUpdate[index] = dss;
       setData([...dataUpdate]);})
     .catch((err) => alert(err.message));
 };
