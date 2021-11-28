@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import axios from 'axios';
 import {useSelector} from 'react-redux'
 
@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux'
  async function  ResourceMenu(resource,user) {
 
 
-console.log(resource);
+
 var resourceTypeReformatted=null;
 var resourceObj=null
 
@@ -45,30 +45,68 @@ return resourceObj;
 
 export default ResourceMenu
 
-export const emp=async(project,user,empObj)=>{
+export const emp=async(project,user,users)=>{
+  
+var resourceTypeReformatted=null;
+var resourceObj=null
 
-var emps;
-console.log(empObj)
 
-const allE=empObj.reduce((acc,cur,i)=>{
-acc[cur.emp_id]=cur.first_name +" "+cur.last_name;
-return acc;
-},{})
 
-await axios.post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php",{
-project_id:project,
-jwt:user
-}).then((response)=>{
-console.log(response.data.data);
-emps=response.data.data.reduce((acc,cur,i)=>{
-acc[cur.id]=allE[cur.emp_id]
-return acc;
-},{})
 
+  resourceTypeReformatted=users.reduce((acc,cur,i)=>{
+    acc[cur.emp_id]=cur.first_name +" "+cur.last_name;
+    return acc;
+    },{})
+
+
+
+    // console.log(resourceTypeReformatted);
+    await axios
+.post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php", {
+  project_id:project,
+  jwt: user,
 })
+.then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
+acc[cur.id]=resourceTypeReformatted[cur.emp_id]
+return acc},{})}).catch((err)=>alert(err));
 
-console.log(emps);
-return emps;
+
+
+return resourceObj;
+
+
+}
+
+
+
+export const mat=async(project,user,users)=>{
+ 
+var resourceTypeReformatted=null;
+var resourceObj=null
+
+
+
+
+  resourceTypeReformatted=users.reduce((acc,cur,i)=>{
+    acc[cur.mat_id]=cur.type_of_material
+    return acc;
+    },{})
+
+
+
+    // console.log(resourceTypeReformatted);
+    await axios
+.post("https://www.nrwlpms.com/api/api/get_material_project_by_project_id.php", {
+  project_id:project,
+  jwt: user,
+})
+.then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
+acc[cur.id]=resourceTypeReformatted[cur.mat_id]
+return acc},{})}).catch((err)=>alert(err));
+
+console.log(resourceObj)
+
+return resourceObj;
 
 
 }

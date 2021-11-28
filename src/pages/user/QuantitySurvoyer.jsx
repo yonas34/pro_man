@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
+import { setUsers,setMaterial } from '../../reducers/actions'
 import tableIcons from "../../component/tableIcons";
+import {trackPromise} from 'react-promise-tracker'
 import {
   Card,
   IconButton,
@@ -10,15 +12,14 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import SubTable from "../../component/user/SubTable";
-import { data as datas } from "./data";
-import ResourceMenu, { emp as emps } from "../../component/user/ResourceMenu";
+import ResourceMenu from "../../component/user/ResourceMenu";
 import moment from "moment";
 import { Grid } from "@material-ui/core";
-import { useStateIfMounted } from "use-state-if-mounted";
 import { Save } from "@material-ui/icons";
 import ActivityReport from "../../component/user/ActivityReport";
 import { dateDifference } from "../../component/user/utils";
+import { useDispatch } from "react-redux";
+import MaterialReport from "../../component/user/MaterialReport";
 
 function QuantitySurvoyer() {
   const user = useSelector((state) => state.user);
@@ -26,23 +27,16 @@ function QuantitySurvoyer() {
   const [resource, setResource] = useState({});
   const date = new Date();
   const [data, setData] = useState([]);
-  const [data_emp, setData_emp] = useState([]);
-  const [selectedRow_emp, setSelectedRow_emp] = useState(0);
-  const tableRef_emp = React.createRef();
+  
 
-  const [dataOutLine, setDataOutLine] = useState([]);
   const [activity, setActivity] = useState([]);
   const [projectActivity, setProjectActivity] = useState([]);
-  const [setup, setSetup] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
-  const [resourceObj, setResourceObj] = useState([]);
-  const [material, setMaterial] = useState([]);
-  var resourceTypeReformatted = null;
-  const [ap, setAp] = useState();
+  
   const [exec, setExec] = useState("");
-  const [emp, setEmp] = useState([]);
+  const dispatch=useDispatch();
   const [selectedProject, setSelectedProject] = useState(
     user.resp[0].project_id
   );
@@ -169,15 +163,31 @@ function QuantitySurvoyer() {
 
     return acc;
   }, {});
-  const init = () => {
-    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
-        jwt: user.token,
-      })
-      .then((response) => {
-          console.log(response.data.data)
-        setEmp(response.data.data);
-      });
+  const init =async () => {
+
+
+  await axios
+.post("https://www.nrwlpms.com/api/api/get_all_material.php", {
+
+  jwt: user.token,
+})
+.then(async(response) => {
+  console.log(response.data.data)
+dispatch(setMaterial(response.data.data));
+
+})
+
+
+    await axios
+.post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
+
+  jwt: user.token,
+})
+.then(async(response) => {
+  console.log(response.data.data)
+dispatch(setUsers(response.data.data));
+
+})
 
     axios
       .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
@@ -211,7 +221,7 @@ function QuantitySurvoyer() {
           date: moment(new Date()).format("YYYY-MM-DD"),
           jwt: user.token,
         });
-        console.log(req);
+     
         axios
           .post(
             "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
@@ -219,23 +229,16 @@ function QuantitySurvoyer() {
           )
           .then((response) => {
             setData(response.data.data);
+            setExec(response.data.data[0].executed_quantity);
           })
           .catch((err) => alert(err));
-        axios
-          .post(
-            "https://www.nrwlpms.com/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
-            req
-          )
-          .then((response) => {
-            console.log(response.data);
-            setData_emp(response.data.data);
-          });
+       
       });
   };
 
   //use Effect Did mount
   useEffect(() => {
-    init();
+   trackPromise( init());
   }, []);
 
   //component did update
@@ -249,6 +252,21 @@ function QuantitySurvoyer() {
     return () => {};
   }, [data]);
 
+
+
+  const execQ=async()=>{
+    const aps = AP_id();
+await axios.post("https://www.nrwlpms.com/api/api/update_executed_quantity.php",{
+  "activity_report_id": aps[selectedActivity],
+  "executed_quantity" : exec,
+  jwt:user.token
+
+}).then((response)=>{
+alert(response.data.message)
+})
+
+
+  }
   const deleteMaterialProjectTable = async (emp_id) => {
     console.log(emp_id);
 
@@ -464,21 +482,8 @@ function QuantitySurvoyer() {
         console.log(activity);
         setSelectedActivity(response.data.data[0].activity_id);
 
-        console.log(ap);
-        axios
-          .post(
-            "https://www.nrwlpms.com/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
-            {
-              project_id: value,
-              activity_id: response.data.data[0].activity_id,
-              date: moment(new Date()).format("YYYY-MM-DD"),
-              jwt: user.token,
-            }
-          )
-          .then((response) => {
-            console.log(response.data);
-            setData_emp(response.data.data);
-          });
+        
+      
 
         axios
           .post(
@@ -492,6 +497,7 @@ function QuantitySurvoyer() {
           )
           .then((response) => {
             setData(response.data.data);
+            setExec(response.data.data[0].executed_quantity)
           })
           .catch((err) => alert(err));
       })
@@ -501,7 +507,7 @@ function QuantitySurvoyer() {
   const selectActivityProject = async (values) => {
     console.log(values);
 
-    console.log(ap);
+    
     await axios
       .post(
         "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
@@ -513,23 +519,11 @@ function QuantitySurvoyer() {
         }
       )
       .then((response) => {
-        axios
-          .post(
-            "https://www.nrwlpms.com/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
-            {
-              project_id: selectedProject,
-              activity_id: values,
-              date: moment(new Date()).format("YYYY-MM-DD"),
-              jwt: user.token,
-            }
-          )
-          .then((response) => {
-            console.log(response.data);
-            setData_emp(response.data.data);
-          });
+      
 
         setSelectedActivity(values);
         setData(response.data.data);
+        setExec(response.data.data[0].executed_quantity)
       })
       .catch((err) => alert(err));
   };
@@ -561,7 +555,7 @@ function QuantitySurvoyer() {
             value={exec}
           />
 
-          <IconButton>
+          <IconButton onClick={()=>execQ()}>
             <Save />
           </IconButton>
         </Grid>
@@ -587,6 +581,7 @@ function QuantitySurvoyer() {
 
   const Table = () => {
    return( <MaterialTable
+    style={{width:"85%"}}
       icons={tableIcons}
       title="Quantity Surveryor"
       tableRef={tableRef}
@@ -685,11 +680,12 @@ function QuantitySurvoyer() {
   };
 
   return (
-    <div>
+    <div >
       <SelectionComponents />
       <Table />
-      {selectedProject}
-      <ActivityReport emp={emp} exec={exec} project={selectedProject} activity={selectedActivity} ap={AP_id()[selectedActivity]}/>
+      <ActivityReport  exec={exec} project={selectedProject} activity={selectedActivity} ap={AP_id()[selectedActivity]}/>
+      <MaterialReport  exec={exec} project={selectedProject} activity={selectedActivity} ap={AP_id()[selectedActivity]}/>
+
     </div>
   );
 }

@@ -8,8 +8,8 @@ import {createStore} from "redux";
 import allReducers from "./reducers/";
 import { Provider } from 'react-redux';
 import { loginToggle,setUser } from './reducers/actions'
-import axios from 'axios'
-
+import axios from 'axios';
+import Load from './Load'
 const store=createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 
@@ -38,8 +38,9 @@ if(localStorage.length>0 && !isLoggedin.isLoggedin)
 ReactDOM.render(
   <Provider store={store}>
   <Router>
-
+  
     <App />
+    <Load/>
     </Router>
     
     </Provider>
