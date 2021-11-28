@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
 import axios from 'axios';
 import {useSelector} from 'react-redux'
+
+
  async function  ResourceMenu(resource,user) {
 
 
@@ -42,3 +44,31 @@ return resourceObj;
 }
 
 export default ResourceMenu
+
+export const emp=async(project,user,empObj)=>{
+
+var emps;
+console.log(empObj)
+
+const allE=empObj.reduce((acc,cur,i)=>{
+acc[cur.emp_id]=cur.first_name +" "+cur.last_name;
+return acc;
+},{})
+
+await axios.post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php",{
+project_id:project,
+jwt:user
+}).then((response)=>{
+console.log(response.data.data);
+emps=response.data.data.reduce((acc,cur,i)=>{
+acc[cur.id]=allE[cur.emp_id]
+return acc;
+},{})
+
+})
+
+console.log(emps);
+return emps;
+
+
+}
