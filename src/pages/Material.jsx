@@ -11,7 +11,7 @@ function Material() {
   const column = [
     { title: "Material Type", field: "type_of_material" },
     { title: "Amount of Material", field: "uom" },
-    {title:"Price of Material",field:"price"}
+    {title:"Price of Material",field:"price",type:"currency"}
   ];
   const [data, setData] = useState([]);
 
