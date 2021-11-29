@@ -18,6 +18,8 @@ const [picObj,setPicObj]=useState();
   const [data, setData] = useState([]);
 const users=useSelector(state=>state.users);
 
+
+
   useEffect(() => {
     trackPromise(emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>alert(err.message))
 )
@@ -144,13 +146,12 @@ const users=useSelector(state=>state.users);
       title: "Profile Picture",
       field: "employee_project_id",
       editable: "never",
-      lookup:picObj,
       render: (rowData) => (
         <img
           src={
-            rowData.emp_pic == "" || rowData.emp_pic == undefined
+            picObj[rowData.employee_project_id] == '' || picObj[rowData.employee_project_id] == undefined
               ? "data:image/jpeg;base64," + dPP
-              : "data:image/jpeg;base64," + rowData.emp_pic
+              : "data:image/jpeg;base64," + picObj[rowData.employee_project_id]
           }
           style={{ width: 50, borderRadius: "50%" }}
         />
