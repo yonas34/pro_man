@@ -477,9 +477,11 @@ alert(response.data.message)
         }
       )
       .then((response) => {
+
         setProjectActivity(response.data.data);
         console.log(activity);
-        setSelectedActivity(response.data.data[0].activity_id);
+        if(response.data.data.length>0){ 
+          setSelectedActivity(response.data.data[0].activity_id);
 
         
       
@@ -498,7 +500,8 @@ alert(response.data.message)
             setData(response.data.data);
             setExec(response.data.data[0]===undefined ?0:response.data.data[0].executed_quantity)
           })
-          .catch((err) => alert(err));
+          .catch((err) => alert(err))}
+
       })
       .catch((err) => alert(err.message));
   };

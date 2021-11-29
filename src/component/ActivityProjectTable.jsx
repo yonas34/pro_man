@@ -23,7 +23,7 @@ function ActivityProjectTable(props) {
  
   const column = [
     { title: "Activity", field: "activity_id",lookup:actObj },
-    {title:"Price",field:"project_id"},
+    {title:"Price",field:"price",type:'currency'},
  
   ];
   const [data, setData] = useState([]);
