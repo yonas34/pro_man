@@ -7,7 +7,7 @@ import React from 'react'
 import {usePromiseTracker} from 'react-promise-tracker'
 function App() {
   const {promiseInProgress}=usePromiseTracker();
-localStorage.clear();
+
   const isLoggedin = useSelector(state =>state.isLoggedin);
   console.log(isLoggedin);
   const st={ zIndex:"-1",

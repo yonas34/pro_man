@@ -5,19 +5,23 @@ import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../../component/tableIcons";
 import moment from "moment";
 import {dateDifference} from './utils'
-import {emp} from './ResourceMenu'
+import {emp,emp_pic} from './ResourceMenu'
 import {trackPromise} from 'react-promise-tracker'
+import { dPP } from "../../component/pp";
 function ActivityReport(props) {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
 const [empObj,setEmpObje]=useState();
+const [picObj,setPicObj]=useState();
  
   const [data, setData] = useState([]);
 const users=useSelector(state=>state.users);
 
   useEffect(() => {
     trackPromise(emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>alert(err.message))
+)
+    trackPromise(emp_pic(props.project,user.token,users).then((response)=>{setPicObj(response)}).catch((err)=>alert(err.message))
 )
 
       const req={
@@ -40,6 +44,8 @@ const users=useSelector(state=>state.users);
 
   useEffect(()=>{
   trackPromise( emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>{alert(err.message)})
+)
+  trackPromise( emp_pic(props.project,user.token,users).then((response)=>{setPicObj(response)}).catch((err)=>{alert(err.message)})
 )
     const req={
         
@@ -109,11 +115,11 @@ const users=useSelector(state=>state.users);
       jwt: user.token,
     })
     .then((response) => {alert(response.data.message)
-      console.log(response.data.data);
-      const temp={...req,"id":response.data.employee_report_id,
+      console.log(response.data.message);
+      if(response.data.message!=undefined){const temp={...req,"id":response.data.employee_report_id,
       "activity_report_id": response.data.activity_report_id}
       setData([...data, temp]);
-      });
+    }})
   };
 
   const updateActivityReport = async (newData) => {
@@ -134,6 +140,22 @@ const users=useSelector(state=>state.users);
   };
 
   const column = [
+    {
+      title: "Profile Picture",
+      field: "employee_project_id",
+      editable: "never",
+      lookup:picObj,
+      render: (rowData) => (
+        <img
+          src={
+            rowData.emp_pic == "" || rowData.emp_pic == undefined
+              ? "data:image/jpeg;base64," + dPP
+              : "data:image/jpeg;base64," + rowData.emp_pic
+          }
+          style={{ width: 50, borderRadius: "50%" }}
+        />
+      ),
+    },
     { title: "Employee", field: "employee_project_id",lookup:empObj },
     { title: "Started Working at", field: "work_hrs_from",type:"time" },
     { title: "Ended Working at", field: "work_hrs_to",type:"time" },
@@ -141,7 +163,7 @@ const users=useSelector(state=>state.users);
   ];
   return (
     <MaterialTable
-    style={{width:"85%"}}
+    style={{width:"100%"}}
       icons={tableIcons}
       title="ActivityReport"
       tableRef={tableRef}

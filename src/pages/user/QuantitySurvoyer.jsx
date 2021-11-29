@@ -72,6 +72,7 @@ function QuantitySurvoyer() {
       field: "operational_total_hrs",
       initialEditValue: 0,
       type: "number",
+      editable: "never",
     },
     {
       title: "Idle Hours From",
@@ -90,6 +91,7 @@ function QuantitySurvoyer() {
       field: "idle_total_hrs",
       initialEditValue: 0,
       type: "number",
+      editable: "never",
     },
     {
       title: "Idle Reason",
@@ -97,12 +99,7 @@ function QuantitySurvoyer() {
       initialEditValue: "",
     },
 
-    {
-      title: "Idle Total Hours",
-      field: "operational_hrs_from",
-      initialEditValue: 0,
-      type: "number",
-    },
+    
     {
       title: "Down Hours From",
       field: "down_hrs_from",
@@ -120,12 +117,13 @@ function QuantitySurvoyer() {
       field: "down_total_hrs",
       type: "number",
       initialEditValue: 0,
+      editable: "never",
     },
 
     {
       title: "Down Reason",
       field: "down_reason",
-      initialEditValue: 0,
+      initialEditValue: "",
     },
     {
       title: "Fuel",
@@ -214,8 +212,9 @@ dispatch(setUsers(response.data.data));
       .then((response) => {
         console.log(response.data.data);
         setProjectActivity(response.data.data);
+        if(response.data.data.length>0){ 
         setSelectedActivity(response.data.data[0].activity_id);
-        const req = JSON.stringify({
+         const req = JSON.stringify({
           project_id: user.resp[0].project_id,
           activity_id: response.data.data[0].activity_id,
           date: moment(new Date()).format("YYYY-MM-DD"),
@@ -231,7 +230,7 @@ dispatch(setUsers(response.data.data));
             setData(response.data.data);
             setExec(response.data.data[0].executed_quantity);
           })
-          .catch((err) => alert(err));
+          .catch((err) => alert(err));}
        
       });
   };
@@ -497,7 +496,7 @@ alert(response.data.message)
           )
           .then((response) => {
             setData(response.data.data);
-            setExec(response.data.data[0].executed_quantity)
+            setExec(response.data.data[0]===undefined ?0:response.data.data[0].executed_quantity)
           })
           .catch((err) => alert(err));
       })
@@ -523,9 +522,9 @@ alert(response.data.message)
 
         setSelectedActivity(values);
         setData(response.data.data);
-        setExec(response.data.data[0].executed_quantity)
+        setExec(response.data.data[0].executed_quantity==undefined ?0:response.data.data[0].executed_quantity)
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   };
 
   const SelectionComponents = () => {
@@ -581,7 +580,7 @@ alert(response.data.message)
 
   const Table = () => {
    return( <MaterialTable
-    style={{width:"85%"}}
+    style={{width:"100%"}}
       icons={tableIcons}
       title="Quantity Surveryor"
       tableRef={tableRef}
@@ -680,7 +679,7 @@ alert(response.data.message)
   };
 
   return (
-    <div >
+    <div>
       <SelectionComponents />
       <Table />
       <ActivityReport  exec={exec} project={selectedProject} activity={selectedActivity} ap={AP_id()[selectedActivity]}/>

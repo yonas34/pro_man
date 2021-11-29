@@ -30,7 +30,7 @@ const history=useHistory();
                         dispatch(setUser(data))
                         if(values.remember)
                         {  localStorage.setItem('auth',JSON.stringify({user_name:values.username,pass:values.password}));
-
+console.log(localStorage);
                        
                           
                         }

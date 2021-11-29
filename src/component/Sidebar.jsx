@@ -171,7 +171,7 @@ const menuList=MenuList();
          
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main"  className={"container"}sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {props.router}
        

@@ -17,6 +17,8 @@ const isLoggedin = store.getState(state =>state.isLoggedin);
 
 const response=JSON.parse(localStorage.getItem("auth"));
     
+
+console.log(localStorage);
 if(localStorage.length>0 && !isLoggedin.isLoggedin)
 {console.log(response)
 

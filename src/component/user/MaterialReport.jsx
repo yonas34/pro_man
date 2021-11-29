@@ -135,7 +135,7 @@ const users=useSelector(state=>state.material);
   ];
   return (
     <MaterialTable
-    style={{width:"85%"}}
+    style={{width:"100%"}}
       icons={tableIcons}
       title="MaterialReport"
       tableRef={tableRef}

@@ -78,6 +78,40 @@ return resourceObj;
 }
 
 
+export const emp_pic=async(project,user,users)=>{
+  
+  var resourceTypeReformatted=null;
+  var resourceObj=null
+  
+  
+  
+  
+    resourceTypeReformatted=users.reduce((acc,cur,i)=>{
+      acc[cur.emp_id]=cur.emp_pic
+      return acc;
+      },{})
+  
+  
+  
+      // console.log(resourceTypeReformatted);
+      await axios
+  .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php", {
+    project_id:project,
+    jwt: user,
+  })
+  .then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
+  acc[cur.id]=resourceTypeReformatted[cur.emp_id]
+  return acc},{})}).catch((err)=>alert(err));
+  
+  
+  
+  return resourceObj;
+  
+  
+  }
+  
+
+
 
 export const mat=async(project,user,users)=>{
  
@@ -110,3 +144,4 @@ return resourceObj;
 
 
 }
+
