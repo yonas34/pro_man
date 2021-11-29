@@ -28,7 +28,7 @@ function QuantitySurvoyer() {
   const date = new Date();
   const [data, setData] = useState([]);
   
-
+const [dates,setDates]=useState(moment(date).format("YYYY-MM-DD"))
   const [activity, setActivity] = useState([]);
   const [projectActivity, setProjectActivity] = useState([]);
 
@@ -230,7 +230,7 @@ dispatch(setUsers(response.data.data));
             setData(response.data.data);
             setExec(response.data.data[0].executed_quantity);
           })
-          .catch((err) => alert(err));}
+          .catch((err) => console.error(err));}
        
       });
   };
@@ -289,7 +289,7 @@ alert(response.data.message)
       data: {
         activity_project_id: aps[selectedActivity],
         executed_quantity: exec,
-        date: moment(new Date()).format("YYYY-MM-DD"),
+        date: moment(dates).format("YYYY-MM-DD"),
         resource_id: newData.resource_id,
         engine_hrs_beg: moment(newData.engine_hrs_beg, "H:mm:ss").format(
           "H:mm:ss"
@@ -369,7 +369,7 @@ alert(response.data.message)
       resrep_id: newData.id,
       activity_report_id: aps[selectedActivity],
       executed_quantity: exec,
-      date: moment(date).format("YYYY-MM-DD"),
+      date: moment(dates).format("YYYY-MM-DD"),
       resource_id: newData.resource_id,
       engine_hrs_beg: moment(newData.engine_hrs_beg, "H:mm:ss").format(
         "H:mm:ss"
@@ -492,7 +492,7 @@ alert(response.data.message)
             {
               project_id: value,
               activity_id: response.data.data[0].activity_id,
-              date: moment(new Date()).format("YYYY-MM-DD"),
+              date: moment(dates).format("YYYY-MM-DD"),
               jwt: user.token,
             }
           )
@@ -505,7 +505,28 @@ alert(response.data.message)
       })
       .catch((err) => alert(err.message));
   };
+const dateSelect=async(value)=>{
+setDates(value);
+await axios
+.post(
+  "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+  {
+    project_id: selectedProject,
+    activity_id: selectedActivity,
+    date: moment(value).format("YYYY-MM-DD"),
+    jwt: user.token,
+  }
+)
+.then((response) => {
 
+  setData(response.data.data);
+  setExec(response.data.data[0].executed_quantity==undefined ?0:response.data.data[0].executed_quantity)
+})
+.catch((err) => console.log(err));
+
+
+
+}
   const selectActivityProject = async (values) => {
     console.log(values);
 
@@ -516,7 +537,7 @@ alert(response.data.message)
         {
           project_id: selectedProject,
           activity_id: values,
-          date: moment(new Date()).format("YYYY-MM-DD"),
+          date: moment(dates).format("YYYY-MM-DD"),
           jwt: user.token,
         }
       )
@@ -538,7 +559,7 @@ alert(response.data.message)
           <TextField
             select
             value={selectedProject}
-            onChange={(value) => selectProject(value.target.value)}
+            onChange={(value) => trackPromise(selectProject(value.target.value))}
           >
             {project.map((pro) => (
               <MenuItem divider key={pro.project_id} value={pro.project_id}>
@@ -547,6 +568,14 @@ alert(response.data.message)
             ))}
           </TextField>
         </Grid>
+        <Grid item> <TextField
+          type={"date"}
+          onChange={(value) => trackPromise(dateSelect(value.target.value))}
+          name="date"
+          size={"small"}
+          value={dates}
+        
+        /></Grid>
         <Grid item>
           <Typography variant={"h6"}>Executed Quantity:</Typography>
           <TextField
@@ -566,7 +595,7 @@ alert(response.data.message)
           <TextField
             value={selectedActivity}
             select
-            onChange={(value) => selectActivityProject(value.target.value)}
+            onChange={(value) => trackPromise(selectActivityProject(value.target.value))}
           >
             {projectActivity.map((pro) => {
               return (
