@@ -727,11 +727,7 @@ function QuantitySurvoyer() {
           />
         </Grid>
         <Grid item style={{width:"100%"}}>
-          <Divider
-            flexItem={true}
-            orientation={"horizontal"}
-            variant={"fullwidth"}
-          />
+          <Divider/>
           <MaterialReport
             dates={dates}
             exec={exec}

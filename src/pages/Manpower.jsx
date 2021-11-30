@@ -10,7 +10,7 @@ function Manpower() {
 
   const column = [
     { title: "Title", field: "title_trade" },
-    { title: "Salary", field: "salary" },
+    { title: "Salary", field: "salary",type:"currency" },
   ];
   const [data, setData] = useState([]);
 

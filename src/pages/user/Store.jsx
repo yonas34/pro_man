@@ -1,10 +1,14 @@
 import React from 'react'
+import {Grid} from '@material-ui/core'
+import { Typography } from '@mui/material'
 
 function Store() {
     return (
-        <div>
+        <Grid container style={{height:""}}>
+          <Typography>
            Store page 
-        </div>
+           </Typography>
+        </Grid>
     )
 }
 

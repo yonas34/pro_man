@@ -134,11 +134,11 @@ const menuList=MenuList();
           </IconButton>
           <Avatar src={logo} variant="square"/>
           <Typography variant="h6" noWrap component="div">
-              {"   "}Project Management
+              Project Management
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} style={{height:"330px"}}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
