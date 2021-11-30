@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
-import { setUsers,setMaterial } from '../../reducers/actions'
+import { setUsers, setMaterial } from "../../reducers/actions";
 import tableIcons from "../../component/tableIcons";
-import {trackPromise} from 'react-promise-tracker'
+import { trackPromise } from "react-promise-tracker";
 import {
   Card,
   IconButton,
@@ -20,6 +20,7 @@ import ActivityReport from "../../component/user/ActivityReport";
 import { dateDifference } from "../../component/user/utils";
 import { useDispatch } from "react-redux";
 import MaterialReport from "../../component/user/MaterialReport";
+import { Divider } from "@mui/material";
 
 function QuantitySurvoyer() {
   const user = useSelector((state) => state.user);
@@ -27,16 +28,16 @@ function QuantitySurvoyer() {
   const [resource, setResource] = useState({});
   const date = new Date();
   const [data, setData] = useState([]);
-  
-const [dates,setDates]=useState(moment(date).format("YYYY-MM-DD"))
+
+  const [dates, setDates] = useState(moment(date).format("YYYY-MM-DD"));
   const [activity, setActivity] = useState([]);
   const [projectActivity, setProjectActivity] = useState([]);
 
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
-  
+
   const [exec, setExec] = useState("");
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [selectedProject, setSelectedProject] = useState(
     user.resp[0].project_id
   );
@@ -99,7 +100,6 @@ const [dates,setDates]=useState(moment(date).format("YYYY-MM-DD"))
       initialEditValue: "",
     },
 
-    
     {
       title: "Down Hours From",
       field: "down_hrs_from",
@@ -133,7 +133,6 @@ const [dates,setDates]=useState(moment(date).format("YYYY-MM-DD"))
     },
   ];
 
-
   const [selectedActivity, setSelectedActivity] = useState(0);
   const AP_id = () => {
     return projectActivity.reduce((acc, cur, i) => {
@@ -161,31 +160,24 @@ const [dates,setDates]=useState(moment(date).format("YYYY-MM-DD"))
 
     return acc;
   }, {});
-  const init =async () => {
-
-
-  await axios
-.post("https://www.nrwlpms.com/api/api/get_all_material.php", {
-
-  jwt: user.token,
-})
-.then(async(response) => {
-  console.log(response.data.data)
-dispatch(setMaterial(response.data.data));
-
-})
-
+  const init = async () => {
+    await axios
+      .post("https://www.nrwlpms.com/api/api/get_all_material.php", {
+        jwt: user.token,
+      })
+      .then(async (response) => {
+        console.log(response.data.data);
+        dispatch(setMaterial(response.data.data));
+      });
 
     await axios
-.post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
-
-  jwt: user.token,
-})
-.then(async(response) => {
-  console.log(response.data.data)
-dispatch(setUsers(response.data.data));
-
-})
+      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
+        jwt: user.token,
+      })
+      .then(async (response) => {
+        console.log(response.data.data);
+        dispatch(setUsers(response.data.data));
+      });
 
     axios
       .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
@@ -212,32 +204,32 @@ dispatch(setUsers(response.data.data));
       .then((response) => {
         console.log(response.data.data);
         setProjectActivity(response.data.data);
-        if(response.data.data.length>0){ 
-        setSelectedActivity(response.data.data[0].activity_id);
-         const req = JSON.stringify({
-          project_id: user.resp[0].project_id,
-          activity_id: response.data.data[0].activity_id,
-          date: moment(new Date()).format("YYYY-MM-DD"),
-          jwt: user.token,
-        });
-     
-        axios
-          .post(
-            "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
-            req
-          )
-          .then((response) => {
-            setData(response.data.data);
-            setExec(response.data.data[0].executed_quantity);
-          })
-          .catch((err) => console.error(err));}
-       
+        if (response.data.data.length > 0) {
+          setSelectedActivity(response.data.data[0].activity_id);
+          const req = JSON.stringify({
+            project_id: user.resp[0].project_id,
+            activity_id: response.data.data[0].activity_id,
+            date: moment(new Date()).format("YYYY-MM-DD"),
+            jwt: user.token,
+          });
+
+          axios
+            .post(
+              "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+              req
+            )
+            .then((response) => {
+              setData(response.data.data);
+              setExec(response.data.data[0].executed_quantity);
+            })
+            .catch((err) => console.error(err));
+        }
       });
   };
 
   //use Effect Did mount
   useEffect(() => {
-   trackPromise( init());
+    trackPromise(init());
   }, []);
 
   //component did update
@@ -251,21 +243,18 @@ dispatch(setUsers(response.data.data));
     return () => {};
   }, [data]);
 
-
-
-  const execQ=async()=>{
+  const execQ = async () => {
     const aps = AP_id();
-await axios.post("https://www.nrwlpms.com/api/api/update_executed_quantity.php",{
-  "activity_report_id": aps[selectedActivity],
-  "executed_quantity" : exec,
-  jwt:user.token
-
-}).then((response)=>{
-alert(response.data.message)
-})
-
-
-  }
+    await axios
+      .post("https://www.nrwlpms.com/api/api/update_executed_quantity.php", {
+        activity_report_id: aps[selectedActivity],
+        executed_quantity: exec,
+        jwt: user.token,
+      })
+      .then((response) => {
+        alert(response.data.message);
+      });
+  };
   const deleteMaterialProjectTable = async (emp_id) => {
     console.log(emp_id);
 
@@ -477,60 +466,59 @@ alert(response.data.message)
         }
       )
       .then((response) => {
-
         setProjectActivity(response.data.data);
         console.log(activity);
-        if(response.data.data.length>0){ 
+        if (response.data.data.length > 0) {
           setSelectedActivity(response.data.data[0].activity_id);
 
-        
-      
-
-        axios
-          .post(
-            "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
-            {
-              project_id: value,
-              activity_id: response.data.data[0].activity_id,
-              date: moment(dates).format("YYYY-MM-DD"),
-              jwt: user.token,
-            }
-          )
-          .then((response) => {
-            setData(response.data.data);
-            setExec(response.data.data[0]===undefined ?0:response.data.data[0].executed_quantity)
-          })
-          .catch((err) => alert(err))}
-
+          axios
+            .post(
+              "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+              {
+                project_id: value,
+                activity_id: response.data.data[0].activity_id,
+                date: moment(dates).format("YYYY-MM-DD"),
+                jwt: user.token,
+              }
+            )
+            .then((response) => {
+              setData(response.data.data);
+              setExec(
+                response.data.data[0] === undefined
+                  ? 0
+                  : response.data.data[0].executed_quantity
+              );
+            })
+            .catch((err) => alert(err));
+        }
       })
       .catch((err) => alert(err.message));
   };
-const dateSelect=async(value)=>{
-setDates(value);
-await axios
-.post(
-  "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
-  {
-    project_id: selectedProject,
-    activity_id: selectedActivity,
-    date: moment(value).format("YYYY-MM-DD"),
-    jwt: user.token,
-  }
-)
-.then((response) => {
-
-  setData(response.data.data);
-  setExec(response.data.data[0].executed_quantity==undefined ?0:response.data.data[0].executed_quantity)
-})
-.catch((err) => console.log(err));
-
-
-
-}
+  const dateSelect = async (value) => {
+    setDates(value);
+    await axios
+      .post(
+        "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+        {
+          project_id: selectedProject,
+          activity_id: selectedActivity,
+          date: moment(value).format("YYYY-MM-DD"),
+          jwt: user.token,
+        }
+      )
+      .then((response) => {
+        setData(response.data.data);
+        setExec(
+          response.data.data[0].executed_quantity == undefined
+            ? 0
+            : response.data.data[0].executed_quantity
+        );
+      })
+      .catch((err) => console.log(err));
+  };
   const selectActivityProject = async (values) => {
     console.log(values);
 
-    
     await axios
       .post(
         "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
@@ -542,11 +530,13 @@ await axios
         }
       )
       .then((response) => {
-      
-
         setSelectedActivity(values);
         setData(response.data.data);
-        setExec(response.data.data[0].executed_quantity==undefined ?0:response.data.data[0].executed_quantity)
+        setExec(
+          response.data.data[0].executed_quantity == undefined
+            ? 0
+            : response.data.data[0].executed_quantity
+        );
       })
       .catch((err) => console.log(err));
   };
@@ -559,7 +549,9 @@ await axios
           <TextField
             select
             value={selectedProject}
-            onChange={(value) => trackPromise(selectProject(value.target.value))}
+            onChange={(value) =>
+              trackPromise(selectProject(value.target.value))
+            }
           >
             {project.map((pro) => (
               <MenuItem divider key={pro.project_id} value={pro.project_id}>
@@ -568,14 +560,16 @@ await axios
             ))}
           </TextField>
         </Grid>
-        <Grid item> <TextField
-          type={"date"}
-          onChange={(value) => trackPromise(dateSelect(value.target.value))}
-          name="date"
-          size={"small"}
-          value={dates}
-        
-        /></Grid>
+        <Grid item>
+          {" "}
+          <TextField
+            type={"date"}
+            onChange={(value) => trackPromise(dateSelect(value.target.value))}
+            name="date"
+            size={"small"}
+            value={dates}
+          />
+        </Grid>
         <Grid item>
           <Typography variant={"h6"}>Executed Quantity:</Typography>
           <TextField
@@ -586,7 +580,7 @@ await axios
             value={exec}
           />
 
-          <IconButton onClick={()=>execQ()}>
+          <IconButton onClick={() => execQ()}>
             <Save />
           </IconButton>
         </Grid>
@@ -595,7 +589,9 @@ await axios
           <TextField
             value={selectedActivity}
             select
-            onChange={(value) => trackPromise(selectActivityProject(value.target.value))}
+            onChange={(value) =>
+              trackPromise(selectActivityProject(value.target.value))
+            }
           >
             {projectActivity.map((pro) => {
               return (
@@ -611,113 +607,140 @@ await axios
   };
 
   const Table = () => {
-   return( <MaterialTable
-    style={{width:"100%"}}
-      icons={tableIcons}
-      title="Quantity Surveryor"
-      tableRef={tableRef}
-      columns={column}
-      data={data}
-      components={{
-        Toolbar: (props) => (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <MTableToolbar {...props} />
-          </div>
-        ),
-      }}
-      options={{
-        actionsColumnIndex: -1,
-        rowStyle: (rowData) => ({
-          backgroundColor:
-            selectedRow === rowData.tableData.id ? "#EEE" : "#FFF",
-        }),
-        headerStyle: {
-          fontWeight: "bold",
-          headerStyle: { position: "sticky", top: 0 },
-          maxBodyHeight: 500,
-          width: "100%",
-        },
-      }}
-      components={{
-        Toolbar: (props) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              color: "white",
-              backgroundColor: "#1976d2",
-            }}
-          >
-            <MTableToolbar {...props} />
-          </div>
-        ),
-      }}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              addMaterialProjectTable(newData);
-
-              resolve();
-            }, 1000);
+    return (
+      <MaterialTable
+        icons={tableIcons}
+        title="Quantity Surveryor"
+        tableRef={tableRef}
+        columns={column}
+        data={data}
+        components={{
+          Toolbar: (props) => (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <MTableToolbar {...props} />
+            </div>
+          ),
+        }}
+        options={{
+          actionsColumnIndex: -1,
+          rowStyle: (rowData) => ({
+            backgroundColor:
+              selectedRow === rowData.tableData.id ? "#EEE" : "#FFF",
           }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve) => {
-            console.log(newData, oldData);
-            setTimeout(() => {
-              updateMaterialProjectTable(newData, oldData);
+          headerStyle: {
+            fontWeight: "bold",
+            headerStyle: { position: "sticky", top: 0 },
+            maxBodyHeight: 500,
+            width: "100%",
+          },
+        }}
+        components={{
+          Toolbar: (props) => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                color: "white",
+                backgroundColor: "#1976d2",
+              }}
+            >
+              <MTableToolbar {...props} />
+            </div>
+          ),
+        }}
+        editable={{
+          onRowAdd: (newData) =>
+            new Promise((resolve) => {
+              setTimeout(() => {
+                addMaterialProjectTable(newData);
 
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              const dataDelete = [...data];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
-              deleteMaterialProjectTable(oldData);
-              setData([...dataDelete]);
-              resolve();
-            }, 1000);
-          }),
-      }}
-      onRowClick={(evt, selectedRow) =>
-        setSelectedRow(selectedRow.tableData.id)
-      }
-      options={{
-        exportButton: true,
-        exportCsv: (columns, data) => {
-          console.log(data);
-          const fData = {
-            activity_project_id: 9,
-            executed_quantity: exec,
-            date: moment(date).format("YYYY-MM-DD"),
-            data: data,
-            jwt: user.token,
-          };
+                resolve();
+              }, 1000);
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve) => {
+              console.log(newData, oldData);
+              setTimeout(() => {
+                updateMaterialProjectTable(newData, oldData);
 
-          axios
-            .post(
-              "https://www.nrwlpms.com/api/api/save_quantity_surveyor_data.php",
-              JSON.stringify(fData)
-            )
-            .then((response) => console.log(response.data))
-            .catch((err) => alert(err.message));
-          console.log(fData);
-        },
-      }}
-    />)
+                resolve();
+              }, 1000);
+            }),
+          onRowDelete: (oldData) =>
+            new Promise((resolve) => {
+              setTimeout(() => {
+                const dataDelete = [...data];
+                const index = oldData.tableData.id;
+                dataDelete.splice(index, 1);
+                deleteMaterialProjectTable(oldData);
+                setData([...dataDelete]);
+                resolve();
+              }, 1000);
+            }),
+        }}
+        onRowClick={(evt, selectedRow) =>
+          setSelectedRow(selectedRow.tableData.id)
+        }
+        options={{
+          exportButton: true,
+          exportCsv: (columns, data) => {
+            console.log(data);
+            const fData = {
+              activity_project_id: 9,
+              executed_quantity: exec,
+              date: moment(date).format("YYYY-MM-DD"),
+              data: data,
+              jwt: user.token,
+            };
+
+            axios
+              .post(
+                "https://www.nrwlpms.com/api/api/save_quantity_surveyor_data.php",
+                JSON.stringify(fData)
+              )
+              .then((response) => console.log(response.data))
+              .catch((err) => alert(err.message));
+            console.log(fData);
+          },
+        }}
+      />
+    );
   };
 
   return (
-    <div>
+      <Grid  wrap={"wrap"} container direction={"column"} spacing={2}>
+        <Grid item style={{width:"100%"}} >
       <SelectionComponents />
-      <Table />
-      <ActivityReport  exec={exec} project={selectedProject} activity={selectedActivity} ap={AP_id()[selectedActivity]}/>
-      <MaterialReport  exec={exec} project={selectedProject} activity={selectedActivity} ap={AP_id()[selectedActivity]}/>
-
-    </div>
+        </Grid>
+        <Grid item style={{width:"100%"}} >
+          {" "}
+          <Table />
+        </Grid>
+        <Divider />
+        <Grid item style={{width:"100%"}}>
+          <ActivityReport
+            dates={dates}
+            exec={exec}
+            project={selectedProject}
+            activity={selectedActivity}
+            ap={AP_id()[selectedActivity]}
+          />
+        </Grid>
+        <Grid item style={{width:"100%"}}>
+          <Divider
+            flexItem={true}
+            orientation={"horizontal"}
+            variant={"fullwidth"}
+          />
+          <MaterialReport
+            dates={dates}
+            exec={exec}
+            project={selectedProject}
+            activity={selectedActivity}
+            ap={AP_id()[selectedActivity]}
+          />
+        </Grid>
+      </Grid>
   );
 }
 

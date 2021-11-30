@@ -28,7 +28,7 @@ const users=useSelector(state=>state.users);
 
       const req={
         
-        "date" : moment(new Date()).format('YYYY-MM-DD'),
+        "date" : moment(props.dates).format('YYYY-MM-DD'),
         "activity_id" : props.activity,
         "project_id" : props.project,
         "jwt" : user.token,
@@ -51,7 +51,7 @@ const users=useSelector(state=>state.users);
 )
     const req={
         
-        "date" : moment(new Date()).format('YYYY-MM-DD'),
+        "date" : moment(props.dates).format('YYYY-MM-DD'),
         "activity_id" : props.activity,
         "project_id" : props.project,
         "jwt" : user.token,
@@ -67,7 +67,7 @@ const users=useSelector(state=>state.users);
     }))
 
 
-  },[props.activity,props.project])
+  },[props.activity,props.project,props.dates])
 
   const deleteActivityReport = async (mnpr_id) => {
     await axios
@@ -98,7 +98,7 @@ const users=useSelector(state=>state.users);
       {
           "activity_project_id" : props.ap,
           "executed_quantity" : props.exec,
-          "date" : moment(new Date()).format('YYYY-MM-DD'),
+          "date" : moment(props.dates).format('YYYY-MM-DD'),
           "employee_project_id" :newData.employee_project_id,
           "work_hrs_from" : moment(newData.work_hrs_from, "H:mm:ss").format("H:mm:ss"),
           "work_hrs_to" : moment( newData.work_hrs_to, "H:mm:ss").format("H:mm:ss"),
@@ -164,7 +164,7 @@ const users=useSelector(state=>state.users);
   ];
   return (
     <MaterialTable
-    style={{width:"100%"}}
+    
       icons={tableIcons}
       title="ActivityReport"
       tableRef={tableRef}

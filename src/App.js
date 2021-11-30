@@ -10,7 +10,7 @@ function App() {
 
   const isLoggedin = useSelector(state =>state.isLoggedin);
   console.log(isLoggedin);
-  const st={ zIndex:"-1",
+  const st={ zIndex:"-1",pointerEvents: "none",
   filter:"blur(5px)"}
   return (
  

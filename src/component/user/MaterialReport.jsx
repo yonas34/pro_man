@@ -22,7 +22,7 @@ const users=useSelector(state=>state.material);
 
       const req={
         
-        "date" : moment(new Date()).format('YYYY-MM-DD'),
+        "date" : moment(props.dates).format('YYYY-MM-DD'),
         "activity_id" : props.activity,
         "project_id" : props.project,
         "jwt" : user.token,
@@ -43,7 +43,7 @@ const users=useSelector(state=>state.material);
 )
     const req={
         
-        "date" : moment(new Date()).format('YYYY-MM-DD'),
+        "date" : moment(props.dates).format('YYYY-MM-DD'),
         "activity_id" : props.activity,
         "project_id" : props.project,
         "jwt" : user.token,
@@ -59,7 +59,7 @@ const users=useSelector(state=>state.material);
     }))
 
 
-  },[props.activity,props.project,users])
+  },[props.activity,props.project,users,props.dates])
 
   const deleteActivityReport = async (mnpr_id) => {
     await axios
@@ -87,25 +87,22 @@ const users=useSelector(state=>state.material);
     // }
 
     const req=
-      {
+    { data:{
           "activity_project_id" : props.ap,
           "executed_quantity" : props.exec,
-          "date" : moment(new Date()).format('YYYY-MM-DD'),
+          "date" : moment(props.dates).format('YYYY-MM-DD'),
           "material_project_id" :newData.material_project_id,
           "used_quantity" : newData.used_quantity,
-      }
-
-
+      },
+      jwt: user.token
+}
+     
+      
     
     
     console.log(req);
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php", {
-
-      "data" :req
-            ,
-      jwt: user.token,
-    })
+    .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php",req )
     .then((response) => {alert(response.data.message)
       console.log(response.data.data);
       const temp={...req,"id":response.data.material_report_id,
@@ -135,7 +132,7 @@ const users=useSelector(state=>state.material);
   ];
   return (
     <MaterialTable
-    style={{width:"100%"}}
+    
       icons={tableIcons}
       title="MaterialReport"
       tableRef={tableRef}

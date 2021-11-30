@@ -22,7 +22,7 @@ import logo from "../resources/logo.JPG"
 import {Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginToggle, setUser } from '../reducers/actions';
-const drawerWidth = 250;
+const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -30,7 +30,6 @@ const openedMixin = (theme) => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  
   overflowX: 'hidden',
 });
 
@@ -42,7 +41,7 @@ const closedMixin = (theme) => ({
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(12)} + 1px)`,
+    width: `calc(${theme.spacing(9)} + 1px)`,
   },
 });
 
@@ -135,7 +134,7 @@ const menuList=MenuList();
           </IconButton>
           <Avatar src={logo} variant="square"/>
           <Typography variant="h6" noWrap component="div">
-              Project Management
+              {"   "}Project Management
           </Typography>
         </Toolbar>
       </AppBar>
