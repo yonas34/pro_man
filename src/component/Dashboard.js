@@ -7,6 +7,8 @@ import {
     Grid
   } from "@material-ui/core";
   import { useSelector } from 'react-redux';
+import MaterialTable from 'material-table';
+import tableIcons from './tableIcons';
 function Dashboard(props) {
 const user=useSelector(state=>state.user);
 const [data,setData]=useState({});
@@ -26,7 +28,7 @@ useEffect(async() => {
    
 
 }, [])
-console.log(data);
+
     return (
         <div>
           { data.percent &&  <Grid
@@ -88,6 +90,7 @@ console.log(data);
           </Grid>
           <Grid item xs={6} md={7}>
           <ChartDual data={data.total}/>
+          <MaterialTable icons={tableIcons} title={"Income and Expense"} columns={[{title:"Label",field:"label"},{title:"Previous",field:'previous'},{title:"This Month",field:"this"},{title:"Todate",field:"todate"}]} data={data.unstructuredTotal}/>
           </Grid>
           
         </Grid>}

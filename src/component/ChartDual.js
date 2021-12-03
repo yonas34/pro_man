@@ -2,6 +2,7 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {dualData} from './chartData'
 
+
 const options = {
   scales: {
     yAxes: [
@@ -16,7 +17,7 @@ const options = {
 
 const ChartDual = (props) => (
   
-    <Bar data={props.data} options={options} />
+    <Bar data={props.data}  options={options} />
  
 );
 
