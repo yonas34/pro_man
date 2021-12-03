@@ -34,10 +34,10 @@ function Material() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -47,7 +47,7 @@ function Material() {
       ...newData,
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message)
+    .then((response) => {console.log(response.data.message)
       const temp={...newData,mat_id:response.data.mat_id}
       setData([...data, newData]);
       console.log(response.data);
@@ -61,8 +61,8 @@ function Material() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

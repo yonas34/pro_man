@@ -40,7 +40,7 @@ await axios.post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
     jwt :user.token
 }).then((response)=>{
 
-alert(JSON.stringify(response.data));
+console.log(JSON.stringify(response.data));
 history.push('/');
 
 })

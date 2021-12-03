@@ -21,9 +21,9 @@ const users=useSelector(state=>state.users);
 
 
   useEffect(() => {
-    trackPromise(emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>alert(err.message))
+    trackPromise(emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>console.log(err.message))
 )
-    trackPromise(emp_pic(props.project,user.token,users).then((response)=>{setPicObj(response)}).catch((err)=>alert(err.message))
+    trackPromise(emp_pic(props.project,user.token,users).then((response)=>{setPicObj(response)}).catch((err)=>console.log(err.message))
 )
 
       const req={
@@ -45,9 +45,9 @@ const users=useSelector(state=>state.users);
   }, []);
 
   useEffect(()=>{
-  trackPromise( emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>{alert(err.message)})
+  trackPromise( emp(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>{console.log(err.message)})
 )
-  trackPromise( emp_pic(props.project,user.token,users).then((response)=>{setPicObj(response)}).catch((err)=>{alert(err.message)})
+  trackPromise( emp_pic(props.project,user.token,users).then((response)=>{setPicObj(response)}).catch((err)=>{console.log(err.message)})
 )
     const req={
         
@@ -76,10 +76,10 @@ const users=useSelector(state=>state.users);
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -116,7 +116,7 @@ const users=useSelector(state=>state.users);
             ,
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message)
+    .then((response) => {console.log(response.data.message)
       console.log(response.data.message);
       if(response.data.message!=undefined){const temp={...req,"id":response.data.employee_report_id,
       "activity_report_id": response.data.activity_report_id}
@@ -137,8 +137,8 @@ const users=useSelector(state=>state.users);
   console.log(req);
     await axios
       .post("https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php",req )
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   const column = [

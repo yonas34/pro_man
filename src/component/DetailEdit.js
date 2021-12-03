@@ -48,7 +48,7 @@ phone_number:Yup.number().required("Phone number must be provided!")
 //     jwt :user.token
 // }).then((response)=>{
 
-// alert(JSON.stringify(response.data));
+// console.log(JSON.stringify(response.data));
 // history.push('/');
 
 // })

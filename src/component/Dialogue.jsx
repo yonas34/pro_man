@@ -74,7 +74,7 @@ const resetPassword=async(emp_id)=>{
      
   }).then((response)=>{
    console.log(response.data.message)
-  }).catch((err)=>alert(err.message));
+  }).catch((err)=>console.log(err.message));
 }
 
 

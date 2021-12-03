@@ -17,7 +17,7 @@ const [empObj,setEmpObje]=useState();
 const users=useSelector(state=>state.material);
 
   useEffect(() => {
-    trackPromise(mat(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>alert(err.message)))
+    trackPromise(mat(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>console.log(err.message)))
 
 
       const req={
@@ -39,7 +39,7 @@ const users=useSelector(state=>state.material);
   }, [])
 
   useEffect(()=>{
-    trackPromise(mat(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>{alert(err.message)})
+    trackPromise(mat(props.project,user.token,users).then((response)=>{setEmpObje(response)}).catch((err)=>{console.log(err.message)})
 )
     const req={
         
@@ -68,10 +68,10 @@ const users=useSelector(state=>state.material);
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -103,7 +103,7 @@ const users=useSelector(state=>state.material);
     console.log(req);
     await axios
     .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php",req )
-    .then((response) => {alert(response.data.message)
+    .then((response) => {console.log(response.data.message)
       console.log(response.data.data);
       const temp={...req,"id":response.data.material_report_id,
       "activity_report_id": response.data.activity_report_id}
@@ -122,8 +122,8 @@ const users=useSelector(state=>state.material);
   console.log(req);
     await axios
       .post("https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php",req )
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   const column = [

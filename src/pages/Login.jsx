@@ -52,7 +52,7 @@ console.log(localStorage);
                         dispatch(loginToggle());
                         history.replace('/');
 
-                    }).catch((err)=>{alert("Incorrect user name or password, please try again!")
+                    }).catch((err)=>{console.log("Incorrect user name or password, please try again!")
                 
                 console.log(err.message)}))
                         

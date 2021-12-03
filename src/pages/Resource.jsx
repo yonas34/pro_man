@@ -74,7 +74,7 @@ function Resource() {
       .then((response) => {
         setData(response.data.data);
       })
-      .catch((err) => alert(err.message)));
+      .catch((err) => console.log(err.message)));
   }, []);
 
   const deleteResource = async (resource_id) => {
@@ -84,10 +84,10 @@ function Resource() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -110,8 +110,8 @@ function Resource() {
 
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

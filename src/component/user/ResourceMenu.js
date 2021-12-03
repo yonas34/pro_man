@@ -29,7 +29,7 @@ await axios
 })
 .then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
 acc[cur.resource_id]=resourceTypeReformatted[cur.res_type_id]+" "+cur.plate_no_comp_no;
-return acc},{})}).catch((err)=>alert(err));
+return acc},{})}).catch((err)=>console.log(err));
 
 })
 
@@ -68,7 +68,7 @@ var resourceObj=null
 })
 .then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
 acc[cur.id]=resourceTypeReformatted[cur.emp_id]
-return acc},{})}).catch((err)=>alert(err));
+return acc},{})}).catch((err)=>console.log(err));
 
 
 
@@ -101,7 +101,7 @@ export const emp_pic=async(project,user,users)=>{
   })
   .then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
   acc[cur.id]=resourceTypeReformatted[cur.emp_id]
-  return acc},{})}).catch((err)=>alert(err));
+  return acc},{})}).catch((err)=>console.log(err));
   
   
   
@@ -136,7 +136,7 @@ var resourceObj=null
 })
 .then((response) => {resourceObj=response.data.data.reduce((acc,cur,i)=>{
 acc[cur.id]=resourceTypeReformatted[cur.mat_id]
-return acc},{})}).catch((err)=>alert(err));
+return acc},{})}).catch((err)=>console.log(err));
 
 console.log(resourceObj)
 

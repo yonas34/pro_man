@@ -76,7 +76,7 @@ const tempData=resource.map(res=>({resource_id: res.resource_id,
             selectProject({target:{value:project[0].project_id}})
 
           })
-          .catch((err) => alert(err.message));
+          .catch((err) => console.log(err.message));
         
         }
   
@@ -93,7 +93,7 @@ const tempData=resource.map(res=>({resource_id: res.resource_id,
       setResourceType(response.data.data);
 
     })
-    .catch((err) => alert(err.message));
+    .catch((err) => console.log(err.message));
     console.log(project);
 
 
@@ -175,7 +175,7 @@ const selectProject = async (value) => {
     project_id: value.target.value,
     jwt: user.token,
   })
-  .then((response) => {setResource(response.data.data)}).catch((err)=>alert(err));
+  .then((response) => {setResource(response.data.data)}).catch((err)=>console.log(err));
 resourceSetup();
 
 }
@@ -187,10 +187,10 @@ resourceSetup();
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -200,7 +200,7 @@ resourceSetup();
       ...newData,
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message)
+    .then((response) => {console.log(response.data.message)
       const temp={...newData,mnpr_id:response.data.mnpr_id}
       setData([...data, newData]);
       
@@ -214,8 +214,8 @@ resourceSetup();
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (
