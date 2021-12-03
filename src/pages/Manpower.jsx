@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
+import { trackPromise } from "react-promise-tracker";
 function Manpower() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -15,14 +16,14 @@ function Manpower() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
+    trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_manpower.php", {
         jwt: user.token,
       })
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      });
+      }));
   }, []);
 
   const deleteManpower = async (mnpr_id) => {
@@ -32,10 +33,10 @@ function Manpower() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -45,7 +46,7 @@ function Manpower() {
       ...newData,
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message)
+    .then((response) => {console.log(response.data.message)
       const temp={...newData,mnpr_id:response.data.mnpr_id}
       setData([...data, newData]);
       
@@ -59,8 +60,8 @@ function Manpower() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

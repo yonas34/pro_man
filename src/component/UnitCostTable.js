@@ -41,10 +41,10 @@ function UnitCostTable() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -56,7 +56,7 @@ function UnitCostTable() {
         rate_hr: newData.rate_hr,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message));
+      .then((response) => console.log(response.data.message));
   };
 
   const updateResource = async (newData) => {
@@ -68,8 +68,8 @@ function UnitCostTable() {
         equipment: newData.equipment,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

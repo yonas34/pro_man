@@ -8,6 +8,7 @@ import Dialogue from "../component/Dialogue";
 import Toast from "../component/Toast";
 import { dPP } from "../component/pp";
 import { TenMp } from "@mui/icons-material";
+import { trackPromise } from "react-promise-tracker";
 
 function EmployeePage() {
   const user = useSelector((state) => state.user);
@@ -20,25 +21,25 @@ function EmployeePage() {
   const [manPowerData, setManPowerData] = useState([]);
 
   useEffect(() => {
-    axios
+    trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_manpower.php", {
         jwt: user.token,
       })
       .then(async (response) => {
         console.log(response.data);
         await setManPowerData(response.data.data);
-      });
+      }));
 
     //  const datas= [{first_name:'Alem',last_name:'Gezaheng',email:"alem@gmai.com",phone_number:"0912568944",imageUrl:image,id:"12345"},{first_name:'Girma',last_name:'Mola',email:"grimamola@gmai.com",phone_number:"0922568944",imageUrl:image,id:"556677"}];
 
-    axios
+    trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
         jwt: user.token,
       })
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      });
+      }));
   }, []);
 
   var obj = manPowerData.reduce((acc, cur, i) => {
@@ -107,13 +108,13 @@ function EmployeePage() {
             const index = datas.tableData.id;
             dataUpdate[index] = temp;
             setData([...dataUpdate]);
-            alert(response.data.message);
+            console.log(response.data.message);
           })
-          .catch((err) => alert(err.message));
+          .catch((err) => console.log(err.message));
 
         setToastOpen(true);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
   };
   const deleteEmployeePage = async (emp_id) => {
     await axios
@@ -122,10 +123,10 @@ function EmployeePage() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -138,12 +139,12 @@ function EmployeePage() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
         console.log(response.data);
         const temp = { ...newData, emp_id: response.data.emp_id };
         setData([...data, temp]);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
   };
 
   const updateEmployeePage = async (newData) => {
@@ -152,8 +153,8 @@ function EmployeePage() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

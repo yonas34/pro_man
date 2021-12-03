@@ -8,6 +8,7 @@ import * as Yup from "yup"
 import { useHistory } from 'react-router'
 import { IconButton, Input, InputAdornment, InputLabel, OutlinedInput, TextField } from '@material-ui/core'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { trackPromise } from 'react-promise-tracker'
 export default function Login() {
 const dispatch = useDispatch();
 const history=useHistory();
@@ -35,7 +36,7 @@ useEffect(() => {
                         })}
                     
                 onSubmit={async(values)=>{
-                    await axios.post('https://www.nrwlpms.com/api/api/login.php',{
+                    trackPromise( await axios.post('https://www.nrwlpms.com/api/api/login.php',{
                         "user_name": values.username,
                         "password": values.password
                     }).then((response)=>{
@@ -53,7 +54,7 @@ console.log(localStorage);
 
                     }).catch((err)=>{alert("Incorrect user name or password, please try again!")
                 
-                console.log(err.message)})
+                console.log(err.message)}))
                         
                        
                         

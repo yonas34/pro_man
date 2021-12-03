@@ -22,6 +22,7 @@ import logo from "../resources/logo.JPG"
 import {Link} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginToggle, setUser } from '../reducers/actions';
+import { trackPromise } from 'react-promise-tracker';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({

@@ -31,7 +31,7 @@ await axios.post("https://www.nrwlpms.com/api/api/delete_resourse_type.php",
   res_type_id : res_type_id,
   "jwt" : user.token
 }
-).then((response)=>{alert(response.data.message)}).catch((err)=>{alert(err.message)})
+).then((response)=>{console.log(response.data.message)}).catch((err)=>{console.log(err.message)})
  }
 
 const addResource=async (newData)=>{
@@ -60,7 +60,7 @@ await axios.post("https://www.nrwlpms.com/api/api/update_resourse_type.php",
     equipment:newData.equipment,
     "jwt" : user.token
 
-}).then((response)=>alert(response.data.message)).catch((err)=>alert(err.message))
+}).then((response)=>console.log(response.data.message)).catch((err)=>console.log(err.message))
 
 }
 

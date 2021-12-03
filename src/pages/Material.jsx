@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
+import { trackPromise } from "react-promise-tracker";
 function Material() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -16,14 +17,14 @@ function Material() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
+    trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_material.php", {
         jwt: user.token,
       })
       .then(async (response) => {
   
         await setData(response.data.data);
-      });
+      }));
   }, []);
 
   const deleteMaterial = async (mnpr_id) => {

@@ -38,7 +38,7 @@ function ActivityProjectTable(props) {
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      }).catch((err)=>alert(err.message));
+      }).catch((err)=>console.log(err.message));
    axios
       .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
       jwt: user.token,
@@ -47,7 +47,7 @@ function ActivityProjectTable(props) {
     
     setProject(response.data.data);
     
-      }).catch((err)=>alert(err.message))
+      }).catch((err)=>console.log(err.message))
    axios
       .post("https://www.nrwlpms.com/api/api/get_all_activity.php", { 
       jwt: user.token,
@@ -56,7 +56,7 @@ function ActivityProjectTable(props) {
     console.log(response.data)
     setActivity(response.data.data);
     
-      }).catch((err)=>alert(err.message))
+      }).catch((err)=>console.log(err.message))
 
 
   }, []);
@@ -74,10 +74,10 @@ function ActivityProjectTable(props) {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -88,10 +88,10 @@ function ActivityProjectTable(props) {
       
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message) 
+    .then((response) => {console.log(response.data.message) 
       
       const newTemp={...newData,id:response.data.id,project_id:projectId};
-        setData([...data, newTemp]);}).catch((err)=>alert(err.message));
+        setData([...data, newTemp]);}).catch((err)=>console.log(err.message));
   };
 
   const updateActivityProjectTable = async (newData) => {
@@ -100,8 +100,8 @@ function ActivityProjectTable(props) {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

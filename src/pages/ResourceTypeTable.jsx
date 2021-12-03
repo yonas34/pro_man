@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
+import { trackPromise } from "react-promise-tracker";
 function ResourceTypeTable() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -16,14 +17,14 @@ function ResourceTypeTable() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
+    trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
         jwt: user.token,
       })
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      });
+      }));
     console.log(data);
   }, []);
 
@@ -34,10 +35,10 @@ function ResourceTypeTable() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -49,7 +50,7 @@ function ResourceTypeTable() {
         rate_hr: newData.rate_hr,
         jwt: user.token,
       })
-      .then((response) => {alert(response.data.message);
+      .then((response) => {console.log(response.data.message);
  
       const temp={...newData,res_type_id:response.data.res_type_id}
       setData([...data, temp]);
@@ -65,8 +66,8 @@ function ResourceTypeTable() {
         equipment: newData.equipment,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

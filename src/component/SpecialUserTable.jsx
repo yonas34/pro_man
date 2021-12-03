@@ -40,7 +40,7 @@ function SpecialUserTable(props) {
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      }).catch((err)=>alert(err.message));
+      }).catch((err)=>console.log(err.message));
    axios
       .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
       jwt: user.token,
@@ -49,7 +49,7 @@ function SpecialUserTable(props) {
     
     setProject(response.data.data);
     
-      }).catch((err)=>alert(err.message))
+      }).catch((err)=>console.log(err.message))
 
 
 
@@ -66,10 +66,10 @@ function SpecialUserTable(props) {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
   
@@ -81,10 +81,10 @@ function SpecialUserTable(props) {
       
       jwt: user.token,
     })
-    .then((response) => {alert(response.data.message) 
+    .then((response) => {console.log(response.data.message) 
       
       const newTemp={special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid};
-        setData([...data, newTemp]);}).catch((err)=>alert(err.message));
+        setData([...data, newTemp]);}).catch((err)=>console.log(err.message));
   };
 
   const updateSpecialUserTable = async (newData) => {
@@ -93,8 +93,8 @@ function SpecialUserTable(props) {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

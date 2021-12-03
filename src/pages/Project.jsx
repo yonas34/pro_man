@@ -7,6 +7,7 @@ import { Details } from "@material-ui/icons";
 import DialogueForProject from "../component/DialogueForProject";
 import Toast from "../component/Toast";
 import { dPP } from "../component/pp";
+import { trackPromise } from "react-promise-tracker";
 
 function Project() {
   const user = useSelector((state) => state.user);
@@ -19,25 +20,25 @@ function Project() {
   const [manPowerData, setManPowerData] = useState([]);
 
   useEffect(() => {
-    axios
+    trackPromise( axios
       .post("https://www.nrwlpms.com/api/api/get_all_manpower.php", {
         jwt: user.token,
       })
       .then(async (response) => {
         console.log(response.data);
         await setManPowerData(response.data.data);
-      });
+      }))
 
     //  const datas= [{first_name:'Alem',last_name:'Gezaheng',email:"alem@gmai.com",phone_number:"0912568944",imageUrl:image,id:"12345"},{first_name:'Girma',last_name:'Mola',email:"grimamola@gmai.com",phone_number:"0922568944",imageUrl:image,id:"556677"}];
 
-    axios
+    trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_projects.php", {
         jwt: user.token,
       })
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      });
+      }));
   }, []);
 
   var obj = manPowerData.reduce((acc, cur, i) => {
@@ -68,7 +69,7 @@ function Project() {
   const setDataFromDialogueForProject = async (datas) => {
     console.log(datas);
 
-    await axios
+    trackPromise( await axios
       .post("https://www.nrwlpms.com/api/api/update_project.php", {
         ...datas,
         jwt: user.token,
@@ -80,10 +81,10 @@ function Project() {
         const index = datas.tableData.id;
         dataUpdate[index] = datas;
         setData([...dataUpdate]);
-        alert(response.data.message);
+        console.log(response.data.message);
         setToastOpen(true);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message)));
   };
   const deleteProject = async (project_id) => {
     console.log(project_id);
@@ -93,10 +94,10 @@ function Project() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -109,11 +110,11 @@ function Project() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
         const temp={...newData,project_id:response.data.project_id}
         setData([...data, temp]);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
   };
 
   const updateProject = async (newData) => {
@@ -122,8 +123,8 @@ function Project() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (

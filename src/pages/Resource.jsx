@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
+import { trackPromise } from "react-promise-tracker";
 function Resource() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -41,17 +42,17 @@ function Resource() {
   useEffect(() => {
 
 
-    axios
+    trackPromise( axios
     .post("https://www.nrwlpms.com/api/api/get_all_projects.php", {
       jwt: user.token,
     })
     .then(async (response) => {
       console.log(response.data);
       await setProjects(response.data.data);
-    });
+    }))
 
 
-    axios
+    trackPromise( axios
       .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
         jwt: user.token,
       })
@@ -64,16 +65,16 @@ function Resource() {
         });
 
         setResourceType(dataTemp);
-      });
+      }));
 
-    axios
+      trackPromise(axios
       .post("https://www.nrwlpms.com/api/api/get_all_resourse.php", {
         jwt: user.token,
       })
       .then((response) => {
         setData(response.data.data);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => alert(err.message)));
   }, []);
 
   const deleteResource = async (resource_id) => {

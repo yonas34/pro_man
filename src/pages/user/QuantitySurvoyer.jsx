@@ -155,7 +155,7 @@ function QuantitySurvoyer() {
             setResource(data)
           );
         })
-        .catch((err) => alert(err.message));
+        .catch((err) => console.log(err.message));
     }
 
     return acc;
@@ -191,7 +191,7 @@ function QuantitySurvoyer() {
           }, {})
         );
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
 
     axios
       .post(
@@ -252,7 +252,7 @@ function QuantitySurvoyer() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       });
   };
   const deleteMaterialProjectTable = async (emp_id) => {
@@ -264,10 +264,10 @@ function QuantitySurvoyer() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -345,10 +345,10 @@ function QuantitySurvoyer() {
 
           setData([...data, newTemp]);
         } else {
-          alert("All resources for this project has already been deployed!");
+          console.log("All resources for this project has already been deployed!");
         }
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
   };
 
   const updateMaterialProjectTable = async (newData, oldData) => {
@@ -440,14 +440,14 @@ function QuantitySurvoyer() {
         ds
       )
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
         const dataUpdate = [...data];
         const index = oldData.tableData.id;
 
         dataUpdate[index] = dss;
         setData([...dataUpdate]);
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
   };
 
   const selectProject = async (value) => {
@@ -489,10 +489,10 @@ function QuantitySurvoyer() {
                   : response.data.data[0].executed_quantity
               );
             })
-            .catch((err) => alert(err));
+            .catch((err) => console.log(err));
         }
       })
-      .catch((err) => alert(err.message));
+      .catch((err) => console.log(err.message));
   };
   const dateSelect = async (value) => {
     setDates(value);
@@ -699,7 +699,7 @@ function QuantitySurvoyer() {
                 JSON.stringify(fData)
               )
               .then((response) => console.log(response.data))
-              .catch((err) => alert(err.message));
+              .catch((err) => console.log(err.message));
             console.log(fData);
           },
         }}

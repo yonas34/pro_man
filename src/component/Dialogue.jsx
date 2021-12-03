@@ -73,7 +73,7 @@ const resetPassword=async(emp_id)=>{
       jwt:user.token
      
   }).then((response)=>{
-   alert(response.data.message)
+   console.log(response.data.message)
   }).catch((err)=>alert(err.message));
 }
 

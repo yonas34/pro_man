@@ -22,7 +22,7 @@ function AdminTable() {
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
-      }).catch((err)=>alert(err.message));
+      }).catch((err)=>console.log(err.message));
   }, []);
 
   const deleteAdminTable = async (mnpr_id) => {
@@ -32,10 +32,10 @@ function AdminTable() {
         jwt: user.token,
       })
       .then((response) => {
-        alert(response.data.message);
+        console.log(response.data.message);
       })
       .catch((err) => {
-        alert(err.message);
+        console.log(err.message);
       });
   };
 
@@ -45,7 +45,7 @@ function AdminTable() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message)).catch((err)=>alert(err.message));
+      .then((response) => console.log(response.data.message)).catch((err)=>console.log(err.message));
   };
 
   const updateAdminTable = async (newData) => {
@@ -54,8 +54,8 @@ function AdminTable() {
         ...newData,
         jwt: user.token,
       })
-      .then((response) => alert(response.data.message))
-      .catch((err) => alert(err.message));
+      .then((response) => console.log(response.data.message))
+      .catch((err) => console.log(err.message));
   };
 
   return (
