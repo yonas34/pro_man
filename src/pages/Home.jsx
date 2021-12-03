@@ -4,7 +4,7 @@ import { Box, Grid, Card, CardHeader, CardContent } from "@mui/material";
 import { Doughnut } from "react-chartjs-2";
 import ChartDual from "../component/ChartDual";
 
-import * as data from "../component/chartData";
+// import * as data from "../component/chartData";
 const Item = styled(Card)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -15,7 +15,7 @@ const Item = styled(Card)(({ theme }) => ({
 export default function Home() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
+      {/* <Grid container spacing={2}>
         <Grid container spacing={2}>
           <Grid item xs={10} md={9}></Grid>
         </Grid>
@@ -86,7 +86,7 @@ export default function Home() {
             />
           </Item>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Box>
   );
 }

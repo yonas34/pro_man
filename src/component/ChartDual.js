@@ -14,9 +14,9 @@ const options = {
   },
 };
 
-const ChartDual = () => (
+const ChartDual = (props) => (
   
-    <Bar data={dualData} options={options} />
+    <Bar data={props.data} options={options} />
  
 );
 

@@ -1,3 +1,4 @@
+import axios from "axios";
 export const donught_previous_month = {
   labels: ['FUEL', 'OTHER', 'EQUIPMENT', 'MANPOWER', 'MATERIAL'],
   datasets: [
@@ -51,12 +52,12 @@ export const donught_this_month = {
   };
 
 
-  export const donught_todate = {
+  export const gData =(label,data)=>( {
     labels: ['FUEL', 'OTHER', 'EQUIPMENT', 'MANPOWER', 'MATERIAL'],
     datasets: [
       {
-        label: 'Todate',
-        data: [14, 0, 26, 10, 50],
+        label: label,
+        data: data,
         backgroundColor: [
           'yellow',
           'green',
@@ -75,20 +76,20 @@ export const donught_this_month = {
         borderWidth: 1,
       },
     ],
-  };
+  })
 
-  export const dualData = {
+  export const dualData =(income,expense)=> ({
     labels: ['previous Month', 'This Month', 'Todate'],
     datasets: [
       {
         label: 'INCOME',
-        data: [327113087.23, 210568250.00, 537681337.23],
+        data: income,
         backgroundColor: 'blue',
         stack: 'Stack 1',
       },
       {
         label: 'EXPENSE',
-        data: [326462028.00, 199133600.00, 525595628.00],
+        data: expense,
         backgroundColor: 'orange',
         stack: 'Stack 2',
       },
@@ -99,5 +100,26 @@ export const donught_this_month = {
     //     stack: 'Stack 3',
     //   },
     ],
-  };
-  
+  })
+  export const CharD=(project,token)=>{
+   
+    var size;
+    var fuel=0.0,equipment=0.0,material=0.0,manpower=0.0,other;
+return( axios.post("https://www.nrwlpms.com/api/api/report/dashbord_report_quantity_surveyor.php",{
+project_id:project,
+jwt:token
+}).then((response)=>{
+const totalPre=response.data["total report"]["total previous months fuel expence"]+response.data["total report"]["total previous month equipment expence"]+response.data["total report"]["total previous month employee expence"]+response.data["total report"]["total previous month material expence"];
+const totalThis=response.data["total report"]["total this months fuel expence"]+response.data["total report"]["total this month equipment expence"]+response.data["total report"]["total this month employee expence"]+response.data["total report"]["total this month material expence"]
+const totalTodate=response.data["total report"]["total todate fuel expence"]+response.data["total report"]["total todate equipment expence"]+response.data["total report"]["total todate employee expence"]+response.data["total report"]["total todate material expence"]
+const pre=Object.values({fuel:((response.data["total report"]["total previous months fuel expence"])/totalPre)*100,other:0,equipment:((response.data["total report"]["total previous month equipment expence"])/totalPre)*100,manpower:((response.data["total report"]["total previous month employee expence"])/totalPre)*100,material:((response.data["total report"]["total previous month material expence"])/totalPre)*100})
+const thi_s=Object.values({fuel:((response.data["total report"]["total this months fuel expence"])/totalThis)*100,other:0,equipment:((response.data["total report"]["total this month equipment expence"])/totalThis)*100,manpower:((response.data["total report"]["total this month employee expence"])/totalThis)*100,material:((response.data["total report"]["total this month material expence"])/totalThis)*100});
+const todate=Object.values({fuel:((response.data["total report"]["total todate fuel expence"])/totalTodate)*100,other:0,equipment:((response.data["total report"]["total todate equipment expence"])/totalTodate)*100,manpower:((response.data["total report"]["total todate employee expence"])/totalTodate)*100,material:((response.data["total report"]["total todate material expence"])/totalTodate)*100});
+
+return({total:dualData(Object.values({previous:response.data["total report"]["total last months income"],this:response.data["total report"]["total this month income"],todate:response.data["total report"]["total todate income"]}),Object.values({previous:totalPre,this:totalThis,todate:totalTodate})),percent:{previous:gData("previous",pre),this:gData("This Months",thi_s),todate:gData("Todate",todate)}});
+})
+)
+
+
+
+  }
