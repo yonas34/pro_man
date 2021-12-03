@@ -17,6 +17,7 @@ function App() {
 
     <div style={false  ?st:{
     filter:"blur(0px)"}}>
+      
      {isLoggedin? <Sidebar router={<Routes/>}/> :<Login/>}
 
     </div>

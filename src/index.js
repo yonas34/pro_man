@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import './index.css'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import {createStore} from "redux";
 import allReducers from "./reducers/";
@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import { loginToggle,setUser } from './reducers/actions'
 import axios from 'axios';
 import Load from './Load'
+import './index.css'
 const store=createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 

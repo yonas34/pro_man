@@ -11,11 +11,7 @@ export const MenuList=()=>{
  {
      case "1":  
     return([
-{
-icon:<Dashboard/>,
-link:'/',
-name:"Dashboard"
-},
+
 {
     icon:<Task/>,
     link:'/projects',
