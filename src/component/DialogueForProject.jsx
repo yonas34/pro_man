@@ -479,7 +479,7 @@ return(
 
   <MenuItem divider key="dashboard" onClick={()=>setDashboard(true)}>Dashboard</MenuItem>
   <MenuItem divider key="unit_cost" onClick={()=>setUnitCost(true)}>Unit Cost</MenuItem> 
-  <MenuItem divider key="expense" onClick={()=>setExpense(true)}>Expense</MenuItem> 
+  {/* <MenuItem divider key="expense" onClick={()=>setExpense(true)}>Expense</MenuItem>  */}
 </ul>
 </Card>
 
