@@ -117,9 +117,11 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
   };
 
   const updateEmployeeProjectTable = async (newData) => {
+    console.log(newData)
     await axios
       .post("https://www.nrwlpms.com/api/api/update_employee_project.php", {
         ...newData,
+        "user_type_id" : 3,
         jwt: user.token,
       })
       .then((response) => console.log(response.data.message))
