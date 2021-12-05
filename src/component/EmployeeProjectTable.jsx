@@ -87,11 +87,11 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
 
 
   const deleteEmployeeProjectTable = async (emp_id) => {
-   console.log(emp_id);
+   
    
     await axios
       .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
-        id:emp_id,
+        ...emp_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -183,7 +183,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteEmployeeProjectTable(oldData.id);
+              deleteEmployeeProjectTable(oldData);
               setData([...dataDelete]);
               resolve();
             }, 1000);
