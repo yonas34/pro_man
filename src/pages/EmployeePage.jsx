@@ -119,7 +119,7 @@ function EmployeePage() {
   const deleteEmployeePage = async (emp_id) => {
     await axios
       .post("https://www.nrwlpms.com/api/api/delete_employee.php", {
-        emp_id: emp_id,
+        ...emp_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -207,7 +207,7 @@ function EmployeePage() {
           onRowDelete: (oldData) =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
-                deleteEmployeePage(oldData.emp_id);
+                deleteEmployeePage(oldData);
                 const dataDelete = [...data];
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
