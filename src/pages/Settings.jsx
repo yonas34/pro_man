@@ -118,7 +118,7 @@ dispatch(setUser(''))
                 fontFamily: "arial",
               }}
             >
-              <Typography variant={"h5"}>Reset Password</Typography>
+              <Typography variant={"h5"}>Set User Information</Typography>
             </CardContent>
             <CardContent>
               <Grid container direction={"column"} spacing={4}>
