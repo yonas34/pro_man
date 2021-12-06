@@ -189,7 +189,7 @@ dispatch(setUser(''))
 
                 <Grid item>
                   <Button variant={"primary"} type={"submit"} style={{ marginLeft: "30%" }}>
-                    <Save /> Save
+                    <Save /> Reset
                   </Button>
                 </Grid>
               </Grid>
