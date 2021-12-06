@@ -15,6 +15,7 @@ import {useSelector} from 'react-redux';
 import QuantitySurvoyer from './pages/user/QuantitySurvoyer';
 import Store from './pages/user/Store';
 import SecretaryPage from './pages/user/SecretaryPage';
+import Settings from './pages/Settings';
 export default function Routes() {
 const user =useSelector(state=>state.user);
 
@@ -57,6 +58,9 @@ return (
 <Route path="/activities">
 <Activity/>
 </Route>
+<Route path="/settings">
+    <Settings/>
+</Route>
 </Switch>
 
     )
@@ -70,11 +74,14 @@ case "3":
 <Route exact path="/">
     <QuantitySurvoyer/>
 </Route>
-<Route exact path="/store">
+<Route  path="/store">
     <Store/>
 </Route>
-<Route exact path="/secretary">
+<Route  path="/secretary">
     <SecretaryPage/>
+</Route>
+<Route  path="/settings">
+    <Settings/>
 </Route>
 </Switch>
 

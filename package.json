@@ -34,7 +34,8 @@
     "styled-components": "^5.3.3",
     "use-state-if-mounted": "^1.0.4",
     "web-vitals": "^1.0.1",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zxcvbn": "^4.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
