@@ -134,7 +134,7 @@ return acc;
   return (
     <MaterialTable
       icons={tableIcons}
-      title="ActivityProjectTable"
+      title="Unit Cost Table"
       tableRef={tableRef}
       columns={column}
       data={data}
