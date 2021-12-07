@@ -1,0 +1,38 @@
+[debug] [2021-12-07T09:58:36.428Z] ----------------------------------------------------------------------
+[debug] [2021-12-07T09:58:36.436Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\yonas\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2021-12-07T09:58:36.437Z] CLI Version:   9.23.0
+[debug] [2021-12-07T09:58:36.438Z] Platform:      win32
+[debug] [2021-12-07T09:58:36.438Z] Node Version:  v14.17.1
+[debug] [2021-12-07T09:58:36.442Z] Time:          Tue Dec 07 2021 06:58:36 GMT-0300 (Brasilia Standard Time)
+[debug] [2021-12-07T09:58:36.442Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-12-07T09:58:36.670Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-12-07T09:58:36.671Z] > authorizing via signed-in user (yonasdeguassefa@gmail.com)
+[info] i  emulators: Starting emulators: hosting {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: hosting"}}
+[debug] [2021-12-07T09:58:36.760Z] [hub] writing locator at C:\Users\yonas\AppData\Local\Temp\hub-project-management-39aa1.json
+[debug] [2021-12-07T09:58:36.889Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/project-management-39aa1/sites 
+[debug] [2021-12-07T09:58:38.854Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/project-management-39aa1/sites 200
+[debug] [2021-12-07T09:58:38.855Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/project-management-39aa1/sites {"sites":[{"name":"projects/644110841851/sites/project-management-39aa1","defaultUrl":"https://project-management-39aa1.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2021-12-07T09:58:38.856Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/project-management-39aa1/webApps/-/config [none]
+[debug] [2021-12-07T09:58:40.013Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/project-management-39aa1/webApps/-/config 200
+[debug] [2021-12-07T09:58:40.014Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/project-management-39aa1/webApps/-/config {"projectId":"project-management-39aa1","storageBucket":"project-management-39aa1.appspot.com","apiKey":"AIzaSyDjZNcVQJJ9pGhclWAASNLvPT0kGvem3nI","authDomain":"project-management-39aa1.firebaseapp.com","messagingSenderId":"644110841851"}
+[info] i  hosting: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
+[info] +  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
+[warn] !  emulators: The Emulator UI requires a project ID to start. Configure your default project with 'firebase use' or pass the --project flag. {"metadata":{"emulator":{"name":"hub"},"message":"The Emulator UI requires a project ID to start. Configure your default project with 'firebase use' or pass the --project flag."}}
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────┬────────────────┐
+│ Emulator │ Host:Port      │
+├──────────┼────────────────┤
+│ Hosting  │ localhost:5000 │
+└──────────┴────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: None
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[info] i  hosting: 127.0.0.1 - - [07/Dec/2021:09:59:06 +0000] "GET / HTTP/1.1" 404 139 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [07/Dec/2021:09:59:06 +0000] \"GET / HTTP/1.1\" 404 139 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [07/Dec/2021:09:59:10 +0000] "GET / HTTP/1.1" 404 139 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [07/Dec/2021:09:59:10 +0000] \"GET / HTTP/1.1\" 404 139 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36\""}}

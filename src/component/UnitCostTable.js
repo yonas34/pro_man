@@ -8,47 +8,26 @@ function UnitCostTable(props) {
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
   const projectId=props.pro_id;
-  const [project,setProject]=useState([]);
-  const [specialUser,setSpecialUser]=useState([]);
- const [activity,setActivity]=useState([]);
- const [activityPro,setActivityPro]=useState([])
-  var projectObj = project.reduce((acc, cur, i) => {
-    acc[cur.project_id] = cur.pro_name;
-    return acc;
-  }, {});
-  
-
-
-  var actObj = activity.reduce((acc, cur, i) => {
-    acc[cur.activity_id] = cur.activity_name;
-    return acc;
-  }, {});
-var modAct=activityPro.reduce((acc,cur,i)=>{
-acc[cur.id]=actObj[cur.activity_id]
-return acc;
-},{})
  
  
+
+
+
+
+
 
 
   const column = [
-    { title: "Activity", field: "activity project id",lookup:modAct },
-   {title:"Previous Month Income",field:"previous months income",type:"currency"},
-   {title:"This Month Income",field:"this month income",type:"currency"},
-   {title:"Todate Income",field:"todate income",type:"currency"},
-   {title:"Previous Month Equipment Expense",field:"previous months equipment expence",type:"currency"},
-   {title:"This Month Equipment Expense",field:"this months equipment expence",type:"currency"},
-   {title:"Todate Equipment Expense",field:"todate equipment expence",type:"currency"},
-   {title:"Previous Month Fuel Expense",field:"previous month fuel expence",type:"currency"},
-   {title:"This Month Fuel Expense",field:"this month fuel expence",type:"currency"},
-   {title:"Todate Fuel Expense",field:"todate fuel expence",type:"currency"},
-   {title:"This Month Material Expense",field:"this month material expence",type:"currency"},
-   {title:"Previous Month Material Expense",field:"previous month material expence",type:"currency"},
-   {title:"Todate Material Expense",field:"todate material expence",type:"currency"},
-   {title:"Previous Month Employee Expense",field:"previous month employee expence",type:"currency"},
-   {title:"This Month Employee Expense",field:"this month employee expence",type:"currency"},
-   {title:"Todate Employee Expense",field:"todate employee expence",type:"currency"}
-  ];
+    { title: "Activity", field: "activity name",},
+   {title:"Unit",field:"unit"},
+   {title:"Executed Quantity",field:"executed quantity"},
+   {title:"Equipment Cost",field:"equipment cost",type:"currency"},
+   {title:"Manpower Cost",field:"manpower cost",type:"currency"},
+   {title:"Fuel Cost",field:"fuel cost",type:"currency"},
+   {title:"Material Cost",field:"material cost",type:"currency"},
+   {title:"Actual Unit Cost",field:"actual unit cost",type:"currency"},
+   {title:"Activity Contract Rate",field:"activity contract rate",type:"currency"},
+   {title:"OH and Profit",field:"OH and profit"}];
 
 
   const [data, setData] = useState([]);
@@ -62,28 +41,11 @@ return acc;
       })
       .then(async (response) => {
         console.log(response.data);
-        await setData(response.data["report by activity"]);
+        await setData(response.data["unit cost report"]);
       }).catch((err)=>console.log(err.message));
 
-      axios
-      .post("https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php", {
-      project_id:projectId, 
-      jwt: user.token,
-
-      })
-      .then(async (response) => {
-        console.log(response.data);
-        await setActivityPro(response.data.data);
-      }).catch((err)=>console.log(err.message));
-   axios
-      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", { 
-      jwt: user.token,
     
-      }).then((response)=>{
-    console.log(response.data)
-    setActivity(response.data.data);
-    
-      }).catch((err)=>console.log(err.message))
+  
 
 
   }, []);
