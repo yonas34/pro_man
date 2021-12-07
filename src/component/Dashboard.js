@@ -90,7 +90,7 @@ useEffect(async() => {
           </Grid>
           <Grid item xs={6} md={7}>
           <ChartDual data={data.total}/>
-          <MaterialTable icons={tableIcons} title={"Income and Expense"} columns={[{title:"Label",field:"label"},{title:"Previous",field:'previous'},{title:"This Month",field:"this"},{title:"Todate",field:"todate"}]} data={data.unstructuredTotal}/>
+          <MaterialTable icons={tableIcons} title={"Income and Expense"} columns={[{title:"Label",field:"label"},{title:"Previous",field:'previous',type:"currency"},{title:"This Month",field:"this",type:"currency"},{title:"Todate",field:"todate",type:"currency"}]} data={data.unstructuredTotal}/>
           </Grid>
           
         </Grid>}

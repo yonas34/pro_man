@@ -3,41 +3,101 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "./tableIcons";
-function UnitCostTable() {
+function UnitCostTable(props) {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
+  const projectId=props.pro_id;
+  const [project,setProject]=useState([]);
+  const [specialUser,setSpecialUser]=useState([]);
+ const [activity,setActivity]=useState([]);
+ const [activityPro,setActivityPro]=useState([])
+  var projectObj = project.reduce((acc, cur, i) => {
+    acc[cur.project_id] = cur.pro_name;
+    return acc;
+  }, {});
+  
+
+
+  var actObj = activity.reduce((acc, cur, i) => {
+    acc[cur.activity_id] = cur.activity_name;
+    return acc;
+  }, {});
+var modAct=activityPro.reduce((acc,cur,i)=>{
+acc[cur.id]=actObj[cur.activity_id]
+return acc;
+},{})
+ 
+ 
+
 
   const column = [
-    { title: "Activity", field: "equipment" },
-    { title: "Unit", field: "fule_cons_per_hr" },
-    { title: "Executed Qty", field: "rate_hr" },
-    { title: "Equipment Cost", field: "rate_hr" },
-    { title: "Manpower Cost", field: "rate_hr" },
-    { title: "Fuel Cost", field: "rate_hr" },
-    { title: "Material Cost", field: "rate_hr" },
-    { title: "Actual Unit Cost", field: "rate_hr" },
-    { title: "Contract Rate", field: "rate_hr" },
-    { title: "OH and Profit", field: "rate_hr" },
+    { title: "Activity", field: "activity project id",lookup:modAct },
+   {title:"Previous Month Income",field:"previous months income",type:"currency"},
+   {title:"This Month Income",field:"this month income",type:"currency"},
+   {title:"Todate Income",field:"todate income",type:"currency"},
+   {title:"Previous Month Equipment Expense",field:"previous months equipment expence",type:"currency"},
+   {title:"This Month Equipment Expense",field:"this months equipment expence",type:"currency"},
+   {title:"Todate Equipment Expense",field:"todate equipment expence",type:"currency"},
+   {title:"Previous Month Fuel Expense",field:"previous month fuel expence",type:"currency"},
+   {title:"This Month Fuel Expense",field:"this month fuel expence",type:"currency"},
+   {title:"Todate Fuel Expense",field:"todate fuel expence",type:"currency"},
+   {title:"This Month Material Expense",field:"this month material expence",type:"currency"},
+   {title:"Previous Month Material Expense",field:"previous month material expence",type:"currency"},
+   {title:"Todate Material Expense",field:"todate material expence",type:"currency"},
+   {title:"Previous Month Employee Expense",field:"previous month employee expence",type:"currency"},
+   {title:"This Month Employee Expense",field:"this month employee expence",type:"currency"},
+   {title:"Todate Employee Expense",field:"todate employee expence",type:"currency"}
   ];
-  const [data, setData] = useState([]);
 
+
+  const [data, setData] = useState([]);
   useEffect(() => {
+    console.log(projectId);
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
-        jwt: user.token,
+      .post("https://www.nrwlpms.com/api/api/report/dashbord_report_quantity_surveyor.php", {
+      project_id:projectId, 
+      jwt: user.token,
+
       })
       .then(async (response) => {
         console.log(response.data);
-        await setData(response.data.data);
-      });
-    console.log(data);
+        await setData(response.data["report by activity"]);
+      }).catch((err)=>console.log(err.message));
+
+      axios
+      .post("https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php", {
+      project_id:projectId, 
+      jwt: user.token,
+
+      })
+      .then(async (response) => {
+        console.log(response.data);
+        await setActivityPro(response.data.data);
+      }).catch((err)=>console.log(err.message));
+   axios
+      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", { 
+      jwt: user.token,
+    
+      }).then((response)=>{
+    console.log(response.data)
+    setActivity(response.data.data);
+    
+      }).catch((err)=>console.log(err.message))
+
+
   }, []);
 
-  const deleteResource = async (res_type_id) => {
+
+
+
+
+  const deleteActivityProjectTable = async (emp_id) => {
+   console.log(emp_id);
+   
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse_type.php", {
-        res_type_id: res_type_id,
+      .post("https://www.nrwlpms.com/api/api/delete_activity_project.php", {
+        ...emp_id,
         jwt: user.token,
       })
       .then((response) => {
@@ -47,25 +107,24 @@ function UnitCostTable() {
         console.log(err.message);
       });
   };
-
-  const addResource = async (newData) => {
+  
+  const addActivityProjectTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
-        equipment: newData.equipment,
-        fule_cons_per_hr: newData.fule_cons_per_hr,
-        rate_hr: newData.rate_hr,
-        jwt: user.token,
-      })
-      .then((response) => console.log(response.data.message));
+    .post("https://www.nrwlpms.com/api/api/create_activity_project.php", {
+      ...newData,project_id:projectId,
+      
+      jwt: user.token,
+    })
+    .then((response) => {console.log(response.data.message) 
+      
+      const newTemp={...newData,id:response.data.id,project_id:projectId};
+        setData([...data, newTemp]);}).catch((err)=>console.log(err.message));
   };
 
-  const updateResource = async (newData) => {
+  const updateActivityProjectTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_resourse_type.php", {
-        res_type_id: newData.res_type_id,
-        rate_hr: newData.rate_hr,
-        fule_cons_per_hr: newData.fule_cons_per_hr,
-        equipment: newData.equipment,
+      .post("https://www.nrwlpms.com/api/api/update_activity_project.php", {
+        ...newData,
         jwt: user.token,
       })
       .then((response) => console.log(response.data.message))
@@ -75,7 +134,7 @@ function UnitCostTable() {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="Resourse Type Entry"
+      title="ActivityProjectTable"
       tableRef={tableRef}
       columns={column}
       data={data}
@@ -98,47 +157,6 @@ function UnitCostTable() {
           </div>
         ),
       }}
-      editable={{
-        onRowAdd: (newData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              addResource({
-                equipment: newData.equipment,
-                fule_cons_per_hr: newData.fule_cons_per_hr,
-                rate_hr: newData.rate_hr,
-              });
-              setData([...data, newData]);
-              resolve();
-            }, 1000);
-          }),
-        onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataUpdate = [...data];
-              const index = oldData.tableData.id;
-              updateResource({
-                res_type_id: newData.res_type_id,
-                rate_hr: newData.rate_hr,
-                equipment: newData.equipment,
-                fule_cons_per_hr: newData.fule_cons_per_hr,
-              });
-              dataUpdate[index] = newData;
-              setData([...dataUpdate]);
-              resolve();
-            }, 1000);
-          }),
-        onRowDelete: (oldData) =>
-          new Promise((resolve, reject) => {
-            setTimeout(() => {
-              const dataDelete = [...data];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
-              deleteResource(oldData.res_type_id);
-              setData([...dataDelete]);
-              resolve();
-            }, 1000);
-          }),
-      }}
       onRowClick={(evt, selectedRow) =>
         setSelectedRow(selectedRow.tableData.id)
       }
@@ -147,3 +165,11 @@ function UnitCostTable() {
 }
 
 export default UnitCostTable;
+
+
+
+
+
+
+
+

@@ -12,7 +12,7 @@ function ResourceTypeTable() {
   const column = [
     { title: "Equipment", field: "equipment" },
     { title: "Fule Consumption L/hr", field: "fule_cons_per_hr" },
-    { title: "Rate $/hr", field: "rate_hr" },
+    { title: "Rate $/hr", field: "rate_hr",type:"currency" },
   ];
   const [data, setData] = useState([]);
 
