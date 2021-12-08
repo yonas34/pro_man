@@ -50,9 +50,33 @@ console.log(localStorage);
                           
                         }
                         dispatch(loginToggle());
-                        history.replace('/');
+       
+         if(data.usertype==1)
+         history.replace('/');
 
-                    }).catch((err)=>{alert("Incorrect user name or password, please try again!")
+      else{ 
+          console.log(data.usertype)
+    data.resp.map(re=>{
+        switch(Number(re.special_user_id))
+        {
+
+case 1:
+    console.log(re.special_user_id);
+  
+    history.replace('/');
+    break;
+ case 3:
+    history.replace('/store');
+break;
+
+case 6:
+    history.replace('/secretary');
+    break;
+        
+}})}
+
+
+                    }).catch((err)=>{ alert(err.message=="Network Error" ? "Network Error":"Incorrect user name or password, please try again!")
                 
                 console.log(err.message)}))
                         

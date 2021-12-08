@@ -161,7 +161,7 @@ function EmployeePage() {
     <div>
       <MaterialTable
         icons={tableIcons}
-        title="EmployeePage"
+        title="Employee Table"
         tableRef={tableRef}
         columns={column}
         data={data}

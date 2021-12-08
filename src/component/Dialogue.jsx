@@ -49,6 +49,7 @@ export default function Dialogue(props) {
   const manData=props.manData;
   const data = props.data;
   const setData=props.setData;
+  const [sp,setSp]=useState(false);
   
   const [file,setFile]=useState(props.data.emp_pic);
   const _handleReaderLoaded=(readerEvt)=>{
@@ -77,6 +78,9 @@ const resetPassword=async(emp_id)=>{
   }).catch((err)=>console.log(err.message));
 }
 
+useEffect(()=>{
+
+},[sp])
 
   const Form = (props) =>{ const data=props.data;   return (
     <Formik
@@ -335,13 +339,13 @@ if(!props.open && file!=undefined)
 }} />
           </form>
           </Grid>
-          <Grid item xs={6} md={10} >
+          {sp && <Grid item xs={6} md={10} >
             <IconButton  onClick={()=>resetPassword(data.emp_id)}>
            <Restore/> Reset Password
            </IconButton>
           </Grid>
-          <Grid item xs={6} md={10} >
-            <SpecialUserTable uid={data.emp_id}/>
+          }<Grid item xs={6} md={10} >
+            <SpecialUserTable sp={(val)=>setSp(val)} uid={data.emp_id}/>
           </Grid>
           <Grid item xs={6} md={10}>
             <AdminTable id={data.emp_id}/>

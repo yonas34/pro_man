@@ -143,6 +143,7 @@ function QuantitySurvoyer() {
 
   user.resp.reduce(async (acc, cur) => {
     if (!project.find((pro) => pro.project_id == cur.project_id)) {
+      if(cur.special_user_id==1)
       await axios
         .post("https://www.nrwlpms.com/api/api/get_single_project.php", {
           project_id: cur.project_id,
@@ -560,16 +561,7 @@ function QuantitySurvoyer() {
             ))}
           </TextField>
         </Grid>
-        <Grid item>
-          {" "}
-          <TextField
-            type={"date"}
-            onChange={(value) => trackPromise(dateSelect(value.target.value))}
-            name="date"
-            size={"small"}
-            value={dates}
-          />
-        </Grid>
+       
         <Grid item>
           <Typography variant={"h6"}>Executed Quantity:</Typography>
           <TextField

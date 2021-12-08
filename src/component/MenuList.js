@@ -78,33 +78,54 @@ name:"Manpower"
 
 ])
 case "3":
-    return([
+    const list=[];
+    const flag={"1":false,"3":false,"6":false};
+    user.resp.map(re=>{
+        console.log(re.special_user_id);
+        switch(Number(re.special_user_id))
+        {
 
-        {
-            icon:<Pages/>,
-            link:'/',
-            name:'Quantity Surveryor Page'
-        },
-        {
-            icon:<Storage/>,
-            link:'/store',
-            name:'Store'
-        },
-        {
-            icon:<Keyboard/>,
-            link:'/secretary',
-            name:'SECRETARY'
-        },
-        {
+case 1:
+    console.log(re.special_user_id);
+    if(!flag[1]){
+    list.push( {
+        icon:<Pages/>,
+        link:'/',
+        name:'Quantity Surveryor Page'
+    })
+    flag[1]=true;
+}
+    break;
+ case 3:
+     if(!flag[3]){
+list.push( {
+    icon:<Storage/>,
+    link:'/store',
+    name:'Store'
+});
+flag[3]=true}
+break;
+
+case 6:
+    if(!flag[6]){
+    list.push( {
+        icon:<Keyboard/>,
+        link:'/secretary',
+        name:'SECRETARY'
+    })
+    flag[6]=true;
+        
+}}});
+
+        list.push(  {
 
             name:"Settings",
             icon:<Settings/>,
             link:"/settings"
             
-                },
-    
+                })
 
-    ])
+return list;
 
 
 

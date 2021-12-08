@@ -67,19 +67,47 @@ return (
 
 
 case "3":
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+        
+
     return (
 
 
 <Switch>
-<Route exact path="/">
+{user.resp.find(re=>re.special_user_id==1)!=undefined && <Route exact path="/">
     <QuantitySurvoyer/>
-</Route>
-<Route  path="/store">
+</Route>}
+{user.resp.find(re=>re.special_user_id==3)!=undefined && <Route  path="/store">
     <Store/>
-</Route>
-<Route  path="/secretary">
+</Route>}
+{user.resp.find(re=>re.special_user_id==6)!=undefined && <Route  path="/secretary">
     <SecretaryPage/>
-</Route>
+</Route>}
 <Route  path="/settings">
     <Settings/>
 </Route>

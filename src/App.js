@@ -14,7 +14,7 @@ function App() {
   console.log(isLoggedin);
   const st={ zIndex:"-1",pointerEvents: "none",
   filter:"blur(10px)"}
-  console.log(user);
+  console.log(user.resp);
   return (
  
 

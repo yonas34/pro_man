@@ -38,7 +38,8 @@ function SpecialUserTable(props) {
 
       })
       .then(async (response) => {
-        console.log(response.data);
+        props.sp(response.data.data.length>=1);
+        console.log(response.data.data);
         await setData(response.data.data);
       }).catch((err)=>console.log(err.message));
    axios
@@ -61,12 +62,13 @@ function SpecialUserTable(props) {
 
   const deleteSpecialUserTable = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_SpecialUserTable.php", {
-        mnpr_id: mnpr_id,
+      .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
+        ...mnpr_id,
         jwt: user.token,
       })
       .then((response) => {
         console.log(response.data.message);
+      
       })
       .catch((err) => {
         console.log(err.message);
@@ -84,7 +86,11 @@ function SpecialUserTable(props) {
     .then((response) => {console.log(response.data.message) 
       
       const newTemp={special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid};
-        setData([...data, newTemp]);}).catch((err)=>console.log(err.message));
+        setData([...data, newTemp]);
+      
+        props.sp(true);
+      }).catch((err)=>console.log(err.message));
+        
   };
 
   const updateSpecialUserTable = async (newData) => {
@@ -151,10 +157,15 @@ function SpecialUserTable(props) {
               const dataDelete = [...data];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              deleteSpecialUserTable(oldData.mnpr_id);
+              props.sp(dataDelete.length>=1)
               setData([...dataDelete]);
+              
+              deleteSpecialUserTable(oldData);
+      
+              
               resolve();
             }, 1000);
+            console.log(data);
           }),
       }}
       onRowClick={(evt, selectedRow) =>
