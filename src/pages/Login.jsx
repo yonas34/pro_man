@@ -41,7 +41,7 @@ useEffect(() => {
                         "password": values.password
                     }).then((response)=>{
                         const data={username:response.data.data.user_name,token:response.data.jwt,reset:response.data.data.reset,userId:response.data.data.emp_id,usertype:response.data.data.user_type_id,resp:response.data.data.total_data}
-                       console.log(response.data.data.total_data)
+                       console.log(response.data.data)
                         dispatch(setUser(data))
                         if(values.remember)
                         {  localStorage.setItem('auth',JSON.stringify({user_name:values.username,pass:values.password}));
@@ -53,9 +53,12 @@ console.log(localStorage);
        
          if(data.usertype==1)
          history.replace('/');
+         if(data.usertype==2)
+         history.replace('/');
 
       else{ 
           console.log(data.usertype)
+          if(data.resp)
     data.resp.map(re=>{
         switch(Number(re.special_user_id))
         {

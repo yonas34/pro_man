@@ -84,6 +84,12 @@ name:"Manpower"
     
 
 ])
+case "2":
+    return([{
+        icon:<Task/>,
+        link:'/projects',
+        name:'Project'
+    }])
 case "3":
     const list=[];
     const flag={"1":false,"3":false,"6":false};

@@ -70,6 +70,24 @@ return (
 
     )
 
+case "2":
+    return (
+        <Switch>
+        <Route exact path="/">
+            <Project/>
+        </Route>
+        <Route path="/projects">
+            <Project/>
+        </Route>
+        
+        <Route path="/settings">
+            <Settings/>
+        </Route>
+        </Switch>
+        
+            )
+        
+    
 
 case "3":
     

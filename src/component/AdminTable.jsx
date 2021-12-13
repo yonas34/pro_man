@@ -97,8 +97,9 @@ function AdminTable(props) {
         console.log(err.message);
       });
   };
- 
   const addAdminTable = async (newData) => {
+    console.log(newData);
+
     await axios
     .post("https://www.nrwlpms.com/api/api/create_admin_project.php", {
       ...newData,
