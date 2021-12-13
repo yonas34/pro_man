@@ -16,6 +16,7 @@ import QuantitySurvoyer from './pages/user/QuantitySurvoyer';
 import Store from './pages/user/Store';
 import SecretaryPage from './pages/user/SecretaryPage';
 import Settings from './pages/Settings';
+import QuantityAdmin from './pages/QuantityAdmin';
 export default function Routes() {
 const user =useSelector(state=>state.user);
 
@@ -39,6 +40,10 @@ return (
 <Route path="/user">
 
     <UserMan/>
+</Route>
+<Route path="/quantityadmin">
+
+    <QuantityAdmin/>
 </Route>
 <Route path="/view_resource_type">
 

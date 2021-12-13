@@ -1,4 +1,4 @@
-import {GroupWork,Dashboard,Store,Person,Add,ViewList,PeopleSharp, Gavel, Pages, Storage, Keyboard, Settings} from '@material-ui/icons'
+import {GroupWork,Report,Dashboard,Store,Person,Add,ViewList,PeopleSharp, Gavel, Pages, Storage, Keyboard, Settings} from '@material-ui/icons'
 import { ExitToApp as Logout } from '@material-ui/icons'
 import { Work as Task } from '@material-ui/icons'
 import {useSelector} from 'react-redux'
@@ -67,6 +67,13 @@ name:"Manpower"
         name:"Material"
         
         },
+        
+        {
+            icon:<Report/>,
+            link:'/quantityadmin',
+            name:'Reports from Quantity Survoyer'
+        }
+        ,
         {
 
             name:"Settings",

@@ -9,7 +9,8 @@ function AdminTable() {
   const tableRef = React.createRef();
 
   const column = [
-    { title: "Title", field: "title_trade" },
+    { title: "Employee Profile Picture", field: "emp_id" },
+    {title:"Employee Name",field:"emp_id"},
     { title: "Salary", field: "salary" },
   ];
   const [data, setData] = useState([]);

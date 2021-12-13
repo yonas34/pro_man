@@ -32,6 +32,7 @@ import { MenuItem } from "@material-ui/core";
 import {dPP} from './pp';
 import { useSelector } from "react-redux";
 import axios from 'axios';
+import Dropzone from "react-dropzone";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -54,6 +55,7 @@ export default function Dialogue(props) {
   const [file,setFile]=useState(props.data.emp_pic);
   const _handleReaderLoaded=(readerEvt)=>{
     readerEvt.preventDefault();
+    
     let binaryString=readerEvt.target;
     
 
@@ -324,7 +326,7 @@ if(!props.open && file!=undefined)
             <Form data={props.data}/>
           </Grid>
           <Grid item xs={6} md={8}>
-          <form >
+          {/* <form >
 
           <input id="file" accept={".jpeg, .png, .jpg"} name="file" type="file" onChange={(event) => {
                  event.preventDefault();
@@ -334,14 +336,35 @@ if(!props.open && file!=undefined)
                     reader.onload=(event)=>_handleReaderLoaded(event);
                     reader.readAsBinaryString(file);
                   }
+
+
                   
 
 }} />
-          </form>
+
+
+
+          </form> */}
+          <Dropzone onDrop={(event)=>{ 
+             const file=event[0];
+                  if(file){
+                    const reader=new FileReader();
+                    reader.onload=(event)=>_handleReaderLoaded(event);
+                    reader.readAsBinaryString(file);
+                 }}}>
+  {({getRootProps, getInputProps, isDragActive}) => (
+    <div {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive ? "Drop it like it's hot!" : 'Click me or drag a file to upload!'}
+    </div>
+  )}
+</Dropzone>
           </Grid>
           {sp && <Grid item xs={6} md={10} >
             <IconButton  onClick={()=>resetPassword(data.emp_id)}>
            <Restore/> Reset Password
+         
+           <Typography varaint={"h5"} style={{paddingLeft:'20px',color:"red"}}>{"User Name: " +data.user_name}</Typography>
            </IconButton>
           </Grid>
           }<Grid item xs={6} md={10} >
