@@ -91,12 +91,12 @@ case 6:
         
         <Form onSubmit={handleSubmit} style={{width:"30%",marginTop:"200px",marginLeft:'auto',marginRight:'auto',display:"flex",justifyContent:"center",flexDirection:"column" }}>
             
-            <InputLabel style={{color:"white"}} htmlFor="username">User Name</InputLabel>
+            <InputLabel style={{color:"black",fontWeight:"bold"}} htmlFor="username">User Name</InputLabel>
 <br/>
                 
                 <OutlinedInput
                 id={"username"}
-                style={{color:"white"}}
+                style={{color:"black",fontWeight:"bold"}}
 fullWidth
 error={Boolean(touched.username && errors.username)}
              variant={"filled"}
@@ -111,13 +111,13 @@ error={Boolean(touched.username && errors.username)}
           
             <br/>
               
-            <InputLabel style={{color:"white"}} htmlFor="password">Password</InputLabel>
+            <InputLabel style={{color:"black",fontWeight:"bold"}} htmlFor="password">Password</InputLabel>
              <br/>
                 <OutlinedInput
                 id={"password"}
                 variant={"filled"}
                 fullWidth
-                style={{color:"white"}}
+                style={{color:"black",fontWeight:"bold"}}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 helperText={touched.password && errors.password}

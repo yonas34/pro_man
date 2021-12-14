@@ -371,7 +371,7 @@ export default function Dialogue(props) {
             <SpecialUserTable sp={(val) => setSp(val)} uid={data.emp_id} />
           </Grid>
           <Grid item xs={6} md={10}>
-            <AdminTable id={data.emp_id} />
+            <AdminTable id={data.emp_id}  sp={(val) => setSp(val)} uid={data.emp_id}  />
           </Grid>
         </Grid>
       </Dialog>

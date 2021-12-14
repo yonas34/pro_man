@@ -9,7 +9,7 @@ function AdminTable(props) {
   const [selectedRow, setSelectedRow] = useState(0);
   const tableRef = React.createRef();
   const projectId=props.pid;
-
+   const uid=props.uid;
  const [employee,setEmployee]=useState([]);
 
  
@@ -32,6 +32,7 @@ function AdminTable(props) {
     acc[cur.emp_id] = cur.email;
     return acc;
   },{})
+ 
  
   const column = [
     {title:"Profile Picture",field:"emp_id",lookup:mempObj, editable: "never",
@@ -57,11 +58,50 @@ function AdminTable(props) {
       jwt: user.token,
 
       })
-      .then(async (response) => {
+      .then( (response) => {
         console.log(response.data);
-        await setData(response.data.data);
+      props.sp(undefined!=response.data.data.find(em=>em.emp_id==props.uid));
+
+         setData([...response.data.data]);
+
+       
       }).catch((err)=>console.log(err.message));
-   
+    
+
+   axios
+      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", { 
+      jwt: user.token,
+    
+      }).then((response)=>{
+    console.log(response.data)
+    setEmployee(response.data.data);
+    
+
+      }).catch((err)=>console.log(err.message))
+
+     
+return console.log(data.find(em=>em.emp_id==props.uid));
+
+  }, []);
+useEffect(() => {
+
+
+  axios
+      .post("https://www.nrwlpms.com/api/api/get_all_admin.php", {
+     
+      jwt: user.token,
+
+      })
+      .then( (response) => {
+        console.log(response.data);
+      
+       props.sp(undefined!=response.data.data.find(em=>em.emp_id==props.uid));
+         setData([...response.data.data]);
+
+       
+      }).catch((err)=>console.log(err.message));
+    
+
    axios
       .post("https://www.nrwlpms.com/api/api/get_all_employee.php", { 
       jwt: user.token,
@@ -74,10 +114,12 @@ function AdminTable(props) {
 
      
 
+  
+  
 
-
-  }, []);
-
+console.log("update");
+console.log(data);
+}, [props.uid])
 
 
 
@@ -98,7 +140,6 @@ function AdminTable(props) {
       });
   };
   const addAdminTable = async (newData) => {
-    console.log(newData);
 
     await axios
     .post("https://www.nrwlpms.com/api/api/create_admin_project.php", {

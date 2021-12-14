@@ -89,7 +89,13 @@ case "2":
         icon:<Task/>,
         link:'/projects',
         name:'Project'
-    }])
+    }, {
+
+        name:"Settings",
+        icon:<Settings/>,
+        link:"/settings"
+        
+            },])
 case "3":
     const list=[];
     const flag={"1":false,"3":false,"6":false};
