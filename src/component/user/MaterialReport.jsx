@@ -134,7 +134,7 @@ const users=useSelector(state=>state.material);
     <MaterialTable
     
       icons={tableIcons}
-      title="MaterialReport"
+      title="Material Report"
       tableRef={tableRef}
       columns={column}
       data={data}

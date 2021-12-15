@@ -17,6 +17,7 @@ import Store from './pages/user/Store';
 import SecretaryPage from './pages/user/SecretaryPage';
 import Settings from './pages/Settings';
 import QuantityAdmin from './pages/QuantityAdmin';
+import ProjectAdmin from './pages/ProjectAdmin';
 export default function Routes() {
 const user =useSelector(state=>state.user);
 
@@ -74,10 +75,10 @@ case "2":
     return (
         <Switch>
         <Route exact path="/">
-            <Project/>
+            <ProjectAdmin/>
         </Route>
         <Route path="/projects">
-            <Project/>
+            <ProjectAdmin/>
         </Route>
         
         <Route path="/settings">

@@ -50,6 +50,7 @@ export default function Dialogue(props) {
   const data = props.data;
   const setData = props.setData;
   const [sp, setSp] = useState(false);
+  const [spAdmin, setSpAdmin] = useState(false);
 
   const [file, setFile] = useState(props.data.emp_pic);
   const _handleReaderLoaded = (readerEvt) => {
@@ -354,7 +355,7 @@ export default function Dialogue(props) {
               )}
             </Dropzone>
           </Grid>
-          {sp && (
+          {(sp || spAdmin) && (
             <Grid item xs={6} md={10}>
               <IconButton onClick={() => resetPassword(data.emp_id)}>
                 <Restore /> Reset Password
@@ -371,7 +372,7 @@ export default function Dialogue(props) {
             <SpecialUserTable sp={(val) => setSp(val)} uid={data.emp_id} />
           </Grid>
           <Grid item xs={6} md={10}>
-            <AdminTable id={data.emp_id}  sp={(val) => setSp(val)} uid={data.emp_id}  />
+            <AdminTable id={data.emp_id}  sp={(val) => setSpAdmin(val)} uid={data.emp_id}  />
           </Grid>
         </Grid>
       </Dialog>

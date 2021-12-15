@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
 import { trackPromise } from "react-promise-tracker";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 function Material() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -12,7 +13,16 @@ function Material() {
   const column = [
     { title: "Material Type", field: "type_of_material" },
     { title: "Amount of Material", field: "uom" },
-    {title:"Price of Material",field:"price",type:"currency"}
+    {title:"Price of Material",field:"price",render: rowData=> <CurrencyTextField
+		label="price"
+		variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.price}
+    />}
   ];
   const [data, setData] = useState([]);
 

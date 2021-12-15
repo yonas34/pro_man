@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "./tableIcons";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 function ProjectsTable() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -10,7 +12,16 @@ function ProjectsTable() {
 
   const column = [
     { title: "Title", field: "title_trade" },
-    { title: "Salary", field: "salary" },
+    { title: "Salary", field: "salary", render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.salary}
+    />},
   ];
   const [data, setData] = useState([]);
 

@@ -38,6 +38,7 @@ function SpecialUserTable(props) {
 
       })
       .then(async (response) => {
+      console.log(response.data.data.length>=1);
         props.sp(response.data.data.length>=1);
         console.log(response.data.data);
         await setData(response.data.data);

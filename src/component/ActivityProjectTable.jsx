@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 import tableIcons from "./tableIcons";
 function ActivityProjectTable(props) {
   const user = useSelector((state) => state.user);
@@ -23,7 +25,16 @@ function ActivityProjectTable(props) {
  
   const column = [
     { title: "Activity", field: "activity_id",lookup:actObj },
-    {title:"Price",field:"price",type:'currency'},
+    {title:"Price",field:"price",render: rowData=> <CurrencyTextField
+		label="price"
+		variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.price}
+    />},
  
   ];
   const [data, setData] = useState([]);

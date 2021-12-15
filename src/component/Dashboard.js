@@ -2,6 +2,8 @@ import React,{useEffect,useState} from 'react'
 import * as chData from './chartData'
 import { Doughnut } from "react-chartjs-2";
 import ChartDual from '../component/ChartDual';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 import {
     
     Grid
@@ -90,7 +92,34 @@ useEffect(async() => {
           </Grid>
           <Grid item xs={6} md={7}>
           <ChartDual data={data.total}/>
-          <MaterialTable icons={tableIcons} title={"Income and Expense"} columns={[{title:"Label",field:"label"},{title:"Previous",field:'previous',type:"currency"},{title:"This Month",field:"this",type:"currency"},{title:"Todate",field:"todate",type:"currency"}]} data={data.unstructuredTotal}/>
+          <MaterialTable icons={tableIcons} title={"Income and Expense"} columns={[{title:"Label",field:"label"},{title:"Previous",field:'previous',render: rowData=> <CurrencyTextField
+		
+		variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.previous}
+    />},{title:"This Month",field:"this",render: rowData=> <CurrencyTextField
+	
+		variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.this}
+    />},{title:"Todate",field:"todate",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.todate}
+    />}]} data={data.unstructuredTotal}/>
           </Grid>
           
         </Grid>}

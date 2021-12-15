@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
 import { trackPromise } from "react-promise-tracker";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 function Manpower() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -11,7 +13,16 @@ function Manpower() {
 
   const column = [
     { title: "Title", field: "title_trade" },
-    { title: "Salary", field: "salary",type:"currency" },
+    { title: "Salary", field: "salary",render: rowData=> <CurrencyTextField
+		label="salary"
+		variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.price}
+    /> },
   ];
   const [data, setData] = useState([]);
 

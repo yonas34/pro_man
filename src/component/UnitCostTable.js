@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "./tableIcons";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 function UnitCostTable(props) {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -21,12 +23,66 @@ function UnitCostTable(props) {
     { title: "Activity", field: "activity name",},
    {title:"Unit",field:"unit"},
    {title:"Executed Quantity",field:"executed quantity"},
-   {title:"Equipment Cost",field:"equipment cost",type:"currency"},
-   {title:"Manpower Cost",field:"manpower cost",type:"currency"},
-   {title:"Fuel Cost",field:"fuel cost",type:"currency"},
-   {title:"Material Cost",field:"material cost",type:"currency"},
-   {title:"Actual Unit Cost",field:"actual unit cost",type:"currency"},
-   {title:"Activity Contract Rate",field:"activity contract rate",type:"currency"},
+   {title:"Equipment Cost",field:"equipment cost",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData["equipment cost"]}
+    />},
+   {title:"Manpower Cost",field:"manpower cost",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData["manpower cost"]}
+    />},
+   {title:"Fuel Cost",field:"fuel cost",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData['fuel cost']}
+    />},
+   {title:"Material Cost",field:"material cost",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData["material cost"]}
+    />},
+   {title:"Actual Unit Cost",field:"actual unit cost",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData["actual unit cost"]}
+    />},
+   {title:"Activity Contract Rate",field:"activity contract rate",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData['activity contract rate']}
+    />},
    {title:"OH and Profit",field:"OH and profit"}];
 
 

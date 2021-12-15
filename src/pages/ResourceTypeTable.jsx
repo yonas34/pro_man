@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "../component/tableIcons";
 import { trackPromise } from "react-promise-tracker";
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
+
 function ResourceTypeTable() {
   const user = useSelector((state) => state.user);
   const [selectedRow, setSelectedRow] = useState(0);
@@ -12,7 +14,16 @@ function ResourceTypeTable() {
   const column = [
     { title: "Equipment", field: "equipment" },
     { title: "Fule Consumption L/hr", field: "fule_cons_per_hr" },
-    { title: "Rate $/hr", field: "rate_hr",type:"currency" },
+    { title: "Rate TSh/hr", field: "rate_hr",render: rowData=> <CurrencyTextField
+style={{fontSize:"10%",width:"200px"}}
+   variant="standard"
+		currencySymbol="TSh"
+		//minimumValue="0"
+		outputFormat="string"
+		decimalCharacter="."
+		digitGroupSeparator=","
+		value={rowData.rate_hr}
+    /> },
   ];
   const [data, setData] = useState([]);
 
