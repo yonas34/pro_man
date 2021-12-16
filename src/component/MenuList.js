@@ -33,7 +33,7 @@ export const MenuList=()=>{
 {
     icon:<Add/>,
     link:'/view_resource_type',
-    name:"Resources Type"
+    name:"Equipment Type"
 
     
 },
@@ -41,7 +41,7 @@ export const MenuList=()=>{
 
 icon:<ViewList/>,
 link:'/resource',
-name:"Resource"
+name:"Equipment"
 
 },
 {
@@ -57,6 +57,12 @@ name:"Manpower"
     icon:<GroupWork/>,
     link:'/employee',
     name:"Employee"
+    
+    },{
+
+    icon:<GroupWork/>,
+    link:'/admins',
+    name:"Admins"
     
     },
 

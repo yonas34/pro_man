@@ -63,6 +63,23 @@ export default function Dialogue(props) {
 
   useEffect(() => {
     setFile(props.data.emp_pic);
+ 
+    axios
+      .post("https://www.nrwlpms.com/api/api/get_all_admin.php", {
+     
+      jwt: user.token,
+
+      })
+      .then( (response) => {
+        console.log(response.data);
+      setSpAdmin(undefined!=response.data.data.find(em=>em.emp_id==data.emp_id));
+
+       
+
+       
+      }).catch((err)=>console.log(err.message));
+    
+    
   }, []);
   const resetPassword = async (emp_id) => {
     axios
@@ -371,9 +388,7 @@ export default function Dialogue(props) {
           <Grid item xs={6} md={10}>
             <SpecialUserTable sp={(val) => setSp(val)} uid={data.emp_id} />
           </Grid>
-          <Grid item xs={6} md={10}>
-            <AdminTable id={data.emp_id}  sp={(val) => setSpAdmin(val)} uid={data.emp_id}  />
-          </Grid>
+          
         </Grid>
       </Dialog>
     </div>
