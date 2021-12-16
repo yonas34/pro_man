@@ -60,7 +60,7 @@ name:"Manpower"
     
     },{
 
-    icon:<GroupWork/>,
+    icon:<Person/>,
     link:'/admins',
     name:"Admins"
     

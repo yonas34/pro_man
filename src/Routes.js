@@ -6,6 +6,7 @@ import Project from './pages/Project';
 //import AddResourceType from './pages/AddResourceType';
 import ResourceTypeTable from './pages/ResourceTypeTable';
 import UserMan from './pages/UserMan';
+import AdminList from './pages/AdminList';
 import Resource from './pages/Resource';
 import Manpower from './pages/Manpower';
 import EmployeePage from './pages/EmployeePage';
@@ -27,6 +28,9 @@ return (
 <Switch>
 <Route exact path="/">
     <Project/>
+</Route>
+<Route  path="/admins">
+    <AdminList/>
 </Route>
 <Route path="/login">
     <Login/>

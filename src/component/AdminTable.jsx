@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MaterialTable, { MTableToolbar } from "material-table";
 import tableIcons from "./tableIcons";
+import { Restore, Save } from "@material-ui/icons";
+
 import { dPP } from "./pp";
 function AdminTable(props) {
   const user = useSelector((state) => state.user);
@@ -33,7 +35,17 @@ function AdminTable(props) {
     return acc;
   },{})
  
- 
+ const resetPassword = async (emp_id) => {
+    axios
+      .post("https://www.nrwlpms.com/api/api/reset_user_password.php", {
+        emp_id: emp_id,
+        jwt: user.token,
+      })
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((err) => console.log(err.message));
+  };
   const column = [
     {title:"Profile Picture",field:"emp_id",lookup:mempObj, editable: "never",
     render: (rowData) => (
@@ -60,7 +72,6 @@ function AdminTable(props) {
       })
       .then( (response) => {
         console.log(response.data);
-      props.sp(undefined!=response.data.data.find(em=>em.emp_id==props.uid));
 
          setData([...response.data.data]);
 
@@ -95,7 +106,6 @@ useEffect(() => {
       .then( (response) => {
         console.log(response.data);
       
-       props.sp(undefined!=response.data.data.find(em=>em.emp_id==props.uid));
          setData([...response.data.data]);
 
        
@@ -119,7 +129,7 @@ useEffect(() => {
 
 console.log("update");
 console.log(data);
-}, [props.uid])
+}, [])
 
 
 
@@ -208,6 +218,17 @@ console.log(data);
       onRowClick={(evt, selectedRow) =>
         setSelectedRow(selectedRow.tableData.id)
       }
+
+       actions={[
+    {
+      icon: ()=> <Restore />,
+      tooltip: 'Reset Password',
+      onClick: (event, rowData) => {
+        resetPassword(rowData.emp_id)
+        
+      }
+    }
+  ]}
     />
   );
 }
