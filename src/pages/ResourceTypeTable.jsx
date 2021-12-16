@@ -84,7 +84,7 @@ style={{fontSize:"10%",width:"200px"}}
   return (
     <MaterialTable
       icons={tableIcons}
-      title="Resourse Type Entry"
+      title="Equipment Type Entry"
       tableRef={tableRef}
       columns={column}
       data={data}

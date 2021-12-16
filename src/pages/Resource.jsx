@@ -32,7 +32,7 @@ function Resource() {
       lookup: obj,
     },
     {
-      title: "Resource Type",
+      title: "Equipment Type",
       field: "res_type_id",
 
       lookup: resourceObj,
@@ -117,7 +117,7 @@ function Resource() {
   return (
     <MaterialTable
       icons={tableIcons}
-      title="Resourses"
+      title="Equipments"
       tableRef={tableRef}
       columns={column}
       data={data}

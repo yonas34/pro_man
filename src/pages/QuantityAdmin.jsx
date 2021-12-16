@@ -41,7 +41,7 @@ function QuantityAdmin() {
   const [resourceData,setResourceData]=useState([]);
   const [selectedProject, setSelectedProject] = useState();
   const column = [
-    { title: "Resources", field: "equipment", editable: "never" },
+    { title: "Equipments", field: "equipment", editable: "never" },
     { title: "Date", field: "date", type: "date", editable: "never" },
     {
       title: "Engine Beggining Hours",
@@ -394,7 +394,7 @@ function QuantityAdmin() {
     return (
       <MaterialTable
         icons={tableIcons}
-        title="Resource Report For Admin"
+        title="Equipment Report For Admin"
         tableRef={tableRef}
         columns={column}
         data={resourceData}
