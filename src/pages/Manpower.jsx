@@ -21,7 +21,7 @@ function Manpower() {
 		outputFormat="string"
 		decimalCharacter="."
 		digitGroupSeparator=","
-		value={rowData.price}
+		value={rowData.salary}
     /> },
   ];
   const [data, setData] = useState([]);
