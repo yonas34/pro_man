@@ -19,9 +19,9 @@ const isLoggedin = store.getState(state =>state.isLoggedin);
 const response=JSON.parse(localStorage.getItem("auth"));
     
 
-console.log(localStorage);
+
 if(localStorage.length>0 && !isLoggedin.isLoggedin)
-{console.log(response)
+{
 
      axios.post('https://www.nrwlpms.com/api/api/login.php',{
         "user_name": response.user_name,

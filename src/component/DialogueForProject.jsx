@@ -10,6 +10,7 @@ import Slide from "@mui/material/Slide";
 import MaterialProjectTable from './MaterialProjectTable';
 import ActivityProjectTable from "./ActivityProjectTable"
 import { styled } from "@mui/material/styles";
+import {useSelector} from 'react-redux'
 import {
   Button,
   TextField,
@@ -44,6 +45,7 @@ export default function DialogueForProject(props) {
   const [dashboard,setDashboard]=useState(false);
   const [unitcost,setUnitCost]=useState(false);
   const [expense,setExpense]=useState(false);
+const user=useSelector(state=>state.user);
 
   const Form = (props) => {
     const data = props.data;
@@ -71,6 +73,7 @@ export default function DialogueForProject(props) {
       pro_time_elapsed_pct: data.pro_time_elapsed_pct,
       pro_slippage_pct: data.pro_slippage_pct,
     };
+    console.log(user);
 
     return (
       <Formik
@@ -127,6 +130,7 @@ export default function DialogueForProject(props) {
                     <Grid item></Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         error={Boolean(touched.pro_name && errors.pro_name)}
                         variant={"outlined"}
                         onChange={handleChange}
@@ -158,6 +162,8 @@ export default function DialogueForProject(props) {
 
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
+                      
                         value={values.pro_location}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -175,6 +181,7 @@ export default function DialogueForProject(props) {
 
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_consultant}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -194,6 +201,7 @@ export default function DialogueForProject(props) {
 
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_client}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -209,6 +217,7 @@ export default function DialogueForProject(props) {
 
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_contract_value}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -223,6 +232,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_contract_number}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -237,6 +247,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_commencement_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -251,6 +262,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_provisional_sum}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -265,6 +277,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_variations}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -279,6 +292,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_revised_contract_value}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -293,6 +307,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_contract_duration_days}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -310,6 +325,7 @@ export default function DialogueForProject(props) {
 
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_time_extension_granted}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -325,6 +341,7 @@ export default function DialogueForProject(props) {
 
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_original_completion_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -339,6 +356,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_revised_completion_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -353,6 +371,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_planned_value_of_work_this_month}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -367,6 +386,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_month}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -381,6 +401,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_planned_value_of_work_todate}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -395,6 +416,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_value_of_executed_work_todate}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -409,6 +431,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_financial_progress_pct}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -423,6 +446,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_time_elapsed_pct}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -437,6 +461,7 @@ export default function DialogueForProject(props) {
                     </Grid>
                     <Grid item>
                       <TextField
+                      disabled={user.usertype!=1}
                         value={values.pro_slippage_pct}
                         onChange={handleChange}
                         onBlur={handleBlur}

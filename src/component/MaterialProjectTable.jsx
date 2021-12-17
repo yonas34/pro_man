@@ -130,7 +130,7 @@ function MaterialProjectTable(props) {
           </div>
         ),
       }}
-      editable={{
+      editable={user.usertype==1 ? {
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -164,7 +164,7 @@ function MaterialProjectTable(props) {
               resolve();
             }, 1000);
           }),
-      }}
+      }:{}}
       onRowClick={(evt, selectedRow) =>
         setSelectedRow(selectedRow.tableData.id)
       }

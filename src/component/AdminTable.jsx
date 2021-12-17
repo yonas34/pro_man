@@ -42,7 +42,7 @@ function AdminTable(props) {
         jwt: user.token,
       })
       .then((response) => {
-        console.log(response.data.message);
+        alert(response.data.message);
       })
       .catch((err) => console.log(err.message));
   };

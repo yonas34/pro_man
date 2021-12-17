@@ -154,7 +154,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
           </div>
         ),
       }}
-      editable={{
+      editable={user.usertype==1 ? {
         onRowAdd: (newData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -188,7 +188,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
               resolve();
             }, 1000);
           }),
-      }}
+      }:{}}
       onRowClick={(evt, selectedRow) =>
         setSelectedRow(selectedRow.tableData.id)
       }
