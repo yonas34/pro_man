@@ -1,16 +1,16 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import EmployeeProjectTable from "./EmployeeProjectTable";
 import Dialog from "@mui/material/Dialog";
-import Expense from './Expense'
+import Expense from "./Expense";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import MaterialProjectTable from './MaterialProjectTable';
-import ActivityProjectTable from "./ActivityProjectTable"
+import MaterialProjectTable from "./MaterialProjectTable";
+import ActivityProjectTable from "./ActivityProjectTable";
 import { styled } from "@mui/material/styles";
-import {useSelector} from 'react-redux'
+import { useSelector } from "react-redux";
 import {
   Button,
   TextField,
@@ -24,9 +24,10 @@ import DetailEdit from "./DetailEdit";
 import * as Yup from "yup";
 import { Menu, Save } from "@material-ui/icons";
 import { MenuItem } from "@material-ui/core";
-import Dashboard from './Dashboard';
-import UnitCostTable from './UnitCostTable'
+import Dashboard from "./Dashboard";
+import UnitCostTable from "./UnitCostTable";
 import DetailedDialogue from "./DetailedDialogue";
+import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -42,10 +43,10 @@ export default function DialogueForProject(props) {
   const manData = props.manData;
   const data = props.data;
   const setData = props.setData;
-  const [dashboard,setDashboard]=useState(false);
-  const [unitcost,setUnitCost]=useState(false);
-  const [expense,setExpense]=useState(false);
-const user=useSelector(state=>state.user);
+  const [dashboard, setDashboard] = useState(false);
+  const [unitcost, setUnitCost] = useState(false);
+  const [expense, setExpense] = useState(false);
+  const user = useSelector((state) => state.user);
 
   const Form = (props) => {
     const data = props.data;
@@ -65,7 +66,8 @@ const user=useSelector(state=>state.user);
       pro_time_extension_granted: data.pro_time_extension_granted,
       pro_original_completion_date: data.pro_original_completion_date,
       pro_revised_completion_date: data.pro_revised_completion_date,
-      pro_planned_value_of_work_this_month: data.pro_planned_value_of_work_this_month,
+      pro_planned_value_of_work_this_month:
+        data.pro_planned_value_of_work_this_month,
       pro_month: data.pro_month,
       pro_planned_value_of_work_todate: data.pro_planned_value_of_work_todate,
       pro_value_of_executed_work_todate: data.pro_value_of_executed_work_todate,
@@ -130,7 +132,7 @@ const user=useSelector(state=>state.user);
                     <Grid item></Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         error={Boolean(touched.pro_name && errors.pro_name)}
                         variant={"outlined"}
                         onChange={handleChange}
@@ -142,11 +144,14 @@ const user=useSelector(state=>state.user);
                         size={"small"}
                         value={values.pro_name}
                         helperText={touched.pro_name && errors.pro_name}
-                      /></Grid>
-                       <Grid item>
+                      />
+                    </Grid>
+                    <Grid item>
                       <TextField
-                      disabled
-                        error={Boolean(touched.projecct_id && errors.project_id)}
+                        disabled
+                        error={Boolean(
+                          touched.projecct_id && errors.project_id
+                        )}
                         variant={"outlined"}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -162,8 +167,7 @@ const user=useSelector(state=>state.user);
 
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
-                      
+                        disabled={user.usertype != 1}
                         value={values.pro_location}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -181,7 +185,7 @@ const user=useSelector(state=>state.user);
 
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_consultant}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -201,7 +205,7 @@ const user=useSelector(state=>state.user);
 
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_client}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -216,14 +220,24 @@ const user=useSelector(state=>state.user);
                     </Grid>
 
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_contract_value}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_contract_value && errors.pro_contract_value)}
-                        helperText={touched.pro_contract_value && errors.pro_contract_value}
-                        type={"number"}
+                        error={Boolean(
+                          touched.pro_contract_value &&
+                            errors.pro_contract_value
+                        )}
+                        helperText={
+                          touched.pro_contract_value &&
+                          errors.pro_contract_value
+                        }
+                      
                         label={"Contract Value"}
                         name="pro_contract_value"
                         fullWidth
@@ -232,12 +246,18 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_contract_number}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_contract_number && errors.pro_contract_number)}
-                        helperText={touched.pro_contract_number && errors.pro_contract_number}
+                        error={Boolean(
+                          touched.pro_contract_number &&
+                            errors.pro_contract_number
+                        )}
+                        helperText={
+                          touched.pro_contract_number &&
+                          errors.pro_contract_number
+                        }
                         type={"text"}
                         label={"Contract Number"}
                         name="pro_contract_number"
@@ -247,12 +267,18 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_commencement_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_commencement_date && errors.pro_commencement_date)}
-                        helperText={touched.pro_commencement_date && errors.pro_commencement_date}
+                        error={Boolean(
+                          touched.pro_commencement_date &&
+                            errors.pro_commencement_date
+                        )}
+                        helperText={
+                          touched.pro_commencement_date &&
+                          errors.pro_commencement_date
+                        }
                         type={"date"}
                         label={"Commencement Date"}
                         name="pro_commencement_date"
@@ -261,14 +287,24 @@ const user=useSelector(state=>state.user);
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_provisional_sum}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_provisional_sum && errors.pro_provisional_sum)}
-                        helperText={touched.pro_provisional_sum && errors.pro_provisional_sum}
-                        type={"number"}
+                        error={Boolean(
+                          touched.pro_provisional_sum &&
+                            errors.pro_provisional_sum
+                        )}
+                        helperText={
+                          touched.pro_provisional_sum &&
+                          errors.pro_provisional_sum
+                        }
+                      
                         label={"Project Provisional Sum"}
                         name="pro_provisional_sum"
                         fullWidth
@@ -276,14 +312,22 @@ const user=useSelector(state=>state.user);
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_variations}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_variations && errors.pro_variations)}
-                        helperText={touched.pro_variations && errors.pro_variations}
-                        type={"number"}
+                        error={Boolean(
+                          touched.pro_variations && errors.pro_variations
+                        )}
+                        helperText={
+                          touched.pro_variations && errors.pro_variations
+                        }
+                        
                         label={"Project variations"}
                         name="pro_variations"
                         fullWidth
@@ -291,14 +335,21 @@ const user=useSelector(state=>state.user);
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_revised_contract_value}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_revised_contract_value && errors.pro_revised_contract_value)}
+                        error={Boolean(
+                          touched.pro_revised_contract_value &&
+                            errors.pro_revised_contract_value
+                        )}
                         helperText={touched.pro_client && errors.pro_client}
-                        type={"number"}
+                    
                         label={"Revised Contract Value"}
                         name="pro_revised_contract_value"
                         fullWidth
@@ -307,13 +358,19 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_contract_duration_days}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_contract_duration_days && errors.pro_contract_duration_days)}
-                        helperText={touched.pro_contract_duration_days && errors.pro_contract_duration_days}
-                        type={"number"}
+                        error={Boolean(
+                          touched.pro_contract_duration_days &&
+                            errors.pro_contract_duration_days
+                        )}
+                        helperText={
+                          touched.pro_contract_duration_days &&
+                          errors.pro_contract_duration_days
+                        }
+                       
                         label={"Project contract duration days"}
                         name="pro_contract_duration_days"
                         fullWidth
@@ -321,16 +378,20 @@ const user=useSelector(state=>state.user);
                       />
                     </Grid>
 
-                    
-
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_time_extension_granted}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_time_extension_granted && errors.pro_time_extension_granted)}
-                        helperText={touched.pro_time_extension_granted && errors.pro_time_extension_granted}
+                        error={Boolean(
+                          touched.pro_time_extension_granted &&
+                            errors.pro_time_extension_granted
+                        )}
+                        helperText={
+                          touched.pro_time_extension_granted &&
+                          errors.pro_time_extension_granted
+                        }
                         type={"number"}
                         label={"Project Time Extension Granted"}
                         name="pro_time_extension_granted"
@@ -341,12 +402,18 @@ const user=useSelector(state=>state.user);
 
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_original_completion_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_original_completion_date && errors.pro_original_completion_date)}
-                        helperText={touched.pro_original_completion_date && errors.pro_original_completion_date}
+                        error={Boolean(
+                          touched.pro_original_completion_date &&
+                            errors.pro_original_completion_date
+                        )}
+                        helperText={
+                          touched.pro_original_completion_date &&
+                          errors.pro_original_completion_date
+                        }
                         type={"date"}
                         label={"Original Project Completion Date"}
                         name="pro_original_completion_date"
@@ -356,12 +423,18 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_revised_completion_date}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_revised_completion_date && errors.pro_revised_completion_date)}
-                        helperText={touched.pro_revised_completion_date && errors.pro_revised_completion_date}
+                        error={Boolean(
+                          touched.pro_revised_completion_date &&
+                            errors.pro_revised_completion_date
+                        )}
+                        helperText={
+                          touched.pro_revised_completion_date &&
+                          errors.pro_revised_completion_date
+                        }
                         type={"date"}
                         label={"Revised Project Completion Date"}
                         name="pro_revised_completion_date"
@@ -370,60 +443,94 @@ const user=useSelector(state=>state.user);
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_planned_value_of_work_this_month}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_planned_value_of_work_this_month && errors.pro_planned_value_of_work_this_month)}
-                        helperText={touched.pro_planned_value_of_work_this_month && errors.pro_planned_value_of_work_this_month}
-                        type={"number"}
-                        label={"Number of Planned Work of This Month"}
+                        error={Boolean(
+                          touched.pro_planned_value_of_work_this_month &&
+                            errors.pro_planned_value_of_work_this_month
+                        )}
+                        helperText={
+                          touched.pro_planned_value_of_work_this_month &&
+                          errors.pro_planned_value_of_work_this_month
+                        }
+                       
+                        label={"Planned Amount For This Month"}
                         name="pro_planned_value_of_work_this_month"
                         fullWidth
                         size={"small"}
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_month}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         error={Boolean(touched.pro_month && errors.pro_month)}
                         helperText={touched.pro_month && errors.pro_month}
-                        type={"number"}
-                        label={"Project Month"}
+                        
+                        label={"Executed Amount This Month"}
                         name="pro_month"
                         fullWidth
                         size={"small"}
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_planned_value_of_work_todate}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_planned_value_of_work_todate && errors.pro_planned_value_of_work_todate)}
-                        helperText={touched.pro_planned_value_of_work_todate && errors.pro_planned_value_of_work_todate}
-                        type={"number"}
-                        label={"Planned Work of Todate"}
+                        error={Boolean(
+                          touched.pro_planned_value_of_work_todate &&
+                            errors.pro_planned_value_of_work_todate
+                        )}
+                        helperText={
+                          touched.pro_planned_value_of_work_todate &&
+                          errors.pro_planned_value_of_work_todate
+                        }
+                    
+                        label={"Planned Amount Todate"}
                         name="pro_planned_value_of_work_todate"
                         fullWidth
                         size={"small"}
                       />
                     </Grid>
                     <Grid item>
-                      <TextField
-                      disabled={user.usertype!=1}
+                      <CurrencyTextField
+                        outputFormat="number"
+                        decimalCharacter="."
+                        digitGroupSeparator=","
+                        currencySymbol="TSh"
+                        disabled={user.usertype != 1}
                         value={values.pro_value_of_executed_work_todate}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_value_of_executed_work_todate && errors.pro_value_of_executed_work_todate)}
-                        helperText={touched.pro_value_of_executed_work_todate && errors.pro_value_of_executed_work_todate}
-                        type={"number"}
-                        label={"Executed Work Todate"}
+                        error={Boolean(
+                          touched.pro_value_of_executed_work_todate &&
+                            errors.pro_value_of_executed_work_todate
+                        )}
+                        helperText={
+                          touched.pro_value_of_executed_work_todate &&
+                          errors.pro_value_of_executed_work_todate
+                        }
+                       
+                        label={"Executed Amount Todate"}
                         name="pro_value_of_executed_work_todate"
                         fullWidth
                         size={"small"}
@@ -431,12 +538,18 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_financial_progress_pct}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_financial_progress_pct && errors.pro_financial_progress_pct)}
-                        helperText={touched.pro_financial_progress_pct && errors.pro_financial_progress_pct}
+                        error={Boolean(
+                          touched.pro_financial_progress_pct &&
+                            errors.pro_financial_progress_pct
+                        )}
+                        helperText={
+                          touched.pro_financial_progress_pct &&
+                          errors.pro_financial_progress_pct
+                        }
                         type={"number"}
                         label={"Financial Progress %"}
                         name="pro_financial_progress_pct"
@@ -446,12 +559,18 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_time_elapsed_pct}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_time_elapsed_pct && errors.pro_time_elapsed_pct)}
-                        helperText={touched.pro_time_elapsed_pct && errors.pro_time_elapsed_pct}
+                        error={Boolean(
+                          touched.pro_time_elapsed_pct &&
+                            errors.pro_time_elapsed_pct
+                        )}
+                        helperText={
+                          touched.pro_time_elapsed_pct &&
+                          errors.pro_time_elapsed_pct
+                        }
                         type={"number"}
                         label={"Elapsed Time %"}
                         name="pro_time_elapsed_pct"
@@ -461,12 +580,16 @@ const user=useSelector(state=>state.user);
                     </Grid>
                     <Grid item>
                       <TextField
-                      disabled={user.usertype!=1}
+                        disabled={user.usertype != 1}
                         value={values.pro_slippage_pct}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        error={Boolean(touched.pro_slippage_pct && errors.pro_slippage_pct)}
-                        helperText={touched.pro_slippage_pct && errors.pro_slippage_pct}
+                        error={Boolean(
+                          touched.pro_slippage_pct && errors.pro_slippage_pct
+                        )}
+                        helperText={
+                          touched.pro_slippage_pct && errors.pro_slippage_pct
+                        }
                         type={"number"}
                         label={"Slippage %"}
                         name="pro_slippage_pct"
@@ -474,7 +597,6 @@ const user=useSelector(state=>state.user);
                         size={"small"}
                       />
                     </Grid>
-                    
 
                     <Grid item>
                       <Button
@@ -495,24 +617,27 @@ const user=useSelector(state=>state.user);
     );
   };
 
-  const SMenu=()=>{
-
-
-return(
-  <Card style={{marginTop:"10px",backgroundColor:"#1976d2",color:"white"}}>
-<ul>
-
-  <MenuItem divider key="dashboard" onClick={()=>setDashboard(true)}>Dashboard</MenuItem>
-  <MenuItem divider key="unit_cost" onClick={()=>setUnitCost(true)}>Unit Cost</MenuItem> 
-  {/* <MenuItem divider key="expense" onClick={()=>setExpense(true)}>Expense</MenuItem>  */}
-</ul>
-</Card>
-
-
-)
-
-
-  }
+  const SMenu = () => {
+    return (
+      <Card
+        style={{
+          marginTop: "10px",
+          backgroundColor: "#1976d2",
+          color: "white",
+        }}
+      >
+        <ul>
+          <MenuItem divider key="dashboard" onClick={() => setDashboard(true)}>
+            Dashboard
+          </MenuItem>
+          <MenuItem divider key="unit_cost" onClick={() => setUnitCost(true)}>
+            Unit Cost
+          </MenuItem>
+          {/* <MenuItem divider key="expense" onClick={()=>setExpense(true)}>Expense</MenuItem>  */}
+        </ul>
+      </Card>
+    );
+  };
   return (
     <div>
       <Dialog
@@ -542,39 +667,116 @@ return(
           spacing={2}
           style={{ textAlignment: "center", justifyContent: "center" }}
         >
-
-
-<Grid item xs={2} md={2} >
-            <SMenu/>
+          <Grid item xs={2} md={2}>
+            <SMenu />
           </Grid>
-          
-          <Grid item xs={6} md={9} style={{marginRight:'10px'}}>
-           <Form data={props.data} />
-         
+
+          <Grid item xs={6} md={9} style={{ marginRight: "10px" }}>
+            <Form data={props.data} />
           </Grid>
           <Grid item xs={6} md={9}>
-            <EmployeeProjectTable mnpr={props.manData} pid={props.data.project_id}/>
-           
+            <EmployeeProjectTable
+              mnpr={props.manData}
+              pid={props.data.project_id}
+            />
           </Grid>
-          
 
           <Grid item xs={6} md={9}>
-            <MaterialProjectTable pid={props.data.project_id}/>
-           
+            <MaterialProjectTable pid={props.data.project_id} />
           </Grid>
-          
+
           <Grid item xs={6} md={9}>
-            <ActivityProjectTable pid={props.data.project_id}/>
-           
+            <ActivityProjectTable pid={props.data.project_id} />
           </Grid>
-
-          </Grid>
-
-       
+        </Grid>
       </Dialog>
-      <DetailedDialogue open={dashboard} myComp={()=><Dashboard pro_id={props.data.project_id}/>} type={"Dashboard"} onClose={()=>setDashboard(false)}/>
-      <DetailedDialogue open={unitcost} myComp={()=><UnitCostTable pro_id={props.data.project_id} />} type={"Unit Cost"} onClose={()=>setUnitCost(false)}/>
-      <DetailedDialogue open={expense}  myComp={()=><Expense pro_id={props.data.project_id} income={[537681337.23,210568250,327113087.23]}   table1Data={[{description:"Equipment",todate:136214550,thisMonth:26105000,previousMonth:110109550},{description:"Manpower",todate:51144500,thisMonth:15764000,previousMonth:35380500},{description:"Material",todate:262690600,thisMonth:145879600,previousMonth:116811000},{description:"Fuel",todate:75545978.0,thisMonth:11385000,previousMonth:64160978},{description:"Other",todate:0.0,thisMonth:0.0,previousMonth:0.0}]}    graphData={[{types:"Equipment",todate:25.9,thisMonth:13.1,previousMonth:33.7},{types:"Manpower",todate:9.7,thisMonth:7.9,previousMonth:10.8},{types:"Material",todate:50.0,thisMonth:73.3,previousMonth:35.8},{types:"Fuel",todate:14.4,thisMonth:5.7,previousMonth:19.7},{types:"Other",todate:0.0,thisMonth:0.0,previousMonth:0.0}]}/>} type={"Expense"} onClose={()=>setExpense(false)}/>
+      <DetailedDialogue
+        open={dashboard}
+        myComp={() => <Dashboard pro_id={props.data.project_id} />}
+        type={"Dashboard"}
+        onClose={() => setDashboard(false)}
+      />
+      <DetailedDialogue
+        open={unitcost}
+        myComp={() => <UnitCostTable pro_id={props.data.project_id} />}
+        type={"Unit Cost"}
+        onClose={() => setUnitCost(false)}
+      />
+      <DetailedDialogue
+        open={expense}
+        myComp={() => (
+          <Expense
+            pro_id={props.data.project_id}
+            income={[537681337.23, 210568250, 327113087.23]}
+            table1Data={[
+              {
+                description: "Equipment",
+                todate: 136214550,
+                thisMonth: 26105000,
+                previousMonth: 110109550,
+              },
+              {
+                description: "Manpower",
+                todate: 51144500,
+                thisMonth: 15764000,
+                previousMonth: 35380500,
+              },
+              {
+                description: "Material",
+                todate: 262690600,
+                thisMonth: 145879600,
+                previousMonth: 116811000,
+              },
+              {
+                description: "Fuel",
+                todate: 75545978.0,
+                thisMonth: 11385000,
+                previousMonth: 64160978,
+              },
+              {
+                description: "Other",
+                todate: 0.0,
+                thisMonth: 0.0,
+                previousMonth: 0.0,
+              },
+            ]}
+            graphData={[
+              {
+                types: "Equipment",
+                todate: 25.9,
+                thisMonth: 13.1,
+                previousMonth: 33.7,
+              },
+              {
+                types: "Manpower",
+                todate: 9.7,
+                thisMonth: 7.9,
+                previousMonth: 10.8,
+              },
+              {
+                types: "Material",
+                todate: 50.0,
+                thisMonth: 73.3,
+                previousMonth: 35.8,
+              },
+              {
+                types: "Fuel",
+                todate: 14.4,
+                thisMonth: 5.7,
+                previousMonth: 19.7,
+              },
+              {
+                types: "Other",
+                todate: 0.0,
+                thisMonth: 0.0,
+                previousMonth: 0.0,
+              },
+            ]}
+          />
+        )}
+        type={"Expense"}
+        onClose={() => setExpense(false)}
+      />
     </div>
   );
 }
