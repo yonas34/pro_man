@@ -23,6 +23,7 @@ function UnitCostTable(props) {
     { title: "Activity", field: "activity name",},
    {title:"Unit",field:"unit"},
    {title:"Executed Quantity",field:"executed quantity"},
+   {title:"Percent Accomplished",field:"percent accomplished",type:"number"},
    {title:"Equipment Cost",field:"equipment cost",render: rowData=> <CurrencyTextField
 style={{fontSize:"10%",width:"200px"}}
    variant="standard"

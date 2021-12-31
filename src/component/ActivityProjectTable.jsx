@@ -35,6 +35,7 @@ function ActivityProjectTable(props) {
 		digitGroupSeparator=","
 		value={rowData.price}
     />},
+    {title:"Contract Quantity",field:"contract_quantity",type:"number"},
  
   ];
   const [data, setData] = useState([]);

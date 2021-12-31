@@ -246,6 +246,10 @@ function QuantitySurvoyer() {
 
   const execQ = async () => {
     const aps = AP_id();
+    var t={ activity_report_id: aps[selectedActivity],
+      executed_quantity: exec
+    }
+    console.log(t);
     trackPromise( axios
       .post("https://www.nrwlpms.com/api/api/update_executed_quantity.php", {
         activity_report_id: aps[selectedActivity],
