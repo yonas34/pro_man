@@ -31,7 +31,7 @@ const users=useSelector(state=>state.material);
   }
   console.log(req);
   trackPromise( axios
-      .post("https://www.nrwlpms.com/api/api/get_material_report_by_date_by_activity_id_and_by_project_id.php", req)
+      .post("https://www.nrwlpms.org/api/api/get_material_report_by_date_by_activity_id_and_by_project_id.php", req)
       .then(async (response) => {
         console.log(response.data);
         await setData(response.data.data);
@@ -52,7 +52,7 @@ const users=useSelector(state=>state.material);
   }
   console.log(req);
   trackPromise (  axios
-      .post("https://www.nrwlpms.com/api/api/get_material_report_by_date_by_activity_id_and_by_project_id.php", req)
+      .post("https://www.nrwlpms.org/api/api/get_material_report_by_date_by_activity_id_and_by_project_id.php", req)
       .then(async (response) => {
       console.log(response.data);
       await setData(response.data.data);
@@ -63,7 +63,7 @@ const users=useSelector(state=>state.material);
 
   const deleteActivityReport = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_employee_report.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_employee_report.php", {
         id: mnpr_id,
         jwt: user.token,
       })
@@ -102,7 +102,7 @@ const users=useSelector(state=>state.material);
     
     console.log(req);
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php",req )
+    .post("https://www.nrwlpms.org/api/api/create_quantity_surveyor_data.php",req )
     .then((response) => {console.log(response.data.message)
       console.log(response.data.data);
       const temp={...req,"id":response.data.material_report_id,
@@ -121,7 +121,7 @@ const users=useSelector(state=>state.material);
   };
   console.log(req);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php",req )
+      .post("https://www.nrwlpms.org/api/api/update_quantity_surveyor_data.php",req )
       .then((response) => console.log(response.data.message))
       .catch((err) => console.log(err.message));
   };

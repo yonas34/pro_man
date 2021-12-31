@@ -66,7 +66,7 @@ const tempData=resource.map(res=>({resource_id: res.resource_id,
     user.resp.reduce(async(acc, cur, i) => {
       if (!project.find((pro) => pro.project_id == cur.project_id))
        {await axios
-          .post("https://www.nrwlpms.com/api/api/get_single_project.php", {
+          .post("https://www.nrwlpms.org/api/api/get_single_project.php", {
             project_id: cur.project_id,
             jwt: user.token,
           })
@@ -86,7 +86,7 @@ const tempData=resource.map(res=>({resource_id: res.resource_id,
 
 
     axios
-    .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
+    .post("https://www.nrwlpms.org/api/api/get_all_resourse_type.php", {
       jwt: user.token,
     })
     .then((response) => {
@@ -171,7 +171,7 @@ const tempData=resource.map(res=>({resource_id: res.resource_id,
 
 const selectProject = async (value) => {
   await axios
-  .post("https://www.nrwlpms.com/api/api/get_resourse_by_project_id.php", {
+  .post("https://www.nrwlpms.org/api/api/get_resourse_by_project_id.php", {
     project_id: value.target.value,
     jwt: user.token,
   })
@@ -182,7 +182,7 @@ resourceSetup();
 
   const deleteManpower = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_manpower.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -196,7 +196,7 @@ resourceSetup();
   
   const addManpower = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_manpower.php", {
+    .post("https://www.nrwlpms.org/api/api/create_manpower.php", {
       ...newData,
       jwt: user.token,
     })
@@ -210,7 +210,7 @@ resourceSetup();
 
   const updateManpower = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/update_manpower.php", {
         ...newData,
         jwt: user.token,
       })

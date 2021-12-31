@@ -30,7 +30,7 @@ function MaterialProjectTable(props) {
   useEffect(() => {
     console.log(projectId);
     axios
-      .post("https://www.nrwlpms.com/api/api/get_material_project_by_project_id.php", {
+      .post("https://www.nrwlpms.org/api/api/get_material_project_by_project_id.php", {
       project_id:projectId, 
       jwt: user.token,
 
@@ -40,7 +40,7 @@ function MaterialProjectTable(props) {
         await setData(response.data.data);
       }).catch((err)=>console.log(err.message));
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_projects.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -49,7 +49,7 @@ function MaterialProjectTable(props) {
     
       }).catch((err)=>console.log(err.message))
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_material.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_material.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -69,7 +69,7 @@ function MaterialProjectTable(props) {
    console.log(emp_id);
    
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_employee_project.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -83,7 +83,7 @@ function MaterialProjectTable(props) {
   
   const addMaterialProjectTable = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_material_project.php", {
+    .post("https://www.nrwlpms.org/api/api/create_material_project.php", {
       mat_id:newData.mat_id,project_id:projectId,
       
       jwt: user.token,
@@ -96,7 +96,7 @@ function MaterialProjectTable(props) {
 
   const updateMaterialProjectTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_material_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_material_project.php", {
         ...newData,
         jwt: user.token,
       })

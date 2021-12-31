@@ -80,7 +80,7 @@ const dispatch=useDispatch();
         };
         console.log(datasx);
 
- axios.post("https://www.nrwlpms.com/api/api/update_own_username_and_password.php",datasx).then((response)=>{alert(response.data.message+", please login with your new password")
+ axios.post("https://www.nrwlpms.org/api/api/update_own_username_and_password.php",datasx).then((response)=>{alert(response.data.message+", please login with your new password")
 localStorage.clear();
 dispatch(loginToggle())
 dispatch(setUser(''))

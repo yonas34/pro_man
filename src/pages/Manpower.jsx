@@ -28,7 +28,7 @@ function Manpower() {
 
   useEffect(() => {
     trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_manpower.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -39,7 +39,7 @@ function Manpower() {
 
   const deleteManpower = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_manpower.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -53,7 +53,7 @@ function Manpower() {
   
   const addManpower = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_manpower.php", {
+    .post("https://www.nrwlpms.org/api/api/create_manpower.php", {
       ...newData,
       jwt: user.token,
     })
@@ -67,7 +67,7 @@ function Manpower() {
 
   const updateManpower = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/update_manpower.php", {
         ...newData,
         jwt: user.token,
       })

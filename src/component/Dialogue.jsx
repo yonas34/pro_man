@@ -65,7 +65,7 @@ export default function Dialogue(props) {
     setFile(props.data.emp_pic);
  
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_admin.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_admin.php", {
      
       jwt: user.token,
 
@@ -83,7 +83,7 @@ export default function Dialogue(props) {
   }, []);
   const resetPassword = async (emp_id) => {
     axios
-      .post("https://www.nrwlpms.com/api/api/reset_user_password.php", {
+      .post("https://www.nrwlpms.org/api/api/reset_user_password.php", {
         emp_id: emp_id,
         jwt: user.token,
       })

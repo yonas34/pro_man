@@ -108,7 +108,7 @@ function Manpower() {
   user.resp.reduce(async (acc, cur) => {
     if (!project.find((pro) => pro.project_id == cur.project_id)) {
       await axios
-        .post("https://www.nrwlpms.com/api/api/get_single_project.php", {
+        .post("https://www.nrwlpms.org/api/api/get_single_project.php", {
           project_id: cur.project_id,
           jwt: user.token,
         })
@@ -132,7 +132,7 @@ function Manpower() {
     var initial_activity;
 
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_employee.php", {
         jwt: user.token,
       })
       .then((response) => {
@@ -140,7 +140,7 @@ function Manpower() {
       });
 
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_activity.php", {
         jwt: user.token,
       })
       .then((response) => {
@@ -155,7 +155,7 @@ function Manpower() {
 
     axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php",
         {
           project_id: user.resp[0].project_id,
           jwt: user.token,
@@ -174,7 +174,7 @@ function Manpower() {
         console.log(req);
         axios
           .post(
-            "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+            "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
             req
           )
           .then((response) => {
@@ -183,7 +183,7 @@ function Manpower() {
           .catch((err) => console.log(err));
         axios
           .post(
-            "https://www.nrwlpms.com/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
+            "https://www.nrwlpms.org/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
             req
           )
           .then((response) => {
@@ -202,7 +202,7 @@ function Manpower() {
     console.log(resource);
     axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php",
         {
           project_id: value,
           jwt: user.token,
@@ -216,7 +216,7 @@ function Manpower() {
         console.log(ap);
         axios
           .post(
-            "https://www.nrwlpms.com/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
+            "https://www.nrwlpms.org/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
             {
               project_id: value,
               activity_id: response.data.data[0].activity_id,
@@ -231,7 +231,7 @@ function Manpower() {
 
         axios
           .post(
-            "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+            "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
             {
               project_id: value,
               activity_id: response.data.data[0].activity_id,
@@ -253,7 +253,7 @@ function Manpower() {
     console.log(ap);
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
         {
           project_id: selectedProject,
           activity_id: values,
@@ -264,7 +264,7 @@ function Manpower() {
       .then((response) => {
         axios
           .post(
-            "https://www.nrwlpms.com/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
+            "https://www.nrwlpms.org/api/api/get_employee_report_by_date_by_activity_id_and_by_project_id.php",
             {
               project_id: selectedProject,
               activity_id: values,
@@ -389,7 +389,7 @@ function Manpower() {
 
   const deleteActivityReport = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_ActivityReport.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_ActivityReport.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -419,7 +419,7 @@ function Manpower() {
     console.log(req);
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php",
+        "https://www.nrwlpms.org/api/api/create_quantity_surveyor_data.php",
         {
           data: req,
           jwt: user.token,
@@ -438,7 +438,7 @@ function Manpower() {
 
   const updateActivityReport = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_ActivityReport.php", {
+      .post("https://www.nrwlpms.org/api/api/update_ActivityReport.php", {
         ...newData,
         jwt: user.token,
       })
@@ -450,7 +450,7 @@ function Manpower() {
     console.log(emp_id);
 
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse_report.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_resourse_report.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -516,7 +516,7 @@ function Manpower() {
 
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php",
+        "https://www.nrwlpms.org/api/api/create_quantity_surveyor_data.php",
         ds
       )
       .then((response) => {
@@ -627,7 +627,7 @@ function Manpower() {
     console.log(ds);
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php",
+        "https://www.nrwlpms.org/api/api/update_quantity_surveyor_data.php",
         ds
       )
       .then((response) => {
@@ -775,7 +775,7 @@ function Manpower() {
 
             axios
               .post(
-                "https://www.nrwlpms.com/api/api/save_quantity_surveyor_data.php",
+                "https://www.nrwlpms.org/api/api/save_quantity_surveyor_data.php",
                 JSON.stringify(fData)
               )
               .then((response) => console.log(response.data))

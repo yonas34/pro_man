@@ -22,7 +22,7 @@ function EmployeePage() {
 
   useEffect(() => {
     trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_manpower.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -33,7 +33,7 @@ function EmployeePage() {
     //  const datas= [{first_name:'Alem',last_name:'Gezaheng',email:"alem@gmai.com",phone_number:"0912568944",imageUrl:image,id:"12345"},{first_name:'Girma',last_name:'Mola',email:"grimamola@gmai.com",phone_number:"0922568944",imageUrl:image,id:"556677"}];
 
     trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_employee.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -89,13 +89,13 @@ function EmployeePage() {
     console.log(datas);
 
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/update_employee.php", {
         ...datas,
         jwt: user.token,
       })
       .then(async (response) => {
         await axios
-          .post("https://www.nrwlpms.com/api/api/update_emp_pic.php", {
+          .post("https://www.nrwlpms.org/api/api/update_emp_pic.php", {
             emp_id: datas.emp_id,
             emp_pic: img,
             jwt: user.token,
@@ -118,7 +118,7 @@ function EmployeePage() {
   };
   const deleteEmployeePage = async (emp_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_employee.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -133,7 +133,7 @@ function EmployeePage() {
   const addEmployeePage = async (newData) => {
     console.log(newData.mnpr_id);
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/create_employee.php", {
         ...newData,
 
         jwt: user.token,
@@ -149,7 +149,7 @@ function EmployeePage() {
 
   const updateEmployeePage = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/update_employee.php", {
         ...newData,
         jwt: user.token,
       })

@@ -37,7 +37,7 @@ function AdminTable(props) {
  
  const resetPassword = async (emp_id) => {
     axios
-      .post("https://www.nrwlpms.com/api/api/reset_user_password.php", {
+      .post("https://www.nrwlpms.org/api/api/reset_user_password.php", {
         emp_id: emp_id,
         jwt: user.token,
       })
@@ -65,7 +65,7 @@ function AdminTable(props) {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_admin.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_admin.php", {
      
       jwt: user.token,
 
@@ -80,7 +80,7 @@ function AdminTable(props) {
     
 
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_employee.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -98,7 +98,7 @@ useEffect(() => {
 
 
   axios
-      .post("https://www.nrwlpms.com/api/api/get_all_admin.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_admin.php", {
      
       jwt: user.token,
 
@@ -113,7 +113,7 @@ useEffect(() => {
     
 
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_employee.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -138,7 +138,7 @@ console.log(data);
    
    
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_admin_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_admin_project.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -152,7 +152,7 @@ console.log(data);
   const addAdminTable = async (newData) => {
 
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_admin_project.php", {
+    .post("https://www.nrwlpms.org/api/api/create_admin_project.php", {
       ...newData,
       user_type_id :"2",
       

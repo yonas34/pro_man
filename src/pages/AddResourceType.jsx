@@ -33,7 +33,7 @@ rate_hr:Yup.number().required("rater per hour must ber greaterthan or equal to z
         //     "jwt" :user.token
         // }
         // console.log(data);
-await axios.post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
+await axios.post("https://www.nrwlpms.org/api/api/create_resourse_type.php", {
     equipment : values.equipment,
     fule_cons_per_hr : values.fule_cons_per_hr,
     rate_hr : values.rate_hr,

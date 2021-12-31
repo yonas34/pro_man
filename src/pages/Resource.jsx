@@ -43,7 +43,7 @@ function Resource() {
 
 
     trackPromise( axios
-    .post("https://www.nrwlpms.com/api/api/get_all_projects.php", {
+    .post("https://www.nrwlpms.org/api/api/get_all_projects.php", {
       jwt: user.token,
     })
     .then(async (response) => {
@@ -53,7 +53,7 @@ function Resource() {
 
 
     trackPromise( axios
-      .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_resourse_type.php", {
         jwt: user.token,
       })
       .then((response) => {
@@ -68,7 +68,7 @@ function Resource() {
       }));
 
       trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_resourse.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_resourse.php", {
         jwt: user.token,
       })
       .then((response) => {
@@ -79,7 +79,7 @@ function Resource() {
 
   const deleteResource = async (resource_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_resourse.php", {
         resource_id: resource_id,
         jwt: user.token,
       })
@@ -94,7 +94,7 @@ function Resource() {
   const addResource = async (newData) => {
     console.log({ ...newData, jwt: user.token });
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_resourse.php", {
+      .post("https://www.nrwlpms.org/api/api/create_resourse.php", {
         ...newData,
         jwt: user.token,
       })
@@ -105,7 +105,7 @@ function Resource() {
   const updateResource = async (newData) => {
     console.log(newData);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_resourse.php", {
+      .post("https://www.nrwlpms.org/api/api/update_resourse.php", {
         ...newData,
 
         jwt: user.token,

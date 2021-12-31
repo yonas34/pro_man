@@ -28,7 +28,7 @@ function Material() {
 
   useEffect(() => {
     trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_material.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_material.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -39,7 +39,7 @@ function Material() {
 
   const deleteMaterial = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_material.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_material.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -53,7 +53,7 @@ function Material() {
   
   const addMaterial = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_material.php", {
+    .post("https://www.nrwlpms.org/api/api/create_material.php", {
       ...newData,
       jwt: user.token,
     })
@@ -67,7 +67,7 @@ function Material() {
 
   const updateMaterial = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_material.php", {
+      .post("https://www.nrwlpms.org/api/api/update_material.php", {
         ...newData,
         jwt: user.token,
       })

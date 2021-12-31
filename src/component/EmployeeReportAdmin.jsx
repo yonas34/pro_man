@@ -43,7 +43,7 @@ function ActivityReport(props) {
   };
   console.log(req);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee_report.php",req )
+      .post("https://www.nrwlpms.org/api/api/update_employee_report.php",req )
       .then((response) =>{ console.log(response.data.message)
         const dataUpdate = [...data];
         const index = oldData.tableData.id;

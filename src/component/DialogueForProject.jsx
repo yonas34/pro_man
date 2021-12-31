@@ -27,7 +27,8 @@ import { MenuItem } from "@material-ui/core";
 import Dashboard from "./Dashboard";
 import UnitCostTable from "./UnitCostTable";
 import DetailedDialogue from "./DetailedDialogue";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+
+import CurrencyInput from 'react-currency-input';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -47,9 +48,18 @@ export default function DialogueForProject(props) {
   const [unitcost, setUnitCost] = useState(false);
   const [expense, setExpense] = useState(false);
   const user = useSelector((state) => state.user);
+  const parseMoney=(val)=>{
+var temp=val!=undefined ?val.replace(new RegExp(',','g'),''):''
+
+if(val.indexOf('Tsh')!=-1)
+    return temp!=undefined ?temp.split(' ')[1]:'';
+    else
+    return val;
+  };
 
   const Form = (props) => {
     const data = props.data;
+    console.log(props.data)
     const initialValues = {
       project_id: data.project_id,
       pro_name: data.pro_name,
@@ -95,7 +105,48 @@ export default function DialogueForProject(props) {
           ),
         })}
         onSubmit={(values) => {
-          setData({ ...values, tableData: data.tableData });
+          
+
+
+
+var temp={
+  project_id: values.project_id,
+  pro_name: values.pro_name,
+  pro_location: values.pro_location,
+  pro_client: values.pro_client,
+  pro_consultant: values.pro_consultant,
+  pro_contract_value:parseMoney(values.pro_contract_value),
+  pro_contract_number: values.pro_contract_number,
+  pro_commencement_date: values.pro_commencement_date,
+  pro_provisional_sum: parseMoney(values.pro_provisional_sum),
+  pro_variations: parseMoney(values.pro_variations),
+  pro_revised_contract_value: parseMoney(values.pro_revised_contract_value),
+  pro_contract_duration_days: values.pro_contract_duration_days,
+  pro_time_extension_granted: values.pro_time_extension_granted,
+  pro_original_completion_date: values.pro_original_completion_date,
+  pro_revised_completion_date: values.pro_revised_completion_date,
+  pro_planned_value_of_work_this_month:parseMoney(values.pro_planned_value_of_work_this_month),
+  pro_month: parseMoney(values.pro_month),
+  pro_planned_value_of_work_todate: parseMoney(values.pro_planned_value_of_work_todate),
+  pro_value_of_executed_work_todate: parseMoney(values.pro_value_of_executed_work_todate),
+  pro_financial_progress_pct: values.pro_financial_progress_pct,
+  pro_time_elapsed_pct: values.pro_time_elapsed_pct,
+  pro_slippage_pct: values.pro_slippage_pct,
+
+
+
+
+
+
+}
+
+
+
+console.log(temp)
+
+
+
+          setData({ ...temp, tableData: data.tableData });
         }}
       >
         {({
@@ -220,14 +271,17 @@ export default function DialogueForProject(props) {
                     </Grid>
 
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Contract Value: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                   
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_contract_value}
-                        onChange={handleChange}
+                        onChangeEvent={handleChange}
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_contract_value &&
@@ -240,8 +294,7 @@ export default function DialogueForProject(props) {
                       
                         label={"Contract Value"}
                         name="pro_contract_value"
-                        fullWidth
-                        size={"small"}
+                        
                       />
                     </Grid>
                     <Grid item>
@@ -287,14 +340,16 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Project Provisional Sum: </label>
+                      <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_provisional_sum}
-                        onChange={handleChange}
+                        onChangeEvent={handleChange}
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_provisional_sum &&
@@ -302,7 +357,7 @@ export default function DialogueForProject(props) {
                         )}
                         helperText={
                           touched.pro_provisional_sum &&
-                          errors.pro_provisional_sum
+                          errors.pro_pjrovisional_sum
                         }
                       
                         label={"Project Provisional Sum"}
@@ -312,14 +367,17 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Project Variations: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_variations}
-                        onChange={handleChange}
+      onChangeEvent={handleChange}
+
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_variations && errors.pro_variations
@@ -335,14 +393,17 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Project Revised Contract Value: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_revised_contract_value}
-                        onChange={handleChange}
+                                              onChangeEvent={handleChange}
+
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_revised_contract_value &&
@@ -443,14 +504,17 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Planned Amount For This Month: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_planned_value_of_work_this_month}
-                        onChange={handleChange}
+                                               onChangeEvent={handleChange}
+
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_planned_value_of_work_this_month &&
@@ -468,14 +532,17 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Executed Amount This Month: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_month}
-                        onChange={handleChange}
+                                          onChangeEvent={handleChange}
+
                         onBlur={handleBlur}
                         error={Boolean(touched.pro_month && errors.pro_month)}
                         helperText={touched.pro_month && errors.pro_month}
@@ -487,14 +554,17 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Planned Amount Todate: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_planned_value_of_work_todate}
-                        onChange={handleChange}
+                                              onChangeEvent={handleChange}
+
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_planned_value_of_work_todate &&
@@ -512,14 +582,17 @@ export default function DialogueForProject(props) {
                       />
                     </Grid>
                     <Grid item>
-                      <CurrencyTextField
-                        outputFormat="number"
-                        decimalCharacter="."
-                        digitGroupSeparator=","
-                        currencySymbol="TSh"
+                      <label>Executed Amount Todate: </label>
+                    <CurrencyInput
+                    style={{width:"80%",marginLeft:"15%"}}
+                      prefix="Tsh "
+                   
+                        decimalSeparator="."
+                         thousandSeparator=","
                         disabled={user.usertype != 1}
                         value={values.pro_value_of_executed_work_todate}
-                        onChange={handleChange}
+                                                onChangeEvent={handleChange}
+
                         onBlur={handleBlur}
                         error={Boolean(
                           touched.pro_value_of_executed_work_todate &&

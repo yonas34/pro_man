@@ -27,7 +27,7 @@ function MaterialReportAdmin(props) {
  
   const updateManpower = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_material_report.php", {
+      .post("https://www.nrwlpms.org/api/api/update_material_report.php", {
         ...newData,
         jwt: user.token,
       })

@@ -32,7 +32,7 @@ function SpecialUserTable(props) {
     console.log(uid);
   setSpecialUser([{special_user_id:1,name:"QUANTITY SURVEYOR"},{special_user_id:3,name:"SITE STORE"},{special_user_id:6,name:"SECRETARY"}])
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_emp_id.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_employee_project_by_emp_id.php", {
       emp_id:uid, 
       jwt: user.token,
 
@@ -44,7 +44,7 @@ function SpecialUserTable(props) {
         await setData(response.data.data);
       }).catch((err)=>console.log(err.message));
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_projects.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -63,7 +63,7 @@ function SpecialUserTable(props) {
 
   const deleteSpecialUserTable = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_employee_project.php", {
         ...mnpr_id,
         jwt: user.token,
       })
@@ -78,7 +78,7 @@ function SpecialUserTable(props) {
   
   const addSpecialUserTable = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_employee_project.php", {
+    .post("https://www.nrwlpms.org/api/api/create_employee_project.php", {
       special_user_id:newData.special_user_id,project_id:newData.project_id,emp_id:uid,
       user_type_id : 3,
       
@@ -96,7 +96,7 @@ function SpecialUserTable(props) {
 
   const updateSpecialUserTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_employee_project.php", {
         ...newData,
         jwt: user.token,
       })

@@ -21,7 +21,7 @@ function ProjectAdmin() {
 
   useEffect(() => {
     trackPromise( axios
-      .post("https://www.nrwlpms.com/api/api/get_all_manpower.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_manpower.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -32,7 +32,7 @@ function ProjectAdmin() {
     //  const datas= [{first_name:'Alem',last_name:'Gezaheng',email:"alem@gmai.com",phone_number:"0912568944",imageUrl:image,id:"12345"},{first_name:'Girma',last_name:'Mola',email:"grimamola@gmai.com",phone_number:"0922568944",imageUrl:image,id:"556677"}];
 
     trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_projects.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -70,7 +70,7 @@ function ProjectAdmin() {
     console.log(datas);
 
     trackPromise( await axios
-      .post("https://www.nrwlpms.com/api/api/update_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_project.php", {
         ...datas,
         jwt: user.token,
       })
@@ -89,7 +89,7 @@ function ProjectAdmin() {
   const deleteProject = async (project_id) => {
     console.log(project_id);
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_project.php", {
         project_id: project_id,
         jwt: user.token,
       })
@@ -104,7 +104,7 @@ function ProjectAdmin() {
   const addProject = async (newData) => {
     console.log(newData.mnpr_id);
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_project.php", {
+      .post("https://www.nrwlpms.org/api/api/create_project.php", {
         ...newData,
 
         jwt: user.token,
@@ -119,7 +119,7 @@ function ProjectAdmin() {
 
   const updateProject = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_project.php", {
         ...newData,
         jwt: user.token,
       })

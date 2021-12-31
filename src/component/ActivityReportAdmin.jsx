@@ -25,7 +25,7 @@ function ActivityReportAdmin(props) {
 
   const updateManpower = async (newData,oldData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_activity_report.php", {
+      .post("https://www.nrwlpms.org/api/api/update_activity_report.php", {
         ...newData,
         jwt: user.token,
       })

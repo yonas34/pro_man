@@ -41,7 +41,7 @@ phone_number:Yup.number().required("Phone number must be provided!")
         //     "jwt" :user.token
         // }
         // console.log(data);
-// await axios.post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
+// await axios.post("https://www.nrwlpms.org/api/api/create_resourse_type.php", {
 //     first_name : values.first_name,
 //     last_name : values.last_name,
 //     email : values.email,

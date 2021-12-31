@@ -16,7 +16,7 @@ const tableRef=React.createRef();
     const [data,setData]=useState([]);
     
     useEffect( () => {    
-  axios.post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php",{jwt:user.token}).then(async(response)=>{
+  axios.post("https://www.nrwlpms.org/api/api/get_all_resourse_type.php",{jwt:user.token}).then(async(response)=>{
 console.log(response.data)
 await setData(response.data.data)
   });
@@ -26,7 +26,7 @@ await setData(response.data.data)
 
 
  const deleteResource=async(res_type_id)=>{
-await axios.post("https://www.nrwlpms.com/api/api/delete_resourse_type.php",
+await axios.post("https://www.nrwlpms.org/api/api/delete_resourse_type.php",
 {
   res_type_id : res_type_id,
   "jwt" : user.token
@@ -35,7 +35,7 @@ await axios.post("https://www.nrwlpms.com/api/api/delete_resourse_type.php",
  }
 
 const addResource=async (newData)=>{
-  await axios.post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
+  await axios.post("https://www.nrwlpms.org/api/api/create_resourse_type.php", {
     equipment : newData.equipment,
     fule_cons_per_hr : newData.fule_cons_per_hr,
     rate_hr : newData.rate_hr,
@@ -52,7 +52,7 @@ const addResource=async (newData)=>{
 
 const updateResource=async(newData)=>{
 
-await axios.post("https://www.nrwlpms.com/api/api/update_resourse_type.php",
+await axios.post("https://www.nrwlpms.org/api/api/update_resourse_type.php",
   {
     res_type_id : newData.res_type_id,
     rate_hr: newData.rate_hr,

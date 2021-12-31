@@ -17,7 +17,7 @@ function Activity() {
 
   useEffect(() => {
     trackPromise( axios
-      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_activity.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -28,7 +28,7 @@ function Activity() {
 
   const deleteActivity = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_activity.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_activity.php", {
        ...mnpr_id,
         jwt: user.token,
       })
@@ -42,7 +42,7 @@ function Activity() {
   
   const addActivity = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_activity.php", {
+    .post("https://www.nrwlpms.org/api/api/create_activity.php", {
       ...newData,
       jwt: user.token,
     })
@@ -58,7 +58,7 @@ function Activity() {
   const updateActivity = async (newData) => {
     console.log(newData);
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_activity.php", {
+      .post("https://www.nrwlpms.org/api/api/update_activity.php", {
         ...newData,
         jwt: user.token,
       })

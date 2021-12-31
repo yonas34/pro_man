@@ -23,7 +23,7 @@ const response=JSON.parse(localStorage.getItem("auth"));
 if(localStorage.length>0 && !isLoggedin.isLoggedin)
 {
 
-     axios.post('https://www.nrwlpms.com/api/api/login.php',{
+     axios.post('https://www.nrwlpms.org/api/api/login.php',{
         "user_name": response.user_name,
         "password": response.pass
     }).then((response_api)=>{

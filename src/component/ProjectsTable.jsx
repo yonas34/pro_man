@@ -27,7 +27,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   useEffect(() => {
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_ProjectsTable.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_ProjectsTable.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -38,7 +38,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const deleteProjectsTable = async (mnpr_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_ProjectsTable.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_ProjectsTable.php", {
         mnpr_id: mnpr_id,
         jwt: user.token,
       })
@@ -52,7 +52,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const addProjectsTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_ProjectsTable.php", {
+      .post("https://www.nrwlpms.org/api/api/create_ProjectsTable.php", {
         ...newData,
         jwt: user.token,
       })
@@ -61,7 +61,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const updateProjectsTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_ProjectsTable.php", {
+      .post("https://www.nrwlpms.org/api/api/update_ProjectsTable.php", {
         ...newData,
         jwt: user.token,
       })

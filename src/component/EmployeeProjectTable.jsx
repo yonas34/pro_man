@@ -48,7 +48,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
     console.log(projectId);
   setSpecialUser([{special_user_id:7,name:'UNALLOCATED'},{special_user_id:1,name:"QUANTITY SURVEYOR"},{special_user_id:3,name:"SITE STORE"},{special_user_id:6,name:"SECRETARY"}])
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_employee_project_by_project_id.php", {
       project_id:projectId, 
       jwt: user.token,
 
@@ -58,7 +58,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
         await setData(response.data.data);
       }).catch((err)=>console.log(err.message));
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_projects.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -67,7 +67,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
     
       }).catch((err)=>console.log(err.message))
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_employee.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -90,7 +90,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
    
    
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_employee_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_employee_project.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -104,7 +104,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
   console.log(mnprObj);
   const addEmployeeProjectTable = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_employee_project.php", {
+    .post("https://www.nrwlpms.org/api/api/create_employee_project.php", {
       special_user_id:newData.special_user_id,project_id:projectId,emp_id:newData.emp_id,
       user_type_id : 3,
       
@@ -119,7 +119,7 @@ var mnprObj=mnpr.reduce((acc,cur,i)=>{
   const updateEmployeeProjectTable = async (newData) => {
     console.log(newData)
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_employee_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_employee_project.php", {
         ...newData,
         "user_type_id" : 3,
         jwt: user.token,

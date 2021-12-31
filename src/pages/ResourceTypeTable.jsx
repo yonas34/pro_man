@@ -29,7 +29,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   useEffect(() => {
     trackPromise(axios
-      .post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_resourse_type.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -41,7 +41,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const deleteResource = async (res_type_id) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse_type.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_resourse_type.php", {
         res_type_id: res_type_id,
         jwt: user.token,
       })
@@ -55,7 +55,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const addResource = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/create_resourse_type.php", {
+      .post("https://www.nrwlpms.org/api/api/create_resourse_type.php", {
         equipment: newData.equipment,
         fule_cons_per_hr: newData.fule_cons_per_hr,
         rate_hr: newData.rate_hr,
@@ -70,7 +70,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const updateResource = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_resourse_type.php", {
+      .post("https://www.nrwlpms.org/api/api/update_resourse_type.php", {
         res_type_id: newData.res_type_id,
         rate_hr: newData.rate_hr,
         fule_cons_per_hr: newData.fule_cons_per_hr,

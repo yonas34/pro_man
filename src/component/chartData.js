@@ -88,7 +88,7 @@ export const CharD = (project, token) => {
     other;
   return axios
     .post(
-      "https://www.nrwlpms.com/api/api/report/dashbord_report_quantity_surveyor.php",
+      "https://www.nrwlpms.org/api/api/report/dashbord_report_quantity_surveyor.php",
       {
         project_id: project,
         jwt: token,

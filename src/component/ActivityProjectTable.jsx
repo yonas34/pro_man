@@ -41,7 +41,7 @@ function ActivityProjectTable(props) {
   useEffect(() => {
     console.log(projectId);
     axios
-      .post("https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php", {
+      .post("https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php", {
       project_id:projectId, 
       jwt: user.token,
 
@@ -51,7 +51,7 @@ function ActivityProjectTable(props) {
         await setData(response.data.data);
       }).catch((err)=>console.log(err.message));
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_projects.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_projects.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -60,7 +60,7 @@ function ActivityProjectTable(props) {
     
       }).catch((err)=>console.log(err.message))
    axios
-      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", { 
+      .post("https://www.nrwlpms.org/api/api/get_all_activity.php", { 
       jwt: user.token,
     
       }).then((response)=>{
@@ -80,7 +80,7 @@ function ActivityProjectTable(props) {
    console.log(emp_id);
    
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_activity_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_activity_project.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -94,7 +94,7 @@ function ActivityProjectTable(props) {
   
   const addActivityProjectTable = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_activity_project.php", {
+    .post("https://www.nrwlpms.org/api/api/create_activity_project.php", {
       ...newData,project_id:projectId,
       
       jwt: user.token,
@@ -107,7 +107,7 @@ function ActivityProjectTable(props) {
 
   const updateActivityProjectTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_activity_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_activity_project.php", {
         ...newData,
         jwt: user.token,
       })

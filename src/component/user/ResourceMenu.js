@@ -13,7 +13,7 @@ var resourceObj=null
 
 
 await axios
-.post("https://www.nrwlpms.com/api/api/get_all_resourse_type.php", {
+.post("https://www.nrwlpms.org/api/api/get_all_resourse_type.php", {
   jwt: user.token,
 })
 .then(async(response) => {
@@ -23,7 +23,7 @@ await axios
     return acc;
     },{})
     await axios
-.post("https://www.nrwlpms.com/api/api/get_resourse_by_project_id.php", {
+.post("https://www.nrwlpms.org/api/api/get_resourse_by_project_id.php", {
   project_id: resource,
   jwt: user.token,
 })
@@ -62,7 +62,7 @@ var resourceObj=null
 
     // console.log(resourceTypeReformatted);
     await axios
-.post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php", {
+.post("https://www.nrwlpms.org/api/api/get_all_employee_project_by_project_id.php", {
   project_id:project,
   jwt: user,
 })
@@ -95,7 +95,7 @@ export const emp_pic=async(project,user,users)=>{
   
        
       await axios
-  .post("https://www.nrwlpms.com/api/api/get_all_employee_project_by_project_id.php", {
+  .post("https://www.nrwlpms.org/api/api/get_all_employee_project_by_project_id.php", {
     project_id:project,
     jwt: user,
   })
@@ -130,7 +130,7 @@ var resourceObj=null
 
     // console.log(resourceTypeReformatted);
     await axios
-.post("https://www.nrwlpms.com/api/api/get_material_project_by_project_id.php", {
+.post("https://www.nrwlpms.org/api/api/get_material_project_by_project_id.php", {
   project_id:project,
   jwt: user,
 })

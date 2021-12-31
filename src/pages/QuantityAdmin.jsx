@@ -143,7 +143,7 @@ function QuantityAdmin() {
 
   const init = async () => {
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_activity.php", {
         jwt: user.token,
       })
       .then((response) => {
@@ -158,7 +158,7 @@ function QuantityAdmin() {
 
     trackPromise(
       axios
-        .post("https://www.nrwlpms.com/api/api/get_all_projects.php", {
+        .post("https://www.nrwlpms.org/api/api/get_all_projects.php", {
           jwt: user.token,
         })
         .then((response) => {
@@ -169,7 +169,7 @@ function QuantityAdmin() {
 
           axios
             .post(
-              "https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",
+              "https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php",
               {
                 project_id: porject_id,
                 jwt: user.token,
@@ -189,7 +189,7 @@ function QuantityAdmin() {
 
                 axios
                   .post(
-                    "https://www.nrwlpms.com/api/api/get_all_superadmin_quantity_surveyor_data.php",
+                    "https://www.nrwlpms.org/api/api/get_all_superadmin_quantity_surveyor_data.php",
                     req
                   )
                   .then((response) => {
@@ -263,7 +263,7 @@ function QuantityAdmin() {
    console.log(dss);
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/update_resourse_report.php",
+        "https://www.nrwlpms.org/api/api/update_resourse_report.php",
         dss
       )
       .then((response) => {
@@ -284,7 +284,7 @@ function QuantityAdmin() {
     trackPromise(
       axios
         .post(
-          "https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",
+          "https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php",
           {
             project_id: value,
             jwt: user.token,
@@ -298,7 +298,7 @@ function QuantityAdmin() {
 
             axios
               .post(
-                "https://www.nrwlpms.com/api/api/get_all_superadmin_quantity_surveyor_data.php",
+                "https://www.nrwlpms.org/api/api/get_all_superadmin_quantity_surveyor_data.php",
                 {
                   project_id: value,
                   activity_id: response.data.data[0].activity_id,
@@ -327,7 +327,7 @@ function QuantityAdmin() {
     trackPromise(
       axios
         .post(
-          "https://www.nrwlpms.com/api/api/get_all_superadmin_quantity_surveyor_data.php",
+          "https://www.nrwlpms.org/api/api/get_all_superadmin_quantity_surveyor_data.php",
           {
             project_id: selectedProject,
             activity_id: values,
@@ -457,7 +457,7 @@ function QuantityAdmin() {
 
             axios
               .post(
-                "https://www.nrwlpms.com/api/api/save_quantity_surveyor_data.php",
+                "https://www.nrwlpms.org/api/api/save_quantity_surveyor_data.php",
                 JSON.stringify(fData)
               )
               .then((response) => console.log(response.data))

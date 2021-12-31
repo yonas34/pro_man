@@ -90,7 +90,7 @@ style={{fontSize:"10%",width:"200px"}}
   useEffect(() => {
     console.log(projectId);
     axios
-      .post("https://www.nrwlpms.com/api/api/report/dashbord_report_quantity_surveyor.php", {
+      .post("https://www.nrwlpms.org/api/api/report/dashbord_report_quantity_surveyor.php", {
       project_id:projectId, 
       jwt: user.token,
 
@@ -114,7 +114,7 @@ style={{fontSize:"10%",width:"200px"}}
    console.log(emp_id);
    
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_activity_project.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_activity_project.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -128,7 +128,7 @@ style={{fontSize:"10%",width:"200px"}}
   
   const addActivityProjectTable = async (newData) => {
     await axios
-    .post("https://www.nrwlpms.com/api/api/create_activity_project.php", {
+    .post("https://www.nrwlpms.org/api/api/create_activity_project.php", {
       ...newData,project_id:projectId,
       
       jwt: user.token,
@@ -141,7 +141,7 @@ style={{fontSize:"10%",width:"200px"}}
 
   const updateActivityProjectTable = async (newData) => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/update_activity_project.php", {
+      .post("https://www.nrwlpms.org/api/api/update_activity_project.php", {
         ...newData,
         jwt: user.token,
       })
