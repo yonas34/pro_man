@@ -51,10 +51,10 @@ export default function DialogueForProject(props) {
   const parseMoney=(val)=>{
 var temp=val!=undefined ?val.replace(new RegExp(',','g'),''):''
 
-if(val.indexOf('Tsh')!=-1)
+if(temp.indexOf('Tsh')!=-1)
     return temp!=undefined ?temp.split(' ')[1]:'';
     else
-    return val;
+    return temp;
   };
 
   const Form = (props) => {
