@@ -145,7 +145,7 @@ function QuantitySurvoyer() {
     if (!project.find((pro) => pro.project_id == cur.project_id)) {
       if(cur.special_user_id==1)
       await axios
-        .post("https://www.nrwlpms.com/api/api/get_single_project.php", {
+        .post("https://www.nrwlpms.org/api/api/get_single_project.php", {
           project_id: cur.project_id,
           jwt: user.token,
         })
@@ -163,7 +163,7 @@ function QuantitySurvoyer() {
   }, {});
   const init = async () => {
     await axios
-      .post("https://www.nrwlpms.com/api/api/get_all_material.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_material.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -172,7 +172,7 @@ function QuantitySurvoyer() {
       });
 
     await axios
-      .post("https://www.nrwlpms.com/api/api/get_all_employee.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_employee.php", {
         jwt: user.token,
       })
       .then(async (response) => {
@@ -181,7 +181,7 @@ function QuantitySurvoyer() {
       });
 
     axios
-      .post("https://www.nrwlpms.com/api/api/get_all_activity.php", {
+      .post("https://www.nrwlpms.org/api/api/get_all_activity.php", {
         jwt: user.token,
       })
       .then((response) => {
@@ -196,7 +196,7 @@ function QuantitySurvoyer() {
 
     axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php",
         {
           project_id: user.resp[0].project_id,
           jwt: user.token,
@@ -216,10 +216,11 @@ function QuantitySurvoyer() {
 
           axios
             .post(
-              "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+              "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
               req
             )
             .then((response) => {
+              console.log(response.data)
               setData(response.data.data);
               setExec(response.data.data[0].executed_quantity);
             })
@@ -251,7 +252,7 @@ function QuantitySurvoyer() {
     }
     console.log(t);
     trackPromise( axios
-      .post("https://www.nrwlpms.com/api/api/update_executed_quantity.php", {
+      .post("https://www.nrwlpms.org/api/api/update_executed_quantity.php", {
         activity_report_id: aps[selectedActivity],
         executed_quantity: exec,
         jwt: user.token,
@@ -264,7 +265,7 @@ function QuantitySurvoyer() {
     console.log(emp_id);
 
     await axios
-      .post("https://www.nrwlpms.com/api/api/delete_resourse_report.php", {
+      .post("https://www.nrwlpms.org/api/api/delete_resourse_report.php", {
         ...emp_id,
         jwt: user.token,
       })
@@ -330,7 +331,7 @@ function QuantitySurvoyer() {
 
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/create_quantity_surveyor_data.php",
+        "https://www.nrwlpms.org/api/api/create_quantity_surveyor_data.php",
         ds
       )
       .then((response) => {
@@ -441,7 +442,7 @@ function QuantitySurvoyer() {
     console.log(ds);
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/update_quantity_surveyor_data.php",
+        "https://www.nrwlpms.org/api/api/update_quantity_surveyor_data.php",
         ds
       )
       .then((response) => {
@@ -464,7 +465,7 @@ function QuantitySurvoyer() {
     console.log(resource);
     axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_activity_project_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_activity_project_by_project_id.php",
         {
           project_id: value,
           jwt: user.token,
@@ -478,7 +479,7 @@ function QuantitySurvoyer() {
 
           axios
             .post(
-              "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+              "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
               {
                 project_id: value,
                 activity_id: response.data.data[0].activity_id,
@@ -503,7 +504,7 @@ function QuantitySurvoyer() {
     setDates(value);
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
         {
           project_id: selectedProject,
           activity_id: selectedActivity,
@@ -526,7 +527,7 @@ function QuantitySurvoyer() {
 
     await axios
       .post(
-        "https://www.nrwlpms.com/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
+        "https://www.nrwlpms.org/api/api/get_resourse_report_by_date_by_activity_id_and_by_project_id.php",
         {
           project_id: selectedProject,
           activity_id: values,
@@ -677,7 +678,7 @@ function QuantitySurvoyer() {
 
             axios
               .post(
-                "https://www.nrwlpms.com/api/api/save_quantity_surveyor_data.php",
+                "https://www.nrwlpms.org/api/api/save_quantity_surveyor_data.php",
                 JSON.stringify(fData)
               )
               .then((response) => console.log(response.data))
