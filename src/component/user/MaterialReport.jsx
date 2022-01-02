@@ -85,7 +85,8 @@ const users=useSelector(state=>state.material);
     //     "work_hrs_to" :moment( newData.work_hrs_to, "H:mm:ss").format("H:mm:ss"),
     //     "work_total_hrs" : dateDifference(moment(newData.work_hrs_to, "H:mm:ss"),moment(newData.work_hrs_from, "H:mm:ss"))
     // }
-
+console.log(empObj);
+console.log(newData);
     const req=
     { data:{
           "activity_project_id" : props.ap,
@@ -104,8 +105,8 @@ const users=useSelector(state=>state.material);
     await axios
     .post("https://www.nrwlpms.org/api/api/create_quantity_surveyor_data.php",req )
     .then((response) => {console.log(response.data.message)
-      console.log(response.data.data);
-      const temp={...req,"id":response.data.material_report_id,
+     
+      const temp={...req.data,"id":response.data.material_report_id,
       "activity_report_id": response.data.activity_report_id}
       setData([...data, temp]);
       });
